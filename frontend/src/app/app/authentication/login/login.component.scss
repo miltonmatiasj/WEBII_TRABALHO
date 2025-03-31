@@ -1,0 +1,15 @@
+.login-container {
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    .login-card {
+        width: 50%;
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+}
+
+
