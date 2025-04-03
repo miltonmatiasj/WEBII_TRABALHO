@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { TestComponentComponent } from './test-component/test-component.component';
 import { AuthGuard } from './authentication/auth.guard';
 import { LoginComponent } from './authentication/login/login.component';
+import { ShowBudgetComponent } from './show-budget-component/show-budget.component';
 
 export const routes: Routes = [
   {
@@ -18,4 +19,8 @@ export const routes: Routes = [
     component: TestComponentComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'modal',
+    component: ShowBudgetComponent
+  }
 ];

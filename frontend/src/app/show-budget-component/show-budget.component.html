@@ -1,1 +1,22 @@
-<p>show-budget works!</p>
+<section>
+    <div class="modal-window">
+        <div class="title">
+            <h1>Custo da manutenção: {{equipement}}</h1>
+        </div>
+      <!--  <mat-divider></mat-divider> -->
+        <div class="description">
+            <p>Problema descrito: {{description}}</p>
+            <p>Data da entrada: {{date}}</p>
+            <p>Telefone: {{telephone}}</p>
+            <p>Proprietário: {{owner}}</p>
+            <p>Avaliação do técnico: {{tecAval}}</p>
+        </div>
+        <div class="budget">
+            <h2>R${{price}}</h2>
+        </div>
+        <div class="buttonArea">
+            <button class="buttonAccept">Aceitar</button>
+            <button class="buttonRefuse">Recusar</button>
+        </div>
+    </div>
+</section>
