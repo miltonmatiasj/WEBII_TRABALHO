@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Yuji+Syuku&display=swap');
+
+body{
+    font-family:'Crimson Text';
+    font-style:normal;
+    height: 80vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 20px 20px;
+    background-color: rgb(238, 229, 229);
+}
+
+.Container-Repair{
+    padding: 15px;
+    width: 500px;
+    border-style: solid;
+    border-color: #669FD6;
+    border-radius: 4px;
+    font-size: 22px;
+}
+
+.Container-Repair{
+   padding-top: 10px;
+
+}
+
+.Equipment-Category{
+    padding-top: 10px;
+   
+
+}
+
+.Defect-Description{
+    padding-top: 10px;
+
+}
+
+.Button-Request{
+    padding-top: 20px;
+    text-align: center;
+    
+}
+
+.Request{
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    color: beige;
+    background-color: #669FD6;
+}

@@ -1,1 +1,38 @@
-<p>registro works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Solicitação De Manutenção(RF004)</title>
+</head>
+
+<body>
+    <div class="Container-Repair">
+        <div classs="Description-Equipment">
+            <label>Descrição do Equipamento</label>
+            <p>loren</p>
+        </div>
+        <div class="Equipment-Category">
+            <label>Categoria do Equipamento:</label><br>
+            <select name="categoria" required>
+                <option value="">Selecione</option>
+                <option value="Notebook">Notebook</option>
+                <option value="Impressora">Impressora</option>
+                <option value="Ar-condicionado">Ar-condicionado</option>
+            </select><br><br>
+        </div>
+        <div class="Defect-Description">
+            <label>Descrição do Defeito:</label><br>
+            <textarea name="descricao_defeito" rows="5" required></textarea><br><br>
+        </div>
+
+        <footer></footer>
+
+        <div class="Button-Request">
+            <button type="submit" class="Request">Enviar Solicitação</button>
+        </div>
+    </div>
+</body>
+
+</html>
