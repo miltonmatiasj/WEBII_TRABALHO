@@ -27,7 +27,7 @@ public class UserService {
     public User updateUser(Long id, User userDetails) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        user.setUsername(userDetails.getUsername());
+        user.setName(userDetails.getName());
         user.setEmail(userDetails.getEmail());
         user.setRoles(userDetails.getRoles());
         return userRepository.save(user);
