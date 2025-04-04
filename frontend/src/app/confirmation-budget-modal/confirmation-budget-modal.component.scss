@@ -1,0 +1,32 @@
+.modal-confirmation {
+    align-items: center;
+    height: 65%;
+    width: 50%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background: #f5f5f5;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    align-items: center;
+}
+
+.text-body {
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
+    display: flex;
+}
+
+.ok-btn-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px; 
+    margin-top: 20px;
+}
+
+.ok-btn {
+    background: green;
+    color: #f5f5f5;
+}

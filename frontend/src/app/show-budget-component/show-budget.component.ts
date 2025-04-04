@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-//import {MatDividerHarness} from '@angular/material/divider/testing';
+import { Component, inject, Inject } from '@angular/core';
+import { ModalService } from '../modal-service.service';
+import { ConfirmationBudgetModalComponent } from '../confirmation-budget-modal/confirmation-budget-modal.component';
+
 
 @Component({
   selector: 'app-show-budget',
@@ -16,4 +18,10 @@ export class ShowBudgetComponent {
     owner: string = 'Owner name';
     tecAval: string = 'Tecnical description of the problem';
     price: number = 1.1;
+
+    private modalService = inject(ModalService);
+
+    confirmationBtn(){
+      this.modalService.openModal(ConfirmationBudgetModalComponent, '300px');
+    }
 }
