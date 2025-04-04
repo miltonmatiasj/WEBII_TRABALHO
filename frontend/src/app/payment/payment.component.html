@@ -1,0 +1,31 @@
+<div class="payment-container" *ngIf="!paymentConfirmed">
+   <div class="payment-box">
+
+   <h2>Pagamento do Serviço</h2>
+  
+    <p><strong>Cliente: </strong>{{serviceOrder.client}}</p>
+    <p><strong>Serviço: </strong>{{serviceOrder.description}}</p>
+    <p><strong>Status: </strong>{{serviceOrder.status}}</p>
+    <p><strong>Valor Total: </strong>R${{serviceOrder.totalValue}}</p>
+  
+    <label for="paymentMethod"><strong>Forma de Pagamento:</strong></label>
+    <select [(ngModel)]="paymentMethod" id="paymentMethod">
+      <option value="PIX">PIX</option>
+      <option value="CASH">Dinheiro</option>
+      <option value="CARD">Cartão</option>
+    </select>
+  
+    <br /><br />
+    <button (click)="confirmPayment()">Confirmar Pagamento</button>
+</div>
+  </div>
+  
+  <div class="popup" *ngIf="paymentConfirmed">
+    <div class="popup-content">
+      <h3>✅ Pagamento efetuado!</h3>
+      <p>Obrigado por utilizar nossos serviços.</p>
+      <button (click)="closePopup()">Fechar</button>
+    </div>
+  </div>
+  
+  
