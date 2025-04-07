@@ -22,10 +22,15 @@ import { FormsModule } from '@angular/forms';
   ]
 })
 export class ModalComponent {
+  action: 'create' | 'edit' | 'delete';
+
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { id: number | null; name: string }
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: { id: number | null; name: string; action: 'create' | 'edit' | 'delete' }
+  ) {
+    this.action = data.action || (data.id ? 'edit' : 'create');
+  }
+  
 
   close(): void
   {
@@ -36,11 +41,16 @@ export class ModalComponent {
     const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
   
     if (!this.data.name || !nameRegex.test(this.data.name.trim())) {
-      alert("Please enter a valid name (only letters and spaces).");
+      alert("Insira um nome válido(Apenas letras e espaços).");
       return;
     }
   
     this.dialogRef.close(this.data);
   }
+
+  delete(): void {
+    this.dialogRef.close({ action: 'delete', id: this.data.id });
+  }
+  
   
 }

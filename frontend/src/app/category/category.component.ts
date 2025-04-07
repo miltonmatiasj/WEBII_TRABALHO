@@ -43,14 +43,22 @@ export class CategoryComponent implements OnInit {
   }
   
 
-  openDialog(category?: Category): void {
+  openDialog(category?: Category, action: 'create' | 'edit' | 'delete' = 'create'): void {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '500px',
       height: '300px',
-      data: category ? { ...category } : { id: null, name: '' }
+      data: category
+        ? { ...category, action }
+        : { id: null, name: '', action: 'create' }
     });
-
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'refresh') {
+        this.loadCategories();
+      }
+    });
   }
+  
 
   deleteCategory(id: number): void {
   }
