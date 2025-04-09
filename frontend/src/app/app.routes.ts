@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { TestComponentComponent } from './test-component/test-component.component';
-import { AuthGuard } from './authentication/auth.guard';
 import { LoginComponent } from './authentication/login/login.component';
+import {authGuard} from "./authentication/auth.guard";
 
 export const routes: Routes = [
   {
@@ -16,6 +16,6 @@ export const routes: Routes = [
   {
     path: 'tests',
     component: TestComponentComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
 ];

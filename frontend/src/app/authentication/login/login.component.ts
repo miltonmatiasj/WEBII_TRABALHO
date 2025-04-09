@@ -28,8 +28,8 @@ export class LoginComponent {
 
   constructor(private loginService: LoginService, private router: Router) {}
 
-  onSubmit(): void {
-    this.loginService.saveLoginInfo(this.email, this.password);
-    this.router.navigate(['/tests']);
+  async onSubmit() {
+    await this.loginService.login(this.email, this.password);
+    await this.router.navigate(['/tests']);
   }
 }
