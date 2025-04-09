@@ -15,8 +15,8 @@
                 <h2>R${{price}}</h2>
             </div>
             <div class="buttonArea">
-                <button class="buttonAccept" mat-raised-button (click)="openDialog()">Aceitar</button>
-                <button class="buttonRefuse">Recusar</button>
+                <button class="buttonAccept" mat-raised-button (click)="openDialog('accept')">Aceitar</button>
+                <button class="buttonRefuse" mat-raised-button (click)="openDialog('refuse')">Recusar</button>
             </div>
         </div>
 </section>

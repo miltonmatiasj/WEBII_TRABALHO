@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ConfirmationBudgetModalComponent } from '../confirmation-budget-modal/confirmation-budget-modal.component';
+import { RefuseBudgetModalComponent } from '../refuse-budget-modal/refuse-budget-modal/refuse-budget-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
 
@@ -20,7 +21,11 @@ export class ShowBudgetComponent {
     price: number = 1.1;
 
     readonly dialog = inject(MatDialog);
-    openDialog(): void {
-      this.dialog.open(ConfirmationBudgetModalComponent);
+    openDialog(type: string): void {
+      if (type === "accept"){
+        this.dialog.open(ConfirmationBudgetModalComponent);
+      }else{
+        this.dialog.open(RefuseBudgetModalComponent);
+      }
     }
 }
