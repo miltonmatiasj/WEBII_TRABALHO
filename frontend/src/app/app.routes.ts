@@ -18,9 +18,5 @@ export const routes: Routes = [
     path: 'tests',
     component: TestComponentComponent,
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'modal',
-    component: ShowBudgetComponent
   }
 ];

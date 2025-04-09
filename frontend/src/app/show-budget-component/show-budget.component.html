@@ -1,9 +1,9 @@
 <section>
         <div class="modal-window">
             <div class="title">
-                <h1>Custo da manutenção: {{equipement}}</h1>
+                <h1>Custo da manutenção: {{equipment}}</h1>
             </div>
-        <!--  <mat-divider></mat-divider> -->
+            <mat-divider></mat-divider>
             <div class="description">
                 <p>Problema descrito: {{description}}</p>
                 <p>Data da entrada: {{date}}</p>
@@ -15,7 +15,7 @@
                 <h2>R${{price}}</h2>
             </div>
             <div class="buttonArea">
-                <button class="buttonAccept" matButton="elevated" (click)="confirmationBtn()">Aceitar</button>
+                <button class="buttonAccept" mat-raised-button (click)="openDialog()">Aceitar</button>
                 <button class="buttonRefuse">Recusar</button>
             </div>
         </div>
