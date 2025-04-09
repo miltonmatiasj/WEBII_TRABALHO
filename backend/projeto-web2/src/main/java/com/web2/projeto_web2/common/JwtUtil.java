@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String jwtSecret = "mysecretkey";//lets get this from env variables
+    private final String jwtSecret = "mysecretkeyandthismustbeaverysecurekeyotherwiseicantuseitwithhs512thatswhythisstringisverylongandwestillneedtoreplaceitbysomethingelseinthefuture";//lets get this from env variables
 
     public String generateJwtToken(String username) {
         // Token validity period (e.g., 1 day)

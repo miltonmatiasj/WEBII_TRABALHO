@@ -57,7 +57,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Invalid password");
         }
 
-        // Generate JWT token using the email as subject
         String token = jwtUtil.generateJwtToken(user.getEmail());
         return ResponseEntity.ok(new JwtResponse(token));
     }
