@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
 
 type LoginResponse = {
-  message: string,
+  token: string,
 }
 
 @Injectable({
@@ -26,9 +26,15 @@ export class AuthService {
 
   async login(email: string, password: string) {
     this.email.set(email);
-    await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/api/auth/login', {email, password})).catch(() => {
+    const loginResponse = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/api/auth/login', {email, password})).catch(() => {
       //FIXME: handle error
+      return null;
     })
+    if (loginResponse) {
+      this.token.set(loginResponse.token);
+      localStorage.setItem('token', loginResponse.token);
+      localStorage.setItem('email', this.email()!);
+    }
   }
 
   async logout() {
