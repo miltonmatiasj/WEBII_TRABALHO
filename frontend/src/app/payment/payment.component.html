@@ -1,4 +1,4 @@
-<div class="payment-container" *ngIf="!paymentConfirmed">
+<!-- <div class="payment-container" *ngIf="!paymentConfirmed">
    <div class="payment-box">
 
    <h2>Pagamento do Serviço</h2>
@@ -26,6 +26,56 @@
       <p>Obrigado por utilizar nossos serviços.</p>
       <button (click)="closePopup()">Fechar</button>
     </div>
-  </div>
+  </div> -->
+
+  <form class="example-form" [formGroup]="form">
+    <mat-card>
+      <mat-card-title>Ordem de Serviço</mat-card-title>
+      <mat-card-content>
   
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Cliente</mat-label>
+          <input matInput formControlName="cliente" readonly>
+        </mat-form-field>
   
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Serviço</mat-label>
+          <input matInput formControlName="servico" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Status</mat-label>
+          <input matInput formControlName="status" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Valor Total</mat-label
+
+
+          
+
+  <form class="example-form" [formGroup]="form">
+    <mat-card>
+      <mat-card-title>Ordem de Serviço</mat-card-title>
+      <mat-card-content>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Cliente</mat-label>
+          <input matInput formControlName="cliente" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Serviço</mat-label>
+          <input matInput formControlName="servico" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Status</mat-label>
+          <input matInput formControlName="status" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Valor Total</mat-label
+
+
+          
