@@ -21,7 +21,7 @@ export class RequestService {
       equipmentDescription: 'Notebook Dell Inspiron',
       categoryName: 'Notebook',
       defectDescription: 'Não liga',
-      status: 'EM_ANDAMENTO',
+      status: 'ORÇADA',
       customerCPF: 'João'
     },
     {
@@ -39,7 +39,7 @@ export class RequestService {
       equipmentDescription: 'Impressora HP LaserJet',
       categoryName: 'Impressora',
       defectDescription: 'Erro de papel',
-      status: 'ORCADA',
+      status: 'ORÇADA',
       customerCPF: 'Joana'
     },
     {
@@ -48,7 +48,7 @@ export class RequestService {
       equipmentDescription: 'Teclado sem fio Logitech',
       categoryName: 'Teclado',
       defectDescription: 'Teclas não respondem',
-      status: 'CANCELADA',
+      status: 'REJEITADA',
       customerCPF: 'Joaquina'
     },
     {
@@ -57,7 +57,7 @@ export class RequestService {
       equipmentDescription: 'Mouse óptico Microsoft',
       categoryName: 'Mouse',
       defectDescription: 'Movimentos falhando',
-      status: 'FECHADA',
+      status: 'APROVADA',
       customerCPF: 'João'
     },
     {
@@ -75,7 +75,7 @@ export class RequestService {
       equipmentDescription: 'Desktop Positivo',
       categoryName: 'Desktop',
       defectDescription: 'Não inicia sistema',
-      status: 'EM_ANDAMENTO',
+      status: 'REDIRECIONADA',
       customerCPF: 'Joana'
     },
     {
@@ -93,7 +93,7 @@ export class RequestService {
       equipmentDescription: 'Teclado mecânico Corsair',
       categoryName: 'Teclado',
       defectDescription: 'Retroiluminação falhando',
-      status: 'FECHADA',
+      status: 'ARRUMADA',
       customerCPF: 'João'
     },
     {
@@ -102,7 +102,7 @@ export class RequestService {
       equipmentDescription: 'Impressora Epson Ecotank',
       categoryName: 'Impressora',
       defectDescription: 'Falha no scanner',
-      status: 'ORCADA',
+      status: 'PAGA',
       customerCPF: 'José'
     },
     {
@@ -111,7 +111,7 @@ export class RequestService {
       equipmentDescription: 'Notebook Samsung Book',
       categoryName: 'Notebook',
       defectDescription: 'Wi-Fi desconecta sozinho',
-      status: 'EM_ANDAMENTO',
+      status: 'FINALIZADA',
       customerCPF: 'Joana'
     },
     {
@@ -129,7 +129,7 @@ export class RequestService {
       equipmentDescription: 'Mouse Logitech MX',
       categoryName: 'Mouse',
       defectDescription: 'Desconecta do Bluetooth',
-      status: 'ORCADA',
+      status: 'ARPVADA',
       customerCPF: 'João'
     },
     {
@@ -147,7 +147,7 @@ export class RequestService {
       equipmentDescription: 'Impressora Brother',
       categoryName: 'Impressora',
       defectDescription: 'Impressão desalinhada',
-      status: 'CANCELADA',
+      status: 'REJEITADA',
       customerCPF: 'Joana'
     },
     {
@@ -165,7 +165,7 @@ export class RequestService {
       equipmentDescription: 'Notebook HP ProBook',
       categoryName: 'Notebook',
       defectDescription: 'Problema de bateria',
-      status: 'FECHADA',
+      status: 'ARRUMADA',
       customerCPF: 'João'
     },
     {
@@ -174,7 +174,7 @@ export class RequestService {
       equipmentDescription: 'Impressora Canon',
       categoryName: 'Impressora',
       defectDescription: 'Sem tinta',
-      status: 'EM_ANDAMENTO',
+      status: 'REDIRECIONADA',
       customerCPF: 'José'
     },
     {
@@ -183,7 +183,7 @@ export class RequestService {
       equipmentDescription: 'Teclado gamer Redragon',
       categoryName: 'Teclado',
       defectDescription: 'Problemas de delay',
-      status: 'EM_ANDAMENTO',
+      status: 'PAGA',
       customerCPF: 'Joana'
     },
     {
@@ -192,7 +192,7 @@ export class RequestService {
       equipmentDescription: 'Impressora Canon',
       categoryName: 'Impressora',
       defectDescription: 'Papel enroscando',
-      status: 'ORCADA',
+      status: 'FINALIZADA',
       customerCPF: 'Joaquina'
     }
   ];
