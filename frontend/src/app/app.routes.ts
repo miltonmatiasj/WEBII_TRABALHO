@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
-import { TestComponentComponent } from './test-component/test-component.component';
-import { AuthGuard } from './authentication/auth.guard';
 import { LoginComponent } from './authentication/login/login.component';
 import { CategoryComponent } from './category/category.component';
+import { MaintenanceRequestDetailsComponent } from './maintenance-request-details/maintenance-request-details.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'customer-home',
     pathMatch: 'full',
   },
   {
@@ -19,8 +18,7 @@ export const routes: Routes = [
     component: CategoryComponent,
   },
   {
-    path: 'tests',
-    component: TestComponentComponent,
-    canActivate: [AuthGuard],
+    path: 'maintenance-request-details/:id',
+    component: MaintenanceRequestDetailsComponent,
   },
 ];
