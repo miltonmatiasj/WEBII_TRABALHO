@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
-import { TestComponentComponent } from './test-component/test-component.component';
-import { AuthGuard } from './authentication/auth.guard';
 import { LoginComponent } from './authentication/login/login.component';
-import { ShowBudgetComponent } from './show-budget-component/show-budget.component';
+import { CustomerHomeComponent } from './customer-home/customer-home.component';
+import { MaintenanceRequestDetailsComponent } from './maintenance-request-details/maintenance-request-details.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'customer-home',
     pathMatch: 'full',
   },
   {
@@ -15,8 +14,11 @@ export const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'tests',
-    component: TestComponentComponent,
-    canActivate: [AuthGuard],
-  }
+    path: 'customer-home',
+    component: CustomerHomeComponent,
+  },
+  {
+    path: 'maintenance-request-details/:id',
+    component: MaintenanceRequestDetailsComponent,
+  },
 ];
