@@ -42,9 +42,8 @@ export class CustomerHomeComponent implements OnInit, AfterViewInit {
   constructor(private customerHomeService: CustomerHomeService) {}
 
   ngOnInit(): void {
-    this.customerHomeService.getCustomerData().subscribe((data) => {
-      this.dataSource.data = data;
-    });
+    // Obtém os dados do serviço e os atribui ao dataSource
+    this.dataSource.data = this.customerHomeService.getCustomerData();
   }
 
   ngAfterViewInit(): void {
@@ -52,7 +51,7 @@ export class CustomerHomeComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = value;
   }

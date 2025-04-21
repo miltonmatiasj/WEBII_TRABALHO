@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 
 export interface CustomerData {
   description: string;
@@ -12,42 +11,12 @@ export interface CustomerData {
   providedIn: 'root',
 })
 export class CustomerHomeService {
-  private mockData: CustomerData[] = [
-    {
-      description: 'Manutenção de Ar Condicionado',
-      status: 'Pendente',
-      data: '2023-10-01',
-      action: 'Detalhes',
-    },
-    {
-      description: 'Manutenção de Ar Condicionado',
-      status: 'Pendente',
-      data: '2023-10-01',
-      action: 'Detalhes',
-    },
-    {
-      description: 'Manutenção de Ar Condicionado',
-      status: 'Pendente',
-      data: '2023-10-01',
-      action: 'Detalhes',
-    },
-    {
-      description: 'Manutenção de Ar Condicionado',
-      status: 'Pendente',
-      data: '2023-10-01',
-      action: 'Detalhes',
-    },
-    {
-      description: 'Manutenção de Ar Condicionado',
-      status: 'Pendente',
-      data: '2023-10-01',
-      action: 'Detalhes',
-    },
-  ];
+  private storageKey = 'MaintenanceRequest';
 
   constructor() {}
 
-  getCustomerData(): Observable<CustomerData[]> {
-    return of(this.mockData);
+  getCustomerData(): CustomerData[] {
+    const data = localStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : [];
   }
 }
