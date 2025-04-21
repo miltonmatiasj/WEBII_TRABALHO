@@ -1,0 +1,22 @@
+<h2 mat-dialog-title style="display: block; text-align: center;">
+  {{ action === 'create' ? 'Adicionar nova categoria' : action === 'edit' ? 'Editar categoria' : 'Excluir categoria' }}
+</h2>
+
+<mat-dialog-content *ngIf="action !== 'delete'">
+  <mat-form-field appearance="outline" class="full-width" style="display: block; text-align: center; margin-top: 10px;">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="data.name" name="name" required />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-content *ngIf="action === 'delete'">
+  <p style="display: block; text-align: center;margin-top:10px;">Tem certeza que deseja excluir a categoria {{[data.name]}}?</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancelar</button>
+  
+  <button mat-button color="warn" *ngIf="action === 'delete'" (click)="delete()" style="color: red;">Excluir</button>
+  
+  <button mat-button color="primary" *ngIf="action !== 'delete'" (click)="save()" style="color: green;">Salvar</button>
+</mat-dialog-actions>
