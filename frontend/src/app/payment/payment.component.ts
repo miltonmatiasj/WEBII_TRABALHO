@@ -49,3 +49,4 @@ export class PaymentComponent {
     this.paymentConfirmed = false;
   }
 }
+
