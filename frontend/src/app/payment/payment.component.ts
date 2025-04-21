@@ -1,12 +1,28 @@
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-payment',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatDialogModule,
+  ],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.scss'
+  styleUrls: ['./payment.component.scss']
 })
 export class PaymentComponent {
 
@@ -17,16 +33,19 @@ export class PaymentComponent {
     totalValue: 320.00,
     status: 'Concluído'
   };
-
   paymentMethod = 'PIX';
+  paymentOptions = [
+    { value: 'PIX', label: 'PIX' },
+    { value: 'CASH', label: 'Dinheiro' },
+    { value: 'CARD', label: 'Cartão' }
+  ];;
   paymentConfirmed = false;
 
   confirmPayment() {
     this.paymentConfirmed = true;
   }
 
-closePopup() {
-  this.paymentConfirmed = false;
+  closePopup() {
+    this.paymentConfirmed = false;
+  }
 }
-}
-

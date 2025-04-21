@@ -1,116 +1,89 @@
 /* Container centralizado */
 .payment-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    padding: 20px;
-    background-color: #ffffff;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  background-color: #ffffff;
+}
 
-  .payment-box {
-    background-color: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-  }
+/* Cartão de pagamento */
+.payment-card {
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
 
-  p {
-    text-align: left;
-  }
+/* Título */
+mat-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  padding: 1rem;
 
-  h2 {
-    margin-bottom: 24px;
-    font-size: 1.5rem;
-  }
-  
-  label {
-    display: block;
-    margin: 12px 0 6px;
-    font-weight: 500;
-  }
-  
-  select,
-  button {
-    width: 100%;
-    max-width: 300px;
+}
+
+/* Campo de formulário ocupa largura total */
+.full-width {
+  width: 100%;
+}
+
+/* Estilo do botão */
+mat-card-actions button {
+  width: 100%;
+  color: #af03ff;
+}
+
+/* Popup estilo glassmorphism */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.popup-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #af03ff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #8c02cc;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .payment-container {
     padding: 10px;
-    margin-top: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
   }
-  
-  button {
-    background-color: #af03ff;
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover,
-  .popup-content button:hover {
-    background-color: #8c02cc;
-  }
-  
-  /* Popup de fundo com desfoque */
-  .popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  /* Conteúdo do popup com efeito vidro (glassmorphism) */
+
   .popup-content {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 25px 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    color: #000000;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 90%;
   }
-  
-  /* Botão dentro do popup */
-  .popup-content button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    background-color: #af03ff;
-    color: white;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  /* Responsivo */
-  @media (max-width: 600px) {
-    .payment-container {
-      padding: 10px;
-    }
-  
-    select,
-    button {
-      max-width: 100%;
-    }
-  
-    .popup-content {
-      width: 90%;
-    }
-  }
-  
+}

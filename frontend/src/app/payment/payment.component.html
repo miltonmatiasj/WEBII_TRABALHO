@@ -1,81 +1,35 @@
-<!-- <div class="payment-container" *ngIf="!paymentConfirmed">
-   <div class="payment-box">
+<div class="payment-container">
+<mat-card *ngIf="!paymentConfirmed" class="payment-card">
+  <mat-card-title><strong>Pagamento do Serviço</strong></mat-card-title>
+  <mat-card-content>
 
-   <h2>Pagamento do Serviço</h2>
-  
-    <p><strong>Cliente: </strong>{{serviceOrder.client}}</p>
-    <p><strong>Serviço: </strong>{{serviceOrder.description}}</p>
-    <p><strong>Status: </strong>{{serviceOrder.status}}</p>
-    <p><strong>Valor Total: </strong>R${{serviceOrder.totalValue}}</p>
-  
-    <label for="paymentMethod"><strong>Forma de Pagamento:</strong></label>
-    <select [(ngModel)]="paymentMethod" id="paymentMethod">
-      <option value="PIX">PIX</option>
-      <option value="CASH">Dinheiro</option>
-      <option value="CARD">Cartão</option>
-    </select>
-  
-    <br /><br />
-    <button (click)="confirmPayment()">Confirmar Pagamento</button>
+    <p><strong>Cliente:</strong> {{ serviceOrder.client }}</p>
+    <p><strong>Serviço:</strong> {{ serviceOrder.description }}</p>
+    <p><strong>Status:</strong> {{ serviceOrder.status }}</p>
+    <p><strong>Valor Total:</strong> R${{ serviceOrder.totalValue }}</p>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Forma de Pagamento</mat-label>
+      <mat-select [(value)]="paymentMethod">
+        @for (method of paymentOptions; track method) {
+          <mat-option [value]="method.value">{{ method.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="confirmPayment()">Confirmar Pagamento</button>
+  </mat-card-actions>
+</mat-card>
 </div>
-  </div>
-  
-  <div class="popup" *ngIf="paymentConfirmed">
+@if (paymentConfirmed) {
+  <div class="popup">
     <div class="popup-content">
       <h3>✅ Pagamento efetuado!</h3>
       <p>Obrigado por utilizar nossos serviços.</p>
-      <button (click)="closePopup()">Fechar</button>
+      <button mat-button color="accent" (click)="closePopup()">Fechar</button>
     </div>
-  </div> -->
-
-  <form class="example-form" [formGroup]="form">
-    <mat-card>
-      <mat-card-title>Ordem de Serviço</mat-card-title>
-      <mat-card-content>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Cliente</mat-label>
-          <input matInput formControlName="cliente" readonly>
-        </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Serviço</mat-label>
-          <input matInput formControlName="servico" readonly>
-        </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Status</mat-label>
-          <input matInput formControlName="status" readonly>
-        </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Valor Total</mat-label
-
-
-          
-
-  <form class="example-form" [formGroup]="form">
-    <mat-card>
-      <mat-card-title>Ordem de Serviço</mat-card-title>
-      <mat-card-content>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Cliente</mat-label>
-          <input matInput formControlName="cliente" readonly>
-        </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Serviço</mat-label>
-          <input matInput formControlName="servico" readonly>
-        </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Status</mat-label>
-          <input matInput formControlName="status" readonly>
-        </mat-form-field>
-  
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Valor Total</mat-label
-
-
-          
+  </div>
+}
