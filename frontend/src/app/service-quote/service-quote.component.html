@@ -1,0 +1,26 @@
+<mat-card *ngIf="customer && request">
+    <mat-card-title>Efetuar Orçamento</mat-card-title>
+    <mat-card-content>
+      <h3>Dados da Solicitação</h3>
+      <p><strong>Equipamento:</strong> {{ request.equipmentDescription }}</p>
+      <p><strong>Defeito:</strong> {{ request.defectDescription }}</p>
+      <p><strong>Data:</strong> {{ request.dateTime | date: 'dd/MM/yyyy HH:mm' }}</p>
+  
+      <h3>Cliente</h3>
+      <p><strong>Nome:</strong> {{ customer.name }}</p>
+      <p><strong>CPF:</strong> {{ customer.cpf }}</p>
+      <p><strong>Email:</strong> {{ customer.email }}</p>
+      <p><strong>Telefone:</strong> {{ customer.phone }}</p>
+  
+      <h3>Informar Valor do Orçamento</h3>
+      <mat-form-field appearance="outline">
+        <mat-label>Valor (R$)</mat-label>
+        <input matInput [(ngModel)]="orcamento.valor" mask="separator.2" thousandSeparator="." decimalMarker="," />
+      </mat-form-field>
+  
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="confirmOrcamento()">Confirmar Orçamento</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
