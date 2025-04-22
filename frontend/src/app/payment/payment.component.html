@@ -1,0 +1,36 @@
+<div class="payment-container">
+<mat-card *ngIf="!paymentConfirmed" class="payment-card">
+  <mat-card-title><strong>Pagamento do Serviço</strong></mat-card-title>
+  <mat-card-content>
+
+    <p><strong>Cliente:</strong> {{ serviceOrder.client }}</p>
+    <p><strong>Serviço:</strong> {{ serviceOrder.description }}</p>
+    <p><strong>Status:</strong> {{ serviceOrder.status }}</p>
+    <p><strong>Valor Total:</strong> R${{ serviceOrder.totalValue }}</p>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Forma de Pagamento</mat-label>
+      <mat-select [(value)]="paymentMethod">
+        @for (method of paymentOptions; track method) {
+          <mat-option [value]="method.value">{{ method.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="confirmPayment()">Confirmar Pagamento</button>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+@if (paymentConfirmed) {
+  <div class="popup">
+    <div class="popup-content">
+      <h3>✅ Pagamento efetuado!</h3>
+      <p>Obrigado por utilizar nossos serviços.</p>
+      <button mat-button color="accent" (click)="closePopup()">Fechar</button>
+    </div>
+  </div>
+}
