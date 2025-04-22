@@ -1,0 +1,117 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+
+import { RequestService, ServiceRequest } from '../employee-page/services/request.service';
+
+@Component({
+  selector: 'app-request-list',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule
+  ],
+  templateUrl: './request-list.component.html',
+  styleUrls: ['./request-list.component.scss']
+})
+export class RequestListComponent implements OnInit {
+  displayedColumns: string[] = [
+    'client',
+    'equipmentDescription',
+    'categoryName',
+    'status',
+    'dateTime',
+    'action'
+  ];
+  
+  allRequests: ServiceRequest[] = [];
+  filteredRequests: ServiceRequest[] = [];
+
+  dataInicio: Date | null = null;
+  dataFim: Date | null = null;
+
+  funcionarioNome = 'Joana'; // simula o nome do funcionário logado
+
+  constructor(private requestService: RequestService) {}
+
+  ngOnInit(): void {
+    this.allRequests = this.requestService.getRequests();
+    this.aplicarFiltro();
+  }
+
+  aplicarFiltro(): void {
+    this.filteredRequests = this.allRequests
+      .filter(req => {
+        const dataReq = new Date(req.dateTime);
+
+        if (req.status === 'REDIRECIONADA' && req.customerCPF !== this.funcionarioNome) return false;
+
+        if (this.dataInicio && dataReq < this.dataInicio) return false;
+        if (this.dataFim && dataReq > this.dataFim) return false;
+
+        return true;
+      })
+      .sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+  }
+
+  filterToday(): void {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    this.dataInicio = today;
+    this.dataFim = tomorrow;
+    this.aplicarFiltro();
+  }
+
+  limparFiltro(): void {
+    this.dataInicio = null;
+    this.dataFim = null;
+    this.aplicarFiltro();
+  }
+
+  getColor(status: string): string {
+    switch (status) {
+      case 'ABERTA': return 'gray';
+      case 'ORÇADA': return 'brown';
+      case 'REJEITADA': return 'red';
+      case 'APROVADA': return 'gold';
+      case 'REDIRECIONADA': return 'purple';
+      case 'ARRUMADA': return 'blue';
+      case 'PAGA': return 'orange';
+      case 'FINALIZADA': return 'green';
+      default: return 'black';
+    }
+  }
+
+  getActionLabel(status: string): string | null {
+    switch (status) {
+      case 'ABERTA': return 'Efetuar Orçamento'; // RF012
+      case 'APROVADA':
+      case 'REDIRECIONADA': return 'Efetuar Manutenção'; // RF014
+      case 'PAGA': return 'Finalizar Solicitação'; // RF016
+      default: return null;
+    }
+  }
+
+  handleAction(status: string, id: number): void {
+    console.log(`Status ${status} | ID: ${id}`);
+    // Aqui você pode redirecionar, abrir dialog ou emitir evento
+  }
+}
