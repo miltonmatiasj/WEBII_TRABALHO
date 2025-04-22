@@ -22,7 +22,7 @@ export class RequestService {
       categoryName: 'Notebook',
       defectDescription: 'Não liga',
       status: 'ORÇADA',
-      customerCPF: 'João'
+      customerCPF: '11111111111'
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ export class RequestService {
       categoryName: 'Desktop',
       defectDescription: 'Tela azul frequente',
       status: 'ABERTA',
-      customerCPF: 'José'
+      customerCPF: '22222222222'
     },
     {
       id: 3,
@@ -40,7 +40,7 @@ export class RequestService {
       categoryName: 'Impressora',
       defectDescription: 'Erro de papel',
       status: 'ORÇADA',
-      customerCPF: 'Joana'
+      customerCPF: '33333333333'
     },
     {
       id: 4,
@@ -49,7 +49,7 @@ export class RequestService {
       categoryName: 'Teclado',
       defectDescription: 'Teclas não respondem',
       status: 'REJEITADA',
-      customerCPF: 'Joaquina'
+      customerCPF: '44444444444'
     },
     {
       id: 5,
@@ -58,7 +58,7 @@ export class RequestService {
       categoryName: 'Mouse',
       defectDescription: 'Movimentos falhando',
       status: 'APROVADA',
-      customerCPF: 'João'
+      customerCPF: '11111111111'
     },
     {
       id: 6,
@@ -67,7 +67,7 @@ export class RequestService {
       categoryName: 'Notebook',
       defectDescription: 'Superaquecimento',
       status: 'ABERTA',
-      customerCPF: 'José'
+      customerCPF: '22222222222'
     },
     {
       id: 7,
@@ -76,7 +76,7 @@ export class RequestService {
       categoryName: 'Desktop',
       defectDescription: 'Não inicia sistema',
       status: 'REDIRECIONADA',
-      customerCPF: 'Joana'
+      customerCPF: '33333333333'
     },
     {
       id: 8,
@@ -85,7 +85,7 @@ export class RequestService {
       categoryName: 'Mouse',
       defectDescription: 'Botão duplo com falha',
       status: 'ABERTA',
-      customerCPF: 'Joaquina'
+      customerCPF: '44444444444'
     },
     {
       id: 9,
@@ -94,7 +94,7 @@ export class RequestService {
       categoryName: 'Teclado',
       defectDescription: 'Retroiluminação falhando',
       status: 'ARRUMADA',
-      customerCPF: 'João'
+      customerCPF: '11111111111'
     },
     {
       id: 10,
@@ -103,7 +103,7 @@ export class RequestService {
       categoryName: 'Impressora',
       defectDescription: 'Falha no scanner',
       status: 'PAGA',
-      customerCPF: 'José'
+      customerCPF: '22222222222'
     },
     {
       id: 11,
@@ -112,7 +112,7 @@ export class RequestService {
       categoryName: 'Notebook',
       defectDescription: 'Wi-Fi desconecta sozinho',
       status: 'FINALIZADA',
-      customerCPF: 'Joana'
+      customerCPF: '33333333333'
     },
     {
       id: 12,
@@ -121,7 +121,7 @@ export class RequestService {
       categoryName: 'Teclado',
       defectDescription: 'Teclas soltas',
       status: 'ABERTA',
-      customerCPF: 'Joaquina'
+      customerCPF: '44444444444'
     },
     {
       id: 13,
@@ -130,7 +130,7 @@ export class RequestService {
       categoryName: 'Mouse',
       defectDescription: 'Desconecta do Bluetooth',
       status: 'ARPVADA',
-      customerCPF: 'João'
+      customerCPF: '11111111111'
     },
     {
       id: 14,
@@ -139,7 +139,7 @@ export class RequestService {
       categoryName: 'Notebook',
       defectDescription: 'Som não funciona',
       status: 'ABERTA',
-      customerCPF: 'José'
+      customerCPF: '22222222222'
     },
     {
       id: 15,
@@ -148,7 +148,7 @@ export class RequestService {
       categoryName: 'Impressora',
       defectDescription: 'Impressão desalinhada',
       status: 'REJEITADA',
-      customerCPF: 'Joana'
+      customerCPF: '33333333333'
     },
     {
       id: 16,
@@ -157,7 +157,7 @@ export class RequestService {
       categoryName: 'Desktop',
       defectDescription: 'Problema na placa-mãe',
       status: 'ABERTA',
-      customerCPF: 'Joaquina'
+      customerCPF: '44444444444'
     },
     {
       id: 17,
@@ -166,7 +166,7 @@ export class RequestService {
       categoryName: 'Notebook',
       defectDescription: 'Problema de bateria',
       status: 'ARRUMADA',
-      customerCPF: 'João'
+      customerCPF: '11111111111'
     },
     {
       id: 18,
@@ -175,7 +175,7 @@ export class RequestService {
       categoryName: 'Impressora',
       defectDescription: 'Sem tinta',
       status: 'REDIRECIONADA',
-      customerCPF: 'José'
+      customerCPF: '22222222222'
     },
     {
       id: 19,
@@ -184,7 +184,7 @@ export class RequestService {
       categoryName: 'Teclado',
       defectDescription: 'Problemas de delay',
       status: 'PAGA',
-      customerCPF: 'Joana'
+      customerCPF: '33333333333'
     },
     {
       id: 20,
@@ -193,7 +193,7 @@ export class RequestService {
       categoryName: 'Impressora',
       defectDescription: 'Papel enroscando',
       status: 'FINALIZADA',
-      customerCPF: 'Joaquina'
+      customerCPF: '44444444444'
     }
   ];
 
@@ -201,6 +201,10 @@ export class RequestService {
 
   getRequests(): ServiceRequest[] {
     return this.requests;
+  }
+
+  getRequestById(id: number): ServiceRequest | undefined {
+    return this.requests.find(request => request.id === id);
   }
 
 }
