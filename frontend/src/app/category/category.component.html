@@ -4,9 +4,7 @@
   <button mat-raised-button color="primary" (click)="openDialog()">Nova categoria</button>
 </div>
 
-
 <table mat-table [dataSource]="categories" class="mat-elevation-z8 category-table">
-  
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Nome</th>
     <td mat-cell *matCellDef="let category">{{ category.name }}</td>
@@ -21,7 +19,6 @@
       <button mat-icon-button color="warn" (click)="openDialog(category, 'delete')">
         <mat-icon>delete</mat-icon>
       </button>
-      
     </td>
   </ng-container>
 

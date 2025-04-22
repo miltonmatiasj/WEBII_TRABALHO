@@ -2,34 +2,35 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
 import { CategoryComponent } from './category/category.component';
 import { MaintenanceRequestDetailsComponent } from './maintenance-request-details/maintenance-request-details.component';
-import { PaymentComponent } from './payment/payment.component';
+import { MaintenanceRequestForm } from './maintenance-request-form/maintenance-request-form.component';
+import { CustomerHomeComponent } from './customer-home/customer-home.component';
+import { RegisterComponent } from './authentication/register/register.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'customer-home',
-    pathMatch: 'full',
-  },
+  //Client Routes
   {
     path: 'login',
     component: LoginComponent,
   },
   {
-    path: 'category',
-    component: CategoryComponent,
+    path: 'register',
+    component: RegisterComponent,
   },
   {
-    path: 'maintenance-request-details/:id',
+    path: 'customer-home',
+    component: CustomerHomeComponent,
+  },
+  {
+    path: 'maintenance-request/create',
+    component: MaintenanceRequestForm,
+  },
+  {
+    path: 'maintenance-request/:id',
     component: MaintenanceRequestDetailsComponent,
   },
+  //Admin Routes
   {
-    path: 'payment',
-    //component: PaymentComponent,
-    loadComponent: () => import('./payment/payment.component').then(m => m.PaymentComponent)
-  },
-  {
-    path: 'payment',
-    //component: PaymentComponent,
-    loadComponent: () => import('./payment/payment.component').then(m => m.PaymentComponent)
+    path: 'category',
+    component: CategoryComponent,
   },
 ];

@@ -7,35 +7,57 @@ export interface Category {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
+  private storageKey = 'EquipmentCategory';
 
-  private categories: Category[] = [
-    { id: 1, name: 'Notebook' },
-    { id: 2, name: 'Desktop' },
-    { id: 3, name: 'Impressora' },
-    { id: 4, name: 'Mouse' },
-    { id: 5, name: 'Teclado' }
-  ];
-
-  getCategories(): Observable<Category[]>
-  {
-    return of(this.categories)
+  constructor() {
+    if (!localStorage.getItem(this.storageKey)) {
+      const defaultCategories: Category[] = [
+        { id: 1, name: 'Notebook' },
+        { id: 2, name: 'Desktop' },
+        { id: 3, name: 'Impressora' },
+        { id: 4, name: 'Mouse' },
+        { id: 5, name: 'Teclado' },
+      ];
+      localStorage.setItem(this.storageKey, JSON.stringify(defaultCategories));
+    }
   }
 
-  addNewCategory(name: string): void
-  {
-
+  getCategories(): Observable<Category[]> {
+    const data = localStorage.getItem(this.storageKey);
+    const categories = data ? JSON.parse(data) : [];
+    return of(categories);
   }
 
-  updateCategory(id: number, name: string): void
-  {
-
+  addNewCategory(name: string): void {
+    const data = localStorage.getItem(this.storageKey);
+    const categories: Category[] = data ? JSON.parse(data) : [];
+    const newCategory: Category = {
+      id: categories.length > 0 ? categories[categories.length - 1].id + 1 : 1, // Gera um novo ID
+      name,
+    };
+    categories.push(newCategory);
+    localStorage.setItem(this.storageKey, JSON.stringify(categories));
   }
 
-  deleteCategory(id: number):void
-  {
+  updateCategory(id: number, name: string): void {
+    const data = localStorage.getItem(this.storageKey);
+    const categories: Category[] = data ? JSON.parse(data) : [];
+    const index = categories.findIndex((category) => category.id === id);
+    if (index !== -1) {
+      categories[index].name = name;
+      localStorage.setItem(this.storageKey, JSON.stringify(categories));
+    }
+  }
 
+  deleteCategory(id: number): void {
+    const data = localStorage.getItem(this.storageKey);
+    const categories: Category[] = data ? JSON.parse(data) : [];
+    const updatedCategories = categories.filter(
+      (category) => category.id !== id
+    );
+    localStorage.setItem(this.storageKey, JSON.stringify(updatedCategories));
   }
 }

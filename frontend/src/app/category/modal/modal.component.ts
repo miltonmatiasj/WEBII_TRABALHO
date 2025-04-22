@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,39 +18,44 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+  ],
 })
 export class ModalComponent {
   action: 'create' | 'edit' | 'delete';
 
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { id: number | null; name: string; action: 'create' | 'edit' | 'delete' }
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      id: number | null;
+      name: string;
+      action: 'create' | 'edit' | 'delete';
+    }
   ) {
     this.action = data.action || (data.id ? 'edit' : 'create');
-  }
-  
-
-  close(): void
-  {
-    this.dialogRef.close();
   }
 
   save(): void {
     const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
-  
+
     if (!this.data.name || !nameRegex.test(this.data.name.trim())) {
-      alert("Insira um nome válido(Apenas letras e espaços).");
+      alert('Insira um nome válido (Apenas letras e espaços).');
       return;
     }
-  
-    this.dialogRef.close(this.data);
+
+    this.dialogRef.close({
+      action: this.action,
+      id: this.data.id,
+      name: this.data.name,
+    });
   }
 
   delete(): void {
     this.dialogRef.close({ action: 'delete', id: this.data.id });
   }
-  
-  
+
+  close(): void {
+    this.dialogRef.close();
+  }
 }

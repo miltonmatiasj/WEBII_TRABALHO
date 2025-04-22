@@ -2,48 +2,32 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class MaintenanceRequestService {
-  getMockRequest(status: string = 'ORÇADA') {
-    const requests: { [key: string]: any } = {
-      ORÇADA: {
-        equipmentDescription: 'Impressora HP LaserJet 1020',
-        category: 'Impressora',
-        defectDescription: 'Não está imprimindo',
-        date: '2025-04-10',
-        status: 'ORÇADA',
-      },
-      REJEITADA: {
-        equipmentDescription: 'Notebook Dell Inspiron',
-        category: 'Notebook',
-        defectDescription: 'Tela não liga',
-        date: '2025-04-05',
-        status: 'REJEITADA',
-      },
-      ARRUMADA: {
-        equipmentDescription: 'Ar-condicionado LG',
-        category: 'Climatização',
-        defectDescription: 'Não gela',
-        date: '2025-04-03',
-        status: 'ARRUMADA',
-      },
-      APROVADA: {
-        equipmentDescription: 'Servidor HP ProLiant',
-        category: 'Servidor',
-        defectDescription: 'Travando frequentemente',
-        date: '2025-03-28',
-        status: 'APROVADA',
-      },
-      'EM ANDAMENTO': {
-        equipmentDescription: 'Projetor Epson',
-        category: 'Projetor',
-        defectDescription: 'Imagem desfocada',
-        date: '2025-04-01',
-        status: 'EM ANDAMENTO',
-      },
-    };
-    return requests[status] || requests['ORÇADA'];
+  private storageKey = 'MaintenanceRequest';
+
+  getRequestById(id: string): any {
+    const data = localStorage.getItem(this.storageKey);
+    if (data) {
+      const requests = JSON.parse(data);
+      return requests.find((request: any) => request.id === id) || null;
+    }
+    return null;
   }
 
-  getMockHistory() {
+  updateRequestStatus(id: string, newStatus: string): void {
+    const data = localStorage.getItem(this.storageKey);
+    if (data) {
+      const requests = JSON.parse(data);
+      const requestIndex = requests.findIndex(
+        (request: any) => request.id === id
+      );
+      if (requestIndex !== -1) {
+        requests[requestIndex].status = newStatus;
+        localStorage.setItem(this.storageKey, JSON.stringify(requests));
+      }
+    }
+  }
+
+  getMockHistory(): any[] {
     return [
       {
         dateTime: '2025-04-01 09:00',
