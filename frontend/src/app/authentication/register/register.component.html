@@ -1,0 +1,62 @@
+<mat-card class="register-container">
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>CPF</mat-label>
+      <input matInput name="cpf" [(ngModel)]="user.cpf" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput name="name" [(ngModel)]="user.name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" name="email" [(ngModel)]="user.email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Telefone</mat-label>
+      <input matInput name="phone" [(ngModel)]="user.phone" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>CEP</mat-label>
+      <input matInput name="cep" [(ngModel)]="user.cep" (blur)="fetchAddress()" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Rua</mat-label>
+      <input matInput name="street" [(ngModel)]="user.address.street" required readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Bairro</mat-label>
+      <input matInput name="neighborhood" [(ngModel)]="user.address.neighborhood" required readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cidade</mat-label>
+      <input matInput name="city" [(ngModel)]="user.address.city" required readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Estado</mat-label>
+      <input matInput name="state" [(ngModel)]="user.address.state" required readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Número</mat-label>
+      <input matInput name="number" [(ngModel)]="user.address.number" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Complemento</mat-label>
+      <input matInput name="complement" [(ngModel)]="user.address.complement" />
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+    </div>
+  </form>
+</mat-card>

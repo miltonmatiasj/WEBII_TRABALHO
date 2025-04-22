@@ -1,0 +1,29 @@
+<section>
+    <mat-card class="modal-window">
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Custo da manutenção: {{ data.equipment }}</h1>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+  
+      <mat-card-content>
+        <div class="description">
+          <p><strong>Problema descrito:</strong> {{ data.description }}</p>
+          <p><strong>Data da entrada:</strong> {{ data.date | date: 'dd/MM/yyyy' }}</p>
+          <p><strong>Telefone:</strong> {{ data.telephone }}</p>s
+          <p><strong>Proprietário:</strong> {{ data.owner }}</p>
+          <p><strong>Avaliação do técnico:</strong> {{ data.tecAval }}</p>
+        </div>
+        <div class="budget">
+          <h2>R$ {{ data.price | number: '1.2-2' }}</h2>
+        </div>
+      </mat-card-content>
+  
+      <mat-card-actions align="end" class="buttonArea">
+        <button mat-raised-button color="primary" (click)="accept()">Aceitar</button>
+        <button mat-raised-button color="warn" (click)="refuse()">Recusar</button>
+        <button mat-raised-button (click)="close()">Fechar</button>
+      </mat-card-actions>
+    </mat-card>
+  </section>

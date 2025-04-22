@@ -42,7 +42,6 @@ export class CustomerHomeComponent implements OnInit, AfterViewInit {
   constructor(private customerHomeService: CustomerHomeService) {}
 
   ngOnInit(): void {
-    // Obtém os dados do serviço e os atribui ao dataSource
     this.dataSource.data = this.customerHomeService.getCustomerData();
   }
 

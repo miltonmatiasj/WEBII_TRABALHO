@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { LoginService } from './login.service';
+import { AuthMockedService } from '../auth-mocked.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -26,10 +26,17 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private authMockedService: AuthMockedService,
+    private router: Router
+  ) {}
 
   async onSubmit() {
-    await this.loginService.login(this.email, this.password);
-    await this.router.navigate(['/tests']);
+    const user = this.authMockedService.findUserByEmail(this.email);
+    if (user && user.password === this.password) {
+      await this.router.navigate(['/customer-home']);
+    } else {
+      alert('Invalid email or password');
+    }
   }
 }

@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-
-export interface CustomerData {
-  description: string;
-  status: string;
-  data: string;
-  action: string;
-}
+import { CustomerData } from '../../maintenance-request-form/mainetance-request-form.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,3 +14,4 @@ export class CustomerHomeService {
     return data ? JSON.parse(data) : [];
   }
 }
+export { CustomerData };

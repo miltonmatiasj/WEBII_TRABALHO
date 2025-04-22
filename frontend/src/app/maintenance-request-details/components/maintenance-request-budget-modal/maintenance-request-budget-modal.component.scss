@@ -1,0 +1,20 @@
+.modal-window {
+    max-width: 600px;
+    margin: auto;
+    padding: 16px;
+  }
+  
+  .description p {
+    margin: 8px 0;
+  }
+  
+  .budget {
+    text-align: center;
+    margin: 16px 0;
+  }
+  
+  .buttonArea {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
