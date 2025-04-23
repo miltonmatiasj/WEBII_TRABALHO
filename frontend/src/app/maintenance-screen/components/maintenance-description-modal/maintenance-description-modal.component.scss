@@ -1,0 +1,42 @@
+.full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .textarea-large {
+    min-height: 140px;
+    width: 1px;
+    resize: vertical; // permite o usuário redimensionar se quiser
+  }
+  
+  mat-dialog-title {
+    padding: 20px;
+
+  }
+
+
+  mat-dialog-content {
+    padding-top: 8px;
+  
+    mat-form-field {
+      display: block;
+    }
+  
+    textarea {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+  
+
+  mat-dialog-actions {
+    margin-top: 16px;
+  
+    button {
+      margin-left: 8px;
+    }
+
+
+    
+  }
+  

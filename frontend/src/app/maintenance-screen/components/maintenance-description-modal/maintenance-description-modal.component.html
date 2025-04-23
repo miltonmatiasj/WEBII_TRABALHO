@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Efetuar Manutenção</h2>
+
+<mat-form-field appearance="outline" class="full-width">
+    <mat-label>Descrição da Manutenção</mat-label>
+    <textarea matInput class="textarea-large" [(ngModel)]="descricaoManutencao"></textarea>
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Orientações para o Cliente</mat-label>
+    <textarea matInput class="textarea-large" [(ngModel)]="orientacoesCliente"></textarea>
+  </mat-form-field>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+</div>
