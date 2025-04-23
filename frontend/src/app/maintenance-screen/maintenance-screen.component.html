@@ -1,0 +1,26 @@
+<mat-card *ngIf="solicitacao" class="container">
+    <mat-card-title>Efetuar Manutenção</mat-card-title>
+  
+    <mat-card-content>
+      <p><strong>ID:</strong> {{ solicitacao.id }}</p>
+      <p><strong>Cliente:</strong> {{ cliente?.name }}</p>
+      <p><strong>Email:</strong> {{ cliente?.email }}</p>
+      <p><strong>Telefone:</strong> {{ cliente?.phone }}</p>
+      <p><strong>Equipamento:</strong> {{ solicitacao.equipmentDescription }}</p>
+      <p><strong>Categoria:</strong> {{ solicitacao.categoryName }}</p>
+      <p><strong>Defeito:</strong> {{ solicitacao.defectDescription }}</p>
+      <p><strong>Status Atual:</strong> {{ solicitacao.status }}</p>
+  
+        <button mat-raised-button color="primary" (click)="openDescriptionMaintenanceDialog()">
+            Efetuar Manutenção
+        </button>
+        <button mat-raised-button color="primary" (click)="voltar()">
+            Voltar
+          </button>
+        <button mat-raised-button color="primary" (click)="openRedirectDialog()">
+            Redirecionar
+          </button>
+          
+    </mat-card-content>
+  </mat-card>
+  

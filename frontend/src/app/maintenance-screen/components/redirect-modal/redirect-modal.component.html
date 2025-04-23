@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Redirecionar Solicitação</h2>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Funcionário Destino</mat-label>
+    <mat-select [(ngModel)]="funcionarioSelecionado">
+      <mat-option *ngFor="let f of funcionarios" [value]="f">
+        {{ f }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="erro" class="erro">{{ erro }}</div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="redirecionar()">Redirecionar</button>
+</div>
