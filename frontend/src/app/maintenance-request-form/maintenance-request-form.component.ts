@@ -11,6 +11,7 @@ import {
 } from './mainetance-request-form.service';
 import { CategoryService, Category } from '../category/category.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'maintenance-request-form',
@@ -32,7 +33,8 @@ export class MaintenanceRequestForm implements OnInit {
 
   constructor(
     private maintenanceRequestFormService: MaintenanceRequestFormService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,8 +66,13 @@ export class MaintenanceRequestForm implements OnInit {
       defectDescription: form.value.descricao_defeito,
     };
 
-    this.maintenanceRequestFormService.addCustomerData(newRequest);
-    alert('Solicitação adicionada com sucesso!');
-    form.reset();
+    if (newRequest.equipmentDescription && newRequest.equipmentCategory && newRequest.defectDescription != null){
+      this.maintenanceRequestFormService.addCustomerData(newRequest);
+      alert('Solicitação adicionada com sucesso!');
+      this.router.navigate(['/customer-home']);
+      form.reset();
+    }else {
+      alert('Ainda há campos vazios!');
+    }
   }
 }
