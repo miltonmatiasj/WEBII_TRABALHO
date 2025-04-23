@@ -11,6 +11,8 @@ import {
 } from './mainetance-request-form.service';
 import { CategoryService, Category } from '../category/category.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../authentication/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'maintenance-request-form',
@@ -32,7 +34,9 @@ export class MaintenanceRequestForm implements OnInit {
 
   constructor(
     private maintenanceRequestFormService: MaintenanceRequestFormService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -55,8 +59,15 @@ export class MaintenanceRequestForm implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
+    const currentUser = this.authService.currentUser();
+    if (!currentUser) {
+      alert('Usuário não está logado');
+      return;
+    }
+
     const newRequest: CustomerData = {
       id: this.generateRandomString(),
+      userId: currentUser.id,
       equipmentDescription: form.value.descricao_equipamento,
       status: 'ABERTA',
       requestDate: new Date().toISOString().split('T')[0],
@@ -67,5 +78,6 @@ export class MaintenanceRequestForm implements OnInit {
     this.maintenanceRequestFormService.addCustomerData(newRequest);
     alert('Solicitação adicionada com sucesso!');
     form.reset();
+    this.router.navigate(['/customer-home']);
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 export interface CustomerData {
   id: string;
+  userId: string;
   equipmentDescription: string;
   requestDate: string;
   status: string;

@@ -8,14 +8,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../authentication/auth.service';
 
 @Component({
   selector: 'app-service-quote',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -24,20 +25,52 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './service-quote.component.scss'
 })
 export class ServiceQuoteComponent implements OnInit {
-  id!: number;
+  id!: string;
   request?: ServiceRequest;
   customer?: Customer;
   orcamento: { valor: number } = { valor: 0 };
+  error: string = '';
 
-  constructor(private route: ActivatedRoute, private serviceRequest: RequestService, private serviceServiceQuote: ServiceQuoteService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private serviceRequest: RequestService, 
+    private serviceServiceQuote: ServiceQuoteService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    try {
+      this.id = this.route.snapshot.paramMap.get('id') || '';
+      
+      if (!this.id) {
+        this.error = 'ID da solicitação não encontrado';
+        return;
+      }
 
-    this.request = this.serviceRequest.getRequestById(this.id);
+      this.request = this.serviceRequest.getRequestById(this.id);
+      
+      if (!this.request) {
+        this.error = 'Solicitação não encontrada';
+        return;
+      }
 
-    this.customer = this.serviceServiceQuote.getCustomerByCPF(this.request?.customerCPF ?? '');
-
+      const user = this.authService.currentUser();
+      if (user) {
+        this.customer = {
+          cpf: user.cpf,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          password: '',
+          addressId: 0
+        };
+      } else {
+        this.error = 'Usuário não encontrado';
+      }
+    } catch (error) {
+      this.error = 'Erro ao carregar os dados';
+      console.error(error);
+    }
   }
 
   confirmOrcamento() {
@@ -47,6 +80,4 @@ export class ServiceQuoteComponent implements OnInit {
       console.warn('Valor do orçamento não informado!');
     }
   }
-  
-  
 }

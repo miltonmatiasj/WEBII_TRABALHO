@@ -4,9 +4,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { AuthMockedService } from '../auth-mocked.service';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     FormsModule,
+    RouterModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -27,16 +28,16 @@ export class LoginComponent {
   password: string = '';
 
   constructor(
-    private authMockedService: AuthMockedService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   async onSubmit() {
-    const user = this.authMockedService.findUserByEmail(this.email);
-    if (user && user.password === this.password) {
+    const success = await this.authService.login(this.email, this.password);
+    if (success) {
       await this.router.navigate(['/customer-home']);
     } else {
-      alert('Invalid email or password');
+      alert('Email ou senha inválidos');
     }
   }
 }

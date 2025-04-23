@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CustomerData } from '../../maintenance-request-form/mainetance-request-form.service';
+import { AuthService } from '../../authentication/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,11 +8,18 @@ import { CustomerData } from '../../maintenance-request-form/mainetance-request-
 export class CustomerHomeService {
   private storageKey = 'MaintenanceRequest';
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   getCustomerData(): CustomerData[] {
     const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+    const allRequests = data ? JSON.parse(data) : [];
+    const currentUser = this.authService.currentUser();
+    
+    if (!currentUser) {
+      return [];
+    }
+    
+    return allRequests.filter((request: CustomerData) => request.userId === currentUser.id);
   }
 }
 export { CustomerData };

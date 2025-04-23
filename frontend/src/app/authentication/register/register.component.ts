@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { AuthMockedService, User } from '../auth-mocked.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -41,7 +42,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthMockedService
+    private authService: AuthMockedService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -87,6 +89,7 @@ export class RegisterComponent implements OnInit {
     this.authService.addUser(newUser);
     console.log('Usuário cadastrado:', newUser);
     alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');
+    this.router.navigate(['/login']);
   }
 
   generateRandomString(length: number = 30): string {
