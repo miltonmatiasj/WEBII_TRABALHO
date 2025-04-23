@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 
 import { RequestService, ServiceRequest } from '../employee-page/services/request.service';
+import { MatDialog } from '@angular/material/dialog';
+import { FinalizeRequestModalComponent } from './compnents/finalize-request-modal/finalize-request-modal.component';
 
 @Component({
   selector: 'app-request-list',
@@ -46,7 +48,7 @@ export class RequestListComponent implements OnInit {
 
   funcionarioNome = 'Joana'; // simula o nome do funcionário logado
 
-  constructor(private requestService: RequestService) {}
+  constructor(private requestService: RequestService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.allRequests = this.requestService.getRequests();
@@ -111,7 +113,17 @@ export class RequestListComponent implements OnInit {
   }
 
   handleAction(status: string, id: number): void {
-    console.log(`Status ${status} | ID: ${id}`);
-    // Aqui você pode redirecionar, abrir dialog ou emitir evento
+    if (status === 'PAGA') {
+      this.openModal();
+    } else {
+      console.log(`Outras ações para status: ${status} (ID: ${id})`);
+      
+    }
   }
+
+  openModal(): void {
+    const dialogRef = this.dialog.open(FinalizeRequestModalComponent, {
+      width: '350px',
+    });
+}
 }
