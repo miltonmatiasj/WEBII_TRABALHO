@@ -6,11 +6,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 import { RequestService, ServiceRequest } from '../employee-page/services/request.service';
 import { Customer, ServiceQuoteService } from '../service-quote/services/service-quote.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MaintenanceDescriptionModalComponent } from './components/maintenance-description-modal/maintenance-description-modal.component';
+import { RedirectModalComponent } from './components/redirect-modal/redirect-modal.component';
 
 @Component({
   selector: 'app-maintenance-screen',
@@ -38,6 +40,7 @@ export class MaintenanceScreenComponent {
     private requestService: RequestService,
     private serviceServiceQuote: ServiceQuoteService,
     private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,5 +67,22 @@ export class MaintenanceScreenComponent {
       }
     });
   }
+
+  openRedirectDialog(): void {
+    const dialogRef = this.dialog.open(RedirectModalComponent, {
+      width: '1500px',
+      height:'250px',
+    });
   
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Solicitação redirecionada com sucesso:', result);
+        // aqui você pode alterar o status da solicitação para "REDIRECIONADA"
+      }
+    })
+  }
+  
+  voltar(): void {
+    this.router.navigate(['/request-list']);
+}
 }
