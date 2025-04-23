@@ -1,16 +1,16 @@
-<mat-card *ngIf="customer && request">
+<mat-card *ngIf="!error">
     <mat-card-title>Efetuar Orçamento</mat-card-title>
     <mat-card-content>
       <h3>Dados da Solicitação</h3>
-      <p><strong>Equipamento:</strong> {{ request.equipmentDescription }}</p>
-      <p><strong>Defeito:</strong> {{ request.defectDescription }}</p>
-      <p><strong>Data:</strong> {{ request.dateTime | date: 'dd/MM/yyyy HH:mm' }}</p>
-  
+      <p><strong>Equipamento:</strong> {{ request?.equipmentDescription }}</p>
+      <p><strong>Defeito:</strong> {{ request?.defectDescription }}</p>
+      <p><strong>Data:</strong> {{ request?.requestDate | date: 'dd/MM/yyyy HH:mm' }}</p>
+
       <h3>Cliente</h3>
-      <p><strong>Nome:</strong> {{ customer.name }}</p>
-      <p><strong>CPF:</strong> {{ customer.cpf }}</p>
-      <p><strong>Email:</strong> {{ customer.email }}</p>
-      <p><strong>Telefone:</strong> {{ customer.phone }}</p>
+      <p><strong>Nome:</strong> {{ customer?.name }}</p>
+      <p><strong>CPF:</strong> {{ customer?.cpf }}</p>
+      <p><strong>Email:</strong> {{ customer?.email }}</p>
+      <p><strong>Telefone:</strong> {{ customer?.phone }}</p>
   
       <h3>Informar Valor do Orçamento</h3>
       <mat-form-field appearance="outline">
@@ -22,5 +22,13 @@
         <button mat-raised-button color="primary" (click)="confirmOrcamento()">Confirmar Orçamento</button>
       </div>
     </mat-card-content>
+</mat-card>
+
+<div *ngIf="error" class="error-message">
+  <mat-card>
+    <mat-card-content>
+      <p class="error-text">{{ error }}</p>
+    </mat-card-content>
   </mat-card>
+</div>
   

@@ -1,0 +1,31 @@
+<mat-card class="quote-card">
+  <mat-card-header>
+    <mat-card-title>Orçamento de Serviço</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content *ngIf="request">
+    <div class="request-info">
+      <p><strong>Cliente:</strong> {{request.customerName}}</p>
+      <p><strong>Equipamento:</strong> {{request.equipmentDescription}}</p>
+      <p><strong>Categoria:</strong> {{request.categoryName}}</p>
+    </div>
+
+    <form class="quote-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Valor do Orçamento</mat-label>
+        <input matInput type="number" [(ngModel)]="valorOrcamento" name="valorOrcamento" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição do Serviço</mat-label>
+        <textarea matInput [(ngModel)]="descricaoServico" name="descricaoServico" rows="4" required></textarea>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="salvarOrcamento()" [disabled]="!valorOrcamento || !descricaoServico">
+      Salvar Orçamento
+    </button>
+  </mat-card-actions>
+</mat-card> 

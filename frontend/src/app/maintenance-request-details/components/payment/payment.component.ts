@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthService } from '../../../authentication/auth.service';
+
+interface PaymentData {
+  id: string;
+  totalValue: number;
+}
 
 @Component({
   selector: 'app-payment',
@@ -23,13 +29,6 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./payment.component.scss'],
 })
 export class PaymentComponent {
-  serviceOrder = {
-    id: 101,
-    client: 'João da Silva',
-    description: 'Troca de display de notebook',
-    totalValue: 320.0,
-    status: 'Concluído',
-  };
   paymentMethod = 'PIX';
   paymentOptions = [
     { value: 'PIX', label: 'PIX' },
@@ -38,14 +37,29 @@ export class PaymentComponent {
   ];
   paymentConfirmed = false;
 
-  constructor(private dialogRef: MatDialogRef<PaymentComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<PaymentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: PaymentData,
+    private authService: AuthService
+  ) {}
+
+  get serviceOrder() {
+    const currentUser = this.authService.currentUser();
+    return {
+      id: this.data.id,
+      client: currentUser?.name || 'Cliente',
+      description: 'Pagamento de serviço de manutenção',
+      totalValue: this.data.totalValue,
+      status: 'Aguardando pagamento',
+    };
+  }
 
   confirmPayment() {
     this.paymentConfirmed = true;
-    this.dialogRef.close({ confirmed: true }); // Retorna um sinal de confirmação
+    this.dialogRef.close({ confirmed: true });
   }
 
   closePopup() {
-    this.dialogRef.close({ confirmed: false }); // Retorna um sinal de cancelamento
+    this.dialogRef.close({ confirmed: false });
   }
 }

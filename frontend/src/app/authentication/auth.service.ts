@@ -1,12 +1,8 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {lastValueFrom} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
-
-type LoginResponse = {
-  token: string,
-}
+import {AuthMockedService, User} from './auth-mocked.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,34 +10,47 @@ type LoginResponse = {
 export class AuthService {
   email = signal<string | null>(null)
   token = signal<string | null>(null)
+  currentUser = signal<User | null>(null)
   http = inject(HttpClient)
   router = inject(Router)
+  authMockedService = inject(AuthMockedService)
 
   constructor() {
     const savedToken = localStorage.getItem('token');
     const savedEmail = localStorage.getItem('email');
+    const savedUser = localStorage.getItem('CurrentUser');
     this.token.set(savedToken);
     this.email.set(savedEmail);
+    this.currentUser.set(savedUser ? JSON.parse(savedUser) : null);
   }
 
   async login(email: string, password: string) {
     this.email.set(email);
-    const loginResponse = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/api/auth/login', {email, password})).catch(() => {
-      //FIXME: handle error
-      return null;
-    })
-    if (loginResponse) {
-      this.token.set(loginResponse.token);
-      localStorage.setItem('token', loginResponse.token);
-      localStorage.setItem('email', this.email()!);
+    const user = this.authMockedService.findUserByEmail(email);
+    
+    if (user && user.password === password) {
+      // Gerar um token mockado
+      const mockToken = 'mock-token-' + Math.random().toString(36).substring(2);
+      this.token.set(mockToken);
+      localStorage.setItem('token', mockToken);
+      localStorage.setItem('email', email);
+      
+      // Armazenar dados do usuário
+      this.currentUser.set(user);
+      localStorage.setItem('CurrentUser', JSON.stringify(user));
+      
+      return true;
     }
+    return false;
   }
 
   async logout() {
     this.token.set(null);
     this.email.set(null);
+    this.currentUser.set(null);
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    localStorage.removeItem('CurrentUser');
     await this.router.navigate(['/login']);
   }
 }

@@ -8,9 +8,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
-
-import { RequestService, ServiceRequest } from '../employee-page/services/request.service';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
+import { ServiceRequest, RequestService } from '../employee-page/services/request.service';
 import { FinalizeRequestModalComponent } from './compnents/finalize-request-modal/finalize-request-modal.component';
 
 @Component({
@@ -46,19 +47,25 @@ export class RequestListComponent implements OnInit {
   dataInicio: Date | null = null;
   dataFim: Date | null = null;
 
-  funcionarioNome = 'Joana'; // simula o nome do funcionário logado
+  funcionarioNome = 'Joana';
 
-  constructor(private requestService: RequestService, private dialog: MatDialog) {}
+  constructor(
+    private requestService: RequestService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    console.log('Inicializando RequestListComponent');
     this.allRequests = this.requestService.getRequests();
+    console.log('Requisições carregadas:', this.allRequests);
     this.aplicarFiltro();
   }
 
   aplicarFiltro(): void {
     this.filteredRequests = this.allRequests
       .filter(req => {
-        const dataReq = new Date(req.dateTime);
+        const dataReq = new Date(req.requestDate);
 
         if (req.status === 'REDIRECIONADA' && req.customerCPF !== this.funcionarioNome) return false;
 
@@ -67,7 +74,7 @@ export class RequestListComponent implements OnInit {
 
         return true;
       })
-      .sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+      .sort((a, b) => new Date(a.requestDate).getTime() - new Date(b.requestDate).getTime());
   }
 
   filterToday(): void {
@@ -91,7 +98,7 @@ export class RequestListComponent implements OnInit {
   getColor(status: string): string {
     switch (status) {
       case 'ABERTA': return 'gray';
-      case 'ORÇADA': return 'brown';
+      case 'ORCADA': return 'brown';
       case 'REJEITADA': return 'red';
       case 'APROVADA': return 'gold';
       case 'REDIRECIONADA': return 'purple';
@@ -104,20 +111,30 @@ export class RequestListComponent implements OnInit {
 
   getActionLabel(status: string): string | null {
     switch (status) {
-      case 'ABERTA': return 'Efetuar Orçamento'; // RF012
+      case 'ABERTA': return 'Efetuar Orçamento';
       case 'APROVADA':
-      case 'REDIRECIONADA': return 'Efetuar Manutenção'; // RF014
-      case 'PAGA': return 'Finalizar Solicitação'; // RF016
+      case 'REDIRECIONADA': return 'Efetuar Manutenção';
+      case 'PAGA': return 'Finalizar Solicitação';
       default: return null;
     }
   }
 
-  handleAction(status: string, id: number): void {
+  handleAction(status: string, id: string): void {
+    console.log('handleAction chamado com status:', status, 'e id:', id);
     if (status === 'PAGA') {
       this.openModal();
+    } else if (status === 'ABERTA') {
+      this.router.navigate(['/back-office/service-quote', id]);
     } else {
-      console.log(`Outras ações para status: ${status} (ID: ${id})`);
-      
+      const request = this.requestService.getRequestById(id);
+      if (request) {
+        request.status = 'FINALIZADA';
+        this.requestService.updateRequest(request);
+        this.allRequests = this.requestService.getRequests();
+        this.aplicarFiltro();
+      } else {
+        console.log('Nenhuma requisição encontrada com o ID:', id);
+      }
     }
   }
 
@@ -125,5 +142,5 @@ export class RequestListComponent implements OnInit {
     const dialogRef = this.dialog.open(FinalizeRequestModalComponent, {
       width: '350px',
     });
-}
+  }
 }

@@ -1,0 +1,28 @@
+<mat-card class="maintenance-card">
+  <mat-card-header>
+    <mat-card-title>Realizar Manutenção</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content *ngIf="request">
+    <div class="request-info">
+      <p><strong>Cliente:</strong> {{request.customerName}}</p>
+      <p><strong>Equipamento:</strong> {{request.equipmentDescription}}</p>
+      <p><strong>Categoria:</strong> {{request.categoryName}}</p>
+      <p><strong>Valor do Orçamento:</strong> R$ {{request.quoteValue}}</p>
+      <p><strong>Descrição do Serviço:</strong> {{request.serviceDescription}}</p>
+    </div>
+
+    <form class="maintenance-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição da Manutenção Realizada</mat-label>
+        <textarea matInput [(ngModel)]="descricaoManutencao" name="descricaoManutencao" rows="4" required></textarea>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="finalizarManutencao()" [disabled]="!descricaoManutencao">
+      Finalizar Manutenção
+    </button>
+  </mat-card-actions>
+</mat-card> 
