@@ -24,9 +24,9 @@ export const routes: Routes = [
       redirect: (redirectService: RedirectService) => {
         redirectService.redirectBasedOnRole();
         return null;
-      }
+      },
     },
-    children: []
+    children: [],
   },
   //Open Routes
   {
@@ -41,7 +41,7 @@ export const routes: Routes = [
         path: 'register',
         component: RegisterComponent,
       },
-    ]
+    ],
   },
   //Client Routes
   {
@@ -61,13 +61,12 @@ export const routes: Routes = [
         path: 'maintenance-request/:id',
         component: MaintenanceRequestDetailsComponent,
       },
-    ]
+    ],
   },
   //Admin Routes
   {
     path: 'back-office',
     component: AdminLayoutComponent,
-    canActivate: [MockAuthGuard, AdminGuard],
     children: [
       {
         path: 'home',
@@ -85,16 +84,6 @@ export const routes: Routes = [
         path: 'service-quote/:id',
         component: ServiceQuoteComponent,
       },
-    ]
+    ],
   },
-  {
-    path: 'back-office/service-quote/:id',
-    component: ServiceQuoteComponent,
-    canActivate: [MockAuthGuard, AdminGuard]
-  },
-  {
-    path: 'back-office/service-maintenance/:id',
-    component: ServiceMaintenanceComponent,
-    canActivate: [MockAuthGuard, AdminGuard]
-  }
 ];

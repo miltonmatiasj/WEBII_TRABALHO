@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,11 +17,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
   templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss']
+  styleUrls: ['./admin-layout.component.scss'],
 })
 export class AdminLayoutComponent {
+  constructor(private router: Router) {}
   isSidenavOpen = true;
-} 
+
+  logout() {
+    localStorage.removeItem('CurrentUser');
+    this.router.navigate(['/login']);
+  }
+}

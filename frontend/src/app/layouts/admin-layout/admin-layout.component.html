@@ -24,13 +24,15 @@
         <mat-icon matListItemIcon>category</mat-icon>
         <span matListItemTitle>Relatórios</span>
       </a>
-
+      <a mat-list-item (click)="logout()" class="logout-button">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>Logout</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
-
   <mat-sidenav-content>
     <div class="content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
-</mat-sidenav-container> 
+</mat-sidenav-container>

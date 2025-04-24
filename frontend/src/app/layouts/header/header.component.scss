@@ -1,0 +1,42 @@
+.header {
+  background-color: gray;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 auto;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .logout-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
+
+    i {
+      font-size: 1rem;
+    }
+  }
+} 
