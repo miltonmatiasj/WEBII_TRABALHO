@@ -1,5 +1,6 @@
 const mockAdminEmails = [
   'eduparolin+admin@gmail.com'
+  'testeadmin@gmail.com'
 ]
 
 export type Address = {
