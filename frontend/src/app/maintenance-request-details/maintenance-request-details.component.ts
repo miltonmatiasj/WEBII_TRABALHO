@@ -48,6 +48,7 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.request = this.maintenanceService.getRequestById(id);
+      console.log(this.request);
       if (!this.request || this.request.userId !== currentUser.id) {
         this.router.navigate(['/customer-home']);
         return;
@@ -57,6 +58,7 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
   }
 
   getActionButton(): string | null {
+    console.log(1, this.request.status);
     switch (this.request?.status) {
       case 'ORCADA':
         return 'Aprovar/Rejeitar Serviço';
@@ -149,14 +151,14 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     if (confirmed) {
       console.log('Iniciando finalização da solicitação:', this.request);
       this.maintenanceService.updateRequestStatus(this.request.id, 'FINALIZADA');
-      
+
       // Aguardar um pequeno intervalo para garantir que o localStorage foi atualizado
       await new Promise(resolve => setTimeout(resolve, 100));
-      
+
       // Buscar a solicitação atualizada
       const updatedRequest = this.maintenanceService.getRequestById(this.request.id);
       console.log('Solicitação atualizada:', updatedRequest);
-      
+
       if (updatedRequest) {
         this.request = updatedRequest;
         console.log('Solicitação atualizada no componente:', this.request);
