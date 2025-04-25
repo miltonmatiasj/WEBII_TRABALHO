@@ -1,7 +1,4 @@
-const mockAdminEmails = [
-  'eduparolin+admin@gmail.com'
-  'testeadmin@gmail.com'
-]
+const mockAdminEmails = ['eduparolin+admin@gmail.com', 'testeadmin@gmail.com'];
 
 export type Address = {
   zipCode: string;
@@ -11,7 +8,7 @@ export type Address = {
   state: string;
   number: string;
   complement?: string;
-}
+};
 
 function generateRandomString(length: number = 30): string {
   const characters =
@@ -42,7 +39,7 @@ export class User {
     cpf: string,
     phone: string,
     address?: Address,
-    password?: string,
+    password?: string
   ) {
     this.id = id;
     this.name = name;
@@ -67,16 +64,16 @@ export class User {
     return savedUser ? User.fromJson(JSON.parse(savedUser)) : null;
   }
 
-  static fromJson(json: {[key: string]: any}): User {
+  static fromJson(json: { [key: string]: any }): User {
     return new User(
-      json["id"],
-      json["name"],
-      json["email"],
-      json["role"],
-      json["cpf"],
-      json["phone"],
-      json["address"],
-      json["password"]
+      json['id'],
+      json['name'],
+      json['email'],
+      json['role'],
+      json['cpf'],
+      json['phone'],
+      json['address'],
+      json['password']
     );
   }
 
