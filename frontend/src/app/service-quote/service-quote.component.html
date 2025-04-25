@@ -11,13 +11,13 @@
       <p><strong>CPF:</strong> {{ customer?.cpf }}</p>
       <p><strong>Email:</strong> {{ customer?.email }}</p>
       <p><strong>Telefone:</strong> {{ customer?.phone }}</p>
-  
+
       <h3>Informar Valor do Orçamento</h3>
       <mat-form-field appearance="outline">
         <mat-label>Valor (R$)</mat-label>
-        <input matInput [(ngModel)]="orcamento.valor" mask="separator.2" thousandSeparator="." decimalMarker="," />
+        <input matInput type="number" [(ngModel)]="orcamento.valor" mask="separator.2" thousandSeparator="." decimalMarker="," />
       </mat-form-field>
-  
+
       <div class="button-container">
         <button mat-raised-button color="primary" (click)="confirmOrcamento()">Confirmar Orçamento</button>
       </div>
@@ -31,4 +31,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-  

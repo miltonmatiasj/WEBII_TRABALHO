@@ -1,13 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
-import { AuthMockedService, User } from '../auth-mocked.service';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {CommonModule} from '@angular/common';
+import {AuthMockedService} from '../auth-mocked.service';
+import {Router} from '@angular/router';
+import {Address, User} from "../../User";
+import {lastValueFrom} from "rxjs";
+
+type ViaCepResponse = {
+  cep: string;
+  logradouro: string;
+  complemento: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  ibge: string;
+  gia: string;
+  ddd: string;
+  siafi: string;
+}
+
 
 @Component({
   selector: 'app-register',
@@ -24,49 +40,49 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  user = {
-    cpf: '',
-    name: '',
-    email: '',
-    phone: '',
-    cep: '',
-    address: {
-      street: '',
-      neighborhood: '',
-      city: '',
-      state: '',
-      number: '',
-      complement: '',
-    },
-  };
+  user = User.empty();
+  cep?: string;
+  address: Address = {
+    zipCode: '',
+    number: '',
+    street: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+  }
 
   constructor(
     private http: HttpClient,
     private authService: AuthMockedService,
     private router: Router
-  ) {}
+  ) {
+    this.user = User.empty();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
-  fetchAddress(): void {
-    if (this.user.cep.trim() !== '') {
-      this.http
-        .get(`https://viacep.com.br/ws/${this.user.cep}/json/`)
-        .subscribe(
-          (data: any) => {
-            if (!data.erro) {
-              this.user.address.street = data.logradouro;
-              this.user.address.neighborhood = data.bairro;
-              this.user.address.city = data.localidade;
-              this.user.address.state = data.uf;
-            } else {
-              alert('CEP não encontrado.');
-            }
-          },
-          (error) => {
-            alert('Erro ao buscar o CEP.');
-          }
-        );
+  async fetchAddress() {
+    if (this.cep && this.cep.trim() !== '') {
+      const data = await lastValueFrom(this.http
+        .get<ViaCepResponse | null>(`https://viacep.com.br/ws/${this.cep}/json/`))
+        .catch(() => {
+          alert('Erro ao buscar o CEP.');
+          return null;
+        })
+      if (data) {
+        this.address = {
+          zipCode: data.cep,
+          number: '0',
+          street: data.logradouro,
+          neighborhood: data.bairro,
+          city: data.localidade,
+          state: data.uf,
+        }
+        this.user.setAddress(this.address);
+      } else {
+        alert('CEP não encontrado.');
+      }
     }
   }
 
@@ -75,31 +91,12 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.user.setAddress(this.address)
     const password = this.generatePassword();
-    const newUser: User = {
-      id: this.generateRandomString(),
-      cpf: this.user.cpf,
-      name: this.user.name,
-      email: this.user.email,
-      phone: this.user.phone,
-      address: { ...this.user.address },
-      password,
-    };
-
-    this.authService.addUser(newUser);
-    console.log('Usuário cadastrado:', newUser);
+    this.user.setPassword(password);
+    this.authService.addUser(this.user);
+    console.log('Usuário cadastrado:', this.user);
     alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');
     this.router.navigate(['/login']);
-  }
-
-  generateRandomString(length: number = 30): string {
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-    return result;
   }
 }

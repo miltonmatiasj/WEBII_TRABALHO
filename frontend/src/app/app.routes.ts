@@ -68,7 +68,7 @@ export const routes: Routes = [
   {
     path: 'back-office',
     component: AdminLayoutComponent,
-    canActivate: [],
+    canActivate: [AdminGuard],
     children: [
       {
         path: 'home',

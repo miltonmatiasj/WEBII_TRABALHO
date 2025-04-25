@@ -132,7 +132,7 @@ export class RequestListComponent implements OnInit {
   }
 
   openFinalizationModal(id: string): void {
-    const dialogRef = this.dialog.open(FinalizeRequestModalComponent, {
+    this.dialog.open(FinalizeRequestModalComponent, {
       width: '350px',
     }).afterClosed().subscribe(result => {
       if (result) {
