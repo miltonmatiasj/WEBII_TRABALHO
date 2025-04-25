@@ -7,6 +7,10 @@
           <p><strong>Defeito:</strong> {{ request.defectDescription }}</p>
           <p><strong>Data:</strong> {{ request.requestDate }}</p>
           <p><strong>Status:</strong> {{ request.status }}</p>
+          <div style="margin-top: 16px; display: flex; gap: 12px;">
+            <button mat-stroked-button color="accent" (click)="openBudgetModal()">Orçamento</button>
+            <button mat-raised-button color="primary" (click)="openPaymentModal()">Pagar</button>
+          </div>
         </mat-card-content>
       </mat-card>
       
@@ -17,11 +21,11 @@
           
                 <ng-container matColumnDef="dateTime">
                   <th mat-header-cell *matHeaderCellDef> Data e Hora </th>
-                  <td mat-cell *matCellDef="let step"> {{ step.dateTime }} </td>
+                  <td mat-cell *matCellDef="let step"> {{ step.dateTime | date:'short' }} </td>
                 </ng-container>
           
                 <ng-container matColumnDef="employee">
-                  <th mat-header-cell *matHeaderCellDef> Funcionário </th>
+                  <th mat-header-cell *matHeaderCellDef> Usuário </th>
                   <td mat-cell *matCellDef="let step"> {{ step.employee }} </td>
                 </ng-container>
           

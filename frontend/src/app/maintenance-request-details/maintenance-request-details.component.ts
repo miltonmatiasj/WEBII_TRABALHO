@@ -52,7 +52,9 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
         this.router.navigate(['/customer-home']);
         return;
       }
-      this.history = this.maintenanceService.getMockHistory();
+      this.history = this.maintenanceService.getMockHistory(this.request.id);
+      console.log('Conteúdo de history');
+      console.log(this.history);
     }
   }
 
@@ -94,6 +96,10 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     }
   }
 
+  openBudgetModal(): void{
+    this.handleBudgetAction();
+  }
+
   private async handleBudgetAction(): Promise<void> {
     const dialogRef = this.dialog.open(MaintenanceRequestBudgetModalComponent, {
       width: '600px',
@@ -116,6 +122,10 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
       this.request = this.maintenanceService.getRequestById(this.request.id);
       alert('Manutenção recusada!');
     }
+  }
+
+  openPaymentModal(): void{
+    this.handlePaymentAction();
   }
 
   private async handlePaymentAction(): Promise<void> {

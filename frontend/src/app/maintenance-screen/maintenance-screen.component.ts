@@ -46,7 +46,7 @@ export class MaintenanceScreenComponent {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.solicitacao = this.requestService.getRequestById(id);
+      this.solicitacao = this.requestService.getRequestById(String(id));
     }
 
     this.cliente = this.serviceServiceQuote.getCustomerByCPF(this.solicitacao?.customerCPF ?? '');

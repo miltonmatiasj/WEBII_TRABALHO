@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MaintenanceRequestService } from '../maintenance-request-details/services/maintenance-request-details.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,7 +37,8 @@ export class MaintenanceRequestForm implements OnInit {
     private maintenanceRequestFormService: MaintenanceRequestFormService,
     private categoryService: CategoryService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private maintenanceRequestService: MaintenanceRequestService
   ) {}
 
   ngOnInit(): void {
@@ -73,11 +75,27 @@ export class MaintenanceRequestForm implements OnInit {
       requestDate: new Date().toISOString().split('T')[0],
       equipmentCategory: form.value.categoria,
       defectDescription: form.value.descricao_defeito,
+      history: [
+        {
+          dateTime: new Date().toISOString().slice(0, 16).replace('T', ' '),
+          employee: currentUser.name,
+          action: 'Solicitação registrada'
+        }
+      ]
     };
 
-    this.maintenanceRequestFormService.addCustomerData(newRequest);
-    alert('Solicitação adicionada com sucesso!');
-    form.reset();
-    this.router.navigate(['/customer-home']);
+    if (newRequest.equipmentDescription && newRequest.equipmentCategory && newRequest.defectDescription != null){
+      this.maintenanceRequestFormService.addCustomerData(newRequest);
+      alert('Solicitação adicionada com sucesso!');
+      this.maintenanceRequestService.addHistoryStep(currentUser.id, {
+        dateTime: new Date().toISOString(),
+        employee: currentUser.name, 
+        action: 'Solicitação aberta'
+      });
+      form.reset();
+      this.router.navigate(['/customer-home']);
+    }else{
+      alert("Há campos vazios ainda!");
+    }
   }
 }

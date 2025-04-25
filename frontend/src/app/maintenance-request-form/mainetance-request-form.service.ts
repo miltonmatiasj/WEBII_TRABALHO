@@ -8,6 +8,13 @@ export interface CustomerData {
   status: string;
   equipmentCategory: string;
   defectDescription: string;
+  history: [
+    {
+      dateTime: any,
+      employee: string,
+      action: string
+    }
+  ]
 }
 
 @Injectable({

@@ -88,7 +88,7 @@ export class RegisterComponent implements OnInit {
 
     this.authService.addUser(newUser);
     console.log('Usuário cadastrado:', newUser);
-    alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');
+    alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.' + password);
     this.router.navigate(['/login']);
   }
 
