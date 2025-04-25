@@ -12,26 +12,12 @@ import { EmployeePageComponent } from './employee-page/employee-page.component';
 import { ServiceMaintenanceComponent } from './back-office/service-maintenance/service-maintenance.component';
 import { CustomerTemplateComponent } from './layouts/customer-template/customer-template.component';
 import { MockAuthGuard } from './authentication/auth.guard';
-import { AdminGuard } from './authentication/admin.guard';
 import { RedirectService } from './authentication/redirect.service';
 
 export const routes: Routes = [
-  //Rota padrão com redirecionamento
-  {
-    path: '',
-    canActivate: [MockAuthGuard],
-    resolve: {
-      redirect: (redirectService: RedirectService) => {
-        redirectService.redirectBasedOnRole();
-        return null;
-      }
-    },
-    children: []
-  },
   //Open Routes
   {
     path: '',
-    component: CustomerTemplateComponent,
     children: [
       {
         path: 'login',
@@ -41,7 +27,7 @@ export const routes: Routes = [
         path: 'register',
         component: RegisterComponent,
       },
-    ]
+    ],
   },
   //Client Routes
   {
@@ -61,13 +47,12 @@ export const routes: Routes = [
         path: 'maintenance-request/:id',
         component: MaintenanceRequestDetailsComponent,
       },
-    ]
+    ],
   },
   //Admin Routes
   {
     path: 'back-office',
     component: AdminLayoutComponent,
-    canActivate: [MockAuthGuard, AdminGuard],
     children: [
       {
         path: 'home',
@@ -85,16 +70,6 @@ export const routes: Routes = [
         path: 'service-quote/:id',
         component: ServiceQuoteComponent,
       },
-    ]
+    ],
   },
-  {
-    path: 'back-office/service-quote/:id',
-    component: ServiceQuoteComponent,
-    canActivate: [MockAuthGuard, AdminGuard]
-  },
-  {
-    path: 'back-office/service-maintenance/:id',
-    component: ServiceMaintenanceComponent,
-    canActivate: [MockAuthGuard, AdminGuard]
-  }
 ];

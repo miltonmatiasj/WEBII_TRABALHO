@@ -43,14 +43,4 @@ export class AuthService {
     }
     return false;
   }
-
-  async logout() {
-    this.token.set(null);
-    this.email.set(null);
-    this.currentUser.set(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    localStorage.removeItem('CurrentUser');
-    await this.router.navigate(['/login']);
-  }
 }
