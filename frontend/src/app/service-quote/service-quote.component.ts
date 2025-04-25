@@ -77,7 +77,7 @@ export class ServiceQuoteComponent implements OnInit {
   confirmOrcamento() {
     if (this.orcamento.valor && this.orcamento.valor > 0 && this.request != null) {
       console.log('Orçamento confirmado:', this.orcamento.valor);
-      this.serviceRequest.updateRequest({...this.request, status: 'ORÇADO'});
+      this.serviceRequest.updateRequest({...this.request, status: 'ORCADA'});
       this.router.navigate(['/back-office/maintenance-request']);
     } else {
       alert('Valor do orçamento inválido!');
