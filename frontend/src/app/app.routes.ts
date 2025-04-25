@@ -15,6 +15,7 @@ import { MockAuthGuard } from './authentication/auth.guard';
 import { AdminGuard } from './authentication/admin.guard';
 import { RedirectService } from './authentication/redirect.service';
 import {MaintenanceScreenComponent} from "./maintenance-screen/maintenance-screen.component";
+import {EmployeesComponent} from "./back-office/employees/employees.component";
 
 export const routes: Routes = [
   //Rota padrão com redirecionamento
@@ -73,6 +74,10 @@ export const routes: Routes = [
       {
         path: 'home',
         component: EmployeePageComponent,
+      },
+      {
+        path: 'employees',
+        component: EmployeesComponent,
       },
       {
         path: 'maintenance-request',
