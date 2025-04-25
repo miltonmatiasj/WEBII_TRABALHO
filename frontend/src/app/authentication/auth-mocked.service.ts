@@ -1,21 +1,5 @@
 import { Injectable } from '@angular/core';
-
-export interface User {
-  id: string;
-  cpf: string;
-  name: string;
-  email: string;
-  phone: string;
-  address: {
-    street: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    number: string;
-    complement?: string;
-  };
-  password: string;
-}
+import { User } from '../User';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +15,7 @@ export class AuthMockedService {
 
   getUsers(): User[] {
     const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+    return data ? JSON.parse(data).map((rawUser: any) => User.fromJson(rawUser)) : [];
   }
 
   addUser(user: User): void {

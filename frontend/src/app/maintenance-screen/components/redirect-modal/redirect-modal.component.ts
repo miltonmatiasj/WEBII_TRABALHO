@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef } from '@angular/material/dialog';
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-redirect-modal',
@@ -14,7 +14,10 @@ import { MatDialogRef } from '@angular/material/dialog';
     FormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions
   ],
   templateUrl: './redirect-modal.component.html',
   styleUrls: ['./redirect-modal.component.scss']

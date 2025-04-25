@@ -40,7 +40,7 @@ export class RequestListComponent implements OnInit {
     'dateTime',
     'action'
   ];
-  
+
   allRequests: ServiceRequest[] = [];
   filteredRequests: ServiceRequest[] = [];
 
@@ -56,9 +56,7 @@ export class RequestListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Inicializando RequestListComponent');
     this.allRequests = this.requestService.getRequests();
-    console.log('Requisições carregadas:', this.allRequests);
     this.aplicarFiltro();
   }
 
@@ -111,36 +109,43 @@ export class RequestListComponent implements OnInit {
 
   getActionLabel(status: string): string | null {
     switch (status) {
-      case 'ABERTA': return 'Efetuar Orçamento';
+      case 'ABERTA':
+        return 'Efetuar Orçamento';
       case 'APROVADA':
-      case 'REDIRECIONADA': return 'Efetuar Manutenção';
-      case 'PAGA': return 'Finalizar Solicitação';
-      default: return null;
+      case 'REDIRECIONADA':
+        return 'Efetuar Manutenção';
+      case 'PAGA':
+        return 'Finalizar Solicitação';
+      default:
+        return null;
     }
   }
 
   handleAction(status: string, id: string): void {
-    console.log('handleAction chamado com status:', status, 'e id:', id);
     if (status === 'PAGA') {
-      this.openModal();
+      this.openFinalizationModal(id);
     } else if (status === 'ABERTA') {
       this.router.navigate(['/back-office/service-quote', id]);
-    } else {
-      const request = this.requestService.getRequestById(id);
-      if (request) {
-        request.status = 'FINALIZADA';
-        this.requestService.updateRequest(request);
-        this.allRequests = this.requestService.getRequests();
-        this.aplicarFiltro();
-      } else {
-        console.log('Nenhuma requisição encontrada com o ID:', id);
-      }
+    }  else if (status === 'APROVADA' || status === 'REDIRECIONADA') {
+      this.router.navigate([`/back-office/request/${id}/maintenance`]);
     }
   }
 
-  openModal(): void {
-    const dialogRef = this.dialog.open(FinalizeRequestModalComponent, {
+  openFinalizationModal(id: string): void {
+    this.dialog.open(FinalizeRequestModalComponent, {
       width: '350px',
-    });
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        const request = this.requestService.getRequestById(id);
+        if (request) {
+          request.status = 'FINALIZADA';
+          this.requestService.updateRequest(request);
+          this.allRequests = this.requestService.getRequests();
+          this.aplicarFiltro();
+        } else {
+          console.log('Nenhuma requisição encontrada com o ID:', result);
+        }
+      }
+    })
   }
 }

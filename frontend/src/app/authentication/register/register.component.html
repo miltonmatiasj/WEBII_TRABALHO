@@ -22,37 +22,37 @@
 
     <mat-form-field appearance="fill">
       <mat-label>CEP</mat-label>
-      <input matInput name="cep" [(ngModel)]="user.cep" (blur)="fetchAddress()" required />
+      <input matInput name="cep" [(ngModel)]="cep" (blur)="fetchAddress()" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Rua</mat-label>
-      <input matInput name="street" [(ngModel)]="user.address.street" required readonly />
+      <input matInput name="street" [(ngModel)]="address.street" required readonly />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Bairro</mat-label>
-      <input matInput name="neighborhood" [(ngModel)]="user.address.neighborhood" required readonly />
+      <input matInput name="neighborhood" [(ngModel)]="address.neighborhood" required readonly />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Cidade</mat-label>
-      <input matInput name="city" [(ngModel)]="user.address.city" required readonly />
+      <input matInput name="city" [(ngModel)]="address.city" required readonly />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Estado</mat-label>
-      <input matInput name="state" [(ngModel)]="user.address.state" required readonly />
+      <input matInput name="state" [(ngModel)]="address.state" required readonly />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Número</mat-label>
-      <input matInput name="number" [(ngModel)]="user.address.number" required />
+      <input matInput name="number" [(ngModel)]="address.number" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Complemento</mat-label>
-      <input matInput name="complement" [(ngModel)]="user.address.complement" />
+      <input matInput name="complement" [(ngModel)]="address.complement" />
     </mat-form-field>
 
     <div class="button-container">

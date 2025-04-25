@@ -1,0 +1,42 @@
+<form class="form" [formGroup]="formGroup">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input
+      matInput
+      formControlName="name"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CPF</mat-label>
+    <input
+      matInput
+      formControlName="cpf"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Data de Nascimento</mat-label>
+    <input matInput [matDatepicker]="pickerFrom"
+           formControlName="birthdate">
+    <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+    <mat-datepicker #pickerFrom></mat-datepicker>
+  </mat-form-field>
+
+</form>
+
+<div class="buttons">
+  <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</div>

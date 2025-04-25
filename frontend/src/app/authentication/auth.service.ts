@@ -1,8 +1,8 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
-import {AuthMockedService, User} from './auth-mocked.service';
+import {AuthMockedService} from './auth-mocked.service';
+import {User} from "../User";
 
 @Injectable({
   providedIn: 'root'
@@ -18,29 +18,34 @@ export class AuthService {
   constructor() {
     const savedToken = localStorage.getItem('token');
     const savedEmail = localStorage.getItem('email');
-    const savedUser = localStorage.getItem('CurrentUser');
     this.token.set(savedToken);
     this.email.set(savedEmail);
-    this.currentUser.set(savedUser ? JSON.parse(savedUser) : null);
+    this.currentUser.set(User.fromLocalStorage());
   }
 
   async login(email: string, password: string) {
     this.email.set(email);
     const user = this.authMockedService.findUserByEmail(email);
-    
-    if (user && user.password === password) {
-      // Gerar um token mockado
+
+    if (user && user.comparePassword(password)) {
       const mockToken = 'mock-token-' + Math.random().toString(36).substring(2);
       this.token.set(mockToken);
       localStorage.setItem('token', mockToken);
       localStorage.setItem('email', email);
-      
-      // Armazenar dados do usuário
       this.currentUser.set(user);
-      localStorage.setItem('CurrentUser', JSON.stringify(user));
-      
+      localStorage.setItem('currentUser', JSON.stringify(user));
+
       return true;
     }
     return false;
+  }
+
+  async logout() {
+    this.token.set(null);
+    this.email.set(null);
+    this.currentUser.set(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    await this.router.navigate(['/login']);
   }
 }
