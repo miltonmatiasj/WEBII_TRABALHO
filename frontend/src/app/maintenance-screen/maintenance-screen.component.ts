@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -16,7 +16,6 @@ import { RedirectModalComponent } from './components/redirect-modal/redirect-mod
 
 @Component({
   selector: 'app-maintenance-screen',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -28,13 +27,13 @@ import { RedirectModalComponent } from './components/redirect-modal/redirect-mod
   templateUrl: './maintenance-screen.component.html',
   styleUrls: ['./maintenance-screen.component.scss']
 })
-export class MaintenanceScreenComponent {
+export class MaintenanceScreenComponent implements OnInit {
   solicitacao!: ServiceRequest | undefined;
   descricaoManutencao = '';
   orientacoesCliente = '';
   funcionarioLogado = 'Funcionário Exemplo';
   cliente?: Customer;
-  
+
   constructor(
     private route: ActivatedRoute,
     private requestService: RequestService,
@@ -44,26 +43,28 @@ export class MaintenanceScreenComponent {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id')
     if (id) {
       this.solicitacao = this.requestService.getRequestById(id);
     }
-
     this.cliente = this.serviceServiceQuote.getCustomerByCPF(this.solicitacao?.customerCPF ?? '');
   }
 
 
   openDescriptionMaintenanceDialog(): void {
     const dialogRef = this.dialog.open(MaintenanceDescriptionModalComponent, {
-      width: '1500px',
-      height:'350px',
+      width: '700px',
+      minWidth: '700px',
+      maxWidth: '700px',
+      height:'450px',
       data: { solicitacaoId: this.solicitacao?.id }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Manutenção salva:', result);
-        // Aqui você pode atualizar o status para "ARRUMADA", salvar dados, etc
+        const updatedRequest = {...this.solicitacao!, status: 'ARRUMADA'};
+        this.requestService.updateRequest(updatedRequest);
+        this.router.navigate(['back-office/maintenance-request']);
       }
     });
   }
@@ -73,15 +74,16 @@ export class MaintenanceScreenComponent {
       width: '1500px',
       height:'250px',
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Solicitação redirecionada com sucesso:', result);
-        // aqui você pode alterar o status da solicitação para "REDIRECIONADA"
+        const updatedRequest = {...this.solicitacao!, status: 'REDIRECIONADA', };
+        this.requestService.updateRequest(updatedRequest);
+        this.router.navigate(['back-office/maintenance-request']);
       }
     })
   }
-  
+
   voltar(): void {
     this.router.navigate(['/request-list']);
 }

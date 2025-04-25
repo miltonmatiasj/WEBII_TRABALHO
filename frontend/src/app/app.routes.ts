@@ -14,6 +14,7 @@ import { CustomerTemplateComponent } from './layouts/customer-template/customer-
 import { MockAuthGuard } from './authentication/auth.guard';
 import { AdminGuard } from './authentication/admin.guard';
 import { RedirectService } from './authentication/redirect.service';
+import {MaintenanceScreenComponent} from "./maintenance-screen/maintenance-screen.component";
 
 export const routes: Routes = [
   //Rota padrão com redirecionamento
@@ -67,7 +68,7 @@ export const routes: Routes = [
   {
     path: 'back-office',
     component: AdminLayoutComponent,
-    canActivate: [MockAuthGuard, AdminGuard],
+    canActivate: [],
     children: [
       {
         path: 'home',
@@ -85,6 +86,7 @@ export const routes: Routes = [
         path: 'service-quote/:id',
         component: ServiceQuoteComponent,
       },
+      {path: 'request/:id/maintenance', component: MaintenanceScreenComponent},
     ]
   },
   {

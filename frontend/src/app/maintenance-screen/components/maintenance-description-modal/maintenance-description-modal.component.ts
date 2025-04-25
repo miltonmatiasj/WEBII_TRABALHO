@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogActions, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,14 +8,16 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-maintenance-dialog',
-  standalone: true,
   templateUrl: './maintenance-description-modal.component.html',
+  styleUrls: ['./maintenance-description-modal.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogActions,
+    MatDialogTitle
   ]
 })
 export class MaintenanceDescriptionModalComponent {

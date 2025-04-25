@@ -40,7 +40,7 @@ export class RequestListComponent implements OnInit {
     'dateTime',
     'action'
   ];
-  
+
   allRequests: ServiceRequest[] = [];
   filteredRequests: ServiceRequest[] = [];
 
@@ -56,9 +56,7 @@ export class RequestListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Inicializando RequestListComponent');
     this.allRequests = this.requestService.getRequests();
-    console.log('Requisições carregadas:', this.allRequests);
     this.aplicarFiltro();
   }
 
@@ -120,11 +118,12 @@ export class RequestListComponent implements OnInit {
   }
 
   handleAction(status: string, id: string): void {
-    console.log('handleAction chamado com status:', status, 'e id:', id);
     if (status === 'PAGA') {
       this.openModal();
     } else if (status === 'ABERTA') {
       this.router.navigate(['/back-office/service-quote', id]);
+    }  else if (status === 'APROVADA' || status === 'REDIRECIONADA') {
+      this.router.navigate([`/back-office/request/${id}/maintenance`]);
     } else {
       const request = this.requestService.getRequestById(id);
       if (request) {
