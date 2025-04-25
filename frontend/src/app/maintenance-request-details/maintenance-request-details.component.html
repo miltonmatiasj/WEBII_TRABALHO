@@ -1,6 +1,6 @@
 <div class="container">
     <mat-card class="request-card">
-        <mat-card-title>Detalhes da Solicitação de Manutenção</mat-card-title>
+        <mat-card-title class="mat-title">Detalhes da Solicitação de Manutenção</mat-card-title>
         <mat-card-content>
           <p><strong>Descrição do Equipamento:</strong> {{ request.equipmentDescription }}</p>
           <p><strong>Categoria:</strong> {{ request.category }}</p>
@@ -11,7 +11,7 @@
       </mat-card>
       
       <mat-card class="history-card">
-            <mat-card-title>Histórico da Solicitação</mat-card-title>
+            <mat-card-title class="mat-title">Histórico da Solicitação</mat-card-title>
             <mat-card-content>
               <table mat-table [dataSource]="history" class="mat-elevation-z8" style="width: 100%;">
           

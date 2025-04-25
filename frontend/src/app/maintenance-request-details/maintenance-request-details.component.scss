@@ -1,18 +1,40 @@
+
+
 .container {
     gap: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
+
+    .mat-title{
+        font-weight:bold;
+        color: rgb(59, 65, 96);
+        padding-left: 15px;
+    }
+
+    strong{
+        color: #53697d;
+    }
+
     .request-card {
         padding: 16px;
         max-width: 600px;
+        border: 2px solid rgb(102, 160, 214);
+        background-color: white;
+        width: 480px;
+
     }
     
     .history-card {
         padding: 16px;
         max-width: 600px;
-        gap: 8px
+        border: 2px solid rgb(102, 160, 214);
+        background-color: white;
+        gap: 8px;
+        text-align: center;
+        width: 550px;
+        
     } 
 
     .action-button {
@@ -21,3 +43,4 @@
         margin-top: 20px;
       }
 }
+
