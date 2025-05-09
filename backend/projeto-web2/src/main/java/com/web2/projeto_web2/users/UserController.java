@@ -1,5 +1,6 @@
 package com.web2.projeto_web2.users;
 
+import com.web2.projeto_web2.common.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     // Create a new user (only accessible by FUNCIONARIO)
     @PostMapping
@@ -37,6 +40,19 @@ public class UserController {
         Optional<User> user = userService.getUserById(id);
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    // Get the authenticated user's details (accessible by anyone)
+    @GetMapping("/me")
+    public ResponseEntity<User> getAuthenticatedUser(@RequestHeader("Authorization") String token) {
+        // Assuming the token contains the user ID or email
+        String email = jwtUtil.getEmailFromToken(token);
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // Update a user (only accessible by FUNCIONARIO)
