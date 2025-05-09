@@ -46,7 +46,7 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<User> getAuthenticatedUser(@RequestHeader("Authorization") String token) {
         // Assuming the token contains the user ID or email
-        String email = jwtUtil.getEmailFromToken(token);
+        String email = jwtUtil.getEmailFromToken(token.split(" ")[1]);
         User user = userService.getUserByEmail(email);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
