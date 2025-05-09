@@ -49,6 +49,35 @@ public class MaintenanceRequest {
     public Integer getCategoryId() { return categoryId; }
     public void setCategoryId(Integer categoryId) { this.categoryId = categoryId; }
 
-    public LocalDateTime getRequestedAt() { return requestedAt; }
+    public LocalDateTime getRequestedAt() { return requestedAt; } 
     public void setRequestedAt(LocalDateTime requestedAt) { this.requestedAt = requestedAt; }
+}
+
+@Entity
+@Table(name = "MaintenanceRequestBudget")
+public class intenanceRequestBudget{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Integer price;
+    
+
+    private   UUID MaintenanceRequestID;
+    private   UUID employeeId;
+    private   LocalDateTime createdAt;
+
+    public Integer getPrice() { return price; }
+    public void setPrice(Integer price) { this.price = price; }
+
+    public UUID getMaintenanceRequestID() { return MaintenanceRequestID; }
+    public void setMaintenanceRequestID(UUID maintenanceRequestID) { this.MaintenanceRequestID = maintenanceRequestID; }
+
+    public UUID getEmployeeId() { return employeeId; }
+    public void setEmployeeId(UUID employeeId) { this.employeeId = employeeId; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
 }
