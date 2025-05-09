@@ -36,9 +36,11 @@ export class AuthService {
       return;
     }
 
+    localStorage.setItem('email', email);
   }
 
   async logout() {
-
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
   }
 }
