@@ -1,9 +1,9 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {AuthMockedService} from './auth-mocked.service';
 import {User} from "../User";
 import {lastValueFrom} from "rxjs";
+import {environment} from "../../environments/environment";
 
 export type LoginResponse = {
 
@@ -27,7 +27,7 @@ export class AuthService {
     this.currentUser.set(User.fromLocalStorage());
   }
   async login(email: string, password: string) {
-    const loginResult = await lastValueFrom(this.http.post<LoginResponse>('/auth/login', {email, password}))
+    const loginResult = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/auth/login', {email, password}))
       .catch(() => {
         console.log('Erro ao fazer login.');
         return null;
