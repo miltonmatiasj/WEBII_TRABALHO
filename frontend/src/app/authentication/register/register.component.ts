@@ -8,9 +8,9 @@ import {MatCardModule} from '@angular/material/card';
 import {CommonModule} from '@angular/common';
 import {Router} from '@angular/router';
 import {lastValueFrom} from "rxjs";
-import {Address, User} from "../../users/User";
-import {AuthService} from "../auth.service";
 import {UserService} from "../../users/user.service";
+import {Address} from "../../users/address";
+import {User} from "../../users/User";
 
 type ViaCepResponse = {
   cep: string;
@@ -43,14 +43,7 @@ type ViaCepResponse = {
 export class RegisterComponent implements OnInit {
   user = User.empty();
   cep?: string;
-  address: Address = {
-    zipCode: '',
-    number: '',
-    street: '',
-    neighborhood: '',
-    city: '',
-    state: '',
-  }
+  address: Address = Address.empty();
 
   userService = inject(UserService);
 
