@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {lastValueFrom} from "rxjs";
 import {environment} from "../../environments/environment";
+import {User} from "../users/User";
 
 export type LoginResponse = {
   token: string;
@@ -16,6 +17,7 @@ export class AuthService {
   token = signal<string | null>(null)
   http = inject(HttpClient)
   router = inject(Router)
+  currentUser = signal<User | undefined>(undefined);
 
   constructor() {
     const savedToken = localStorage.getItem('token');

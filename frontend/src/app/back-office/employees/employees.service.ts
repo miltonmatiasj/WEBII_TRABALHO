@@ -1,8 +1,9 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {Employee} from "./Employee";
-import {AuthMockedService} from "../../authentication/auth-mocked.service";
 import {MatDialog} from "@angular/material/dialog";
 import {NewEmployeeComponent} from "./new-employee/new-employee.component";
+import {HttpClient} from "@angular/common/http";
+import {lastValueFrom} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,19 @@ import {NewEmployeeComponent} from "./new-employee/new-employee.component";
 export class EmployeesService {
   allEmployees = signal<Employee[]>([])
   filteredEmployees = signal<Employee[]>([])
-  authMockedService = inject(AuthMockedService)
+  http = inject(HttpClient)
+
   constructor() {
-    const employees = this.authMockedService.getUsers();
-    this.allEmployees.set([...employees])
-    this.filteredEmployees.set([...employees])
+    // const employees = this.authMockedService.getUsers();
+    // this.allEmployees.set([...employees])
+    // this.filteredEmployees.set([...employees])
+    this.requestAllEmployees();
+  }
+
+  async requestAllEmployees() {
+    const response = await lastValueFrom(this.http.get<Employee[]>('http://localhost:3000/users'))
+    this.allEmployees.set([...response])
+    this.filteredEmployees.set([...response]);
   }
 
   newEmployee(employee: Employee) {

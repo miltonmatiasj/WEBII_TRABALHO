@@ -21,4 +21,8 @@ export class UserService {
       }
     });
   }
+
+  createUser(user: User) {
+
+  }
 }
