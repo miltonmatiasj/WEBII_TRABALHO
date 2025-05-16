@@ -4,6 +4,8 @@ import com.web2.projeto_web2.category.Category;
 import com.web2.projeto_web2.users.User;
 import jakarta.persistence.*;
 import java.util.UUID;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "maintenance_requests")
@@ -25,26 +27,33 @@ public class MaintenanceRequest {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @NotBlank
     @Column(name = "equipment_description", nullable = false)
     private String equipmentDescription;
 
+    @NotBlank
     @Column(name = "defect_description", nullable = false)
     private String defectDescription;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
     private User employee;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = true) 
+    @JoinColumn(name = "category_id", nullable = 
+    false) 
     private Category category;
 
     public MaintenanceRequest() {}
