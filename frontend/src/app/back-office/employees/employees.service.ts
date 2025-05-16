@@ -14,9 +14,6 @@ export class EmployeesService {
   http = inject(HttpClient)
 
   constructor() {
-    // const employees = this.authMockedService.getUsers();
-    // this.allEmployees.set([...employees])
-    // this.filteredEmployees.set([...employees])
     this.requestAllEmployees();
   }
 
