@@ -10,6 +10,7 @@ import {AuthMockedService} from '../auth-mocked.service';
 import {Router} from '@angular/router';
 import {Address, User} from "../../User";
 import {lastValueFrom} from "rxjs";
+import { NumericDirective } from '../../shared/directive/numeric.directive';
 
 type ViaCepResponse = {
   cep: string;
@@ -35,6 +36,7 @@ type ViaCepResponse = {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    NumericDirective,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
