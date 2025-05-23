@@ -37,6 +37,12 @@ export class UserService {
       "name": user.name,
       "password": password,
       "roles": ["FUNCIONARIO"]
-    }))
+    }));
+    if (loginResult == null) {
+      return;
+    }
+    localStorage.setItem('token', loginResult.token);
+    localStorage.setItem('email', user.email);
+
   }
 }
