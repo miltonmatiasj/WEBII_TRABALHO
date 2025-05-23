@@ -2,6 +2,7 @@ package com.web2.projeto_web2.category;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Optional<Category> getCategoryById(Long id){
+    public Optional<Category> getCategoryById(UUID id){
         return categoryRepository.findById(id);
     }
 
@@ -25,7 +26,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category updateCategory(Long id, Category categoryDetails){
+    public Category updateCategory(UUID id, Category categoryDetails){
         Category category = categoryRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
         category.setCategoryName(categoryDetails.getCategoryName());
@@ -34,7 +35,7 @@ public class CategoryService {
 
     }
 
-    public Category setIsCategoryActivated(Long id, Boolean isActivated){
+    public Category setIsCategoryActivated(UUID id, Boolean isActivated){
         Category category = categoryRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
         category.setIsActivated(isActivated);
