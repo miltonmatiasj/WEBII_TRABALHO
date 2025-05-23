@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -36,6 +36,7 @@ type ViaCepResponse = {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
@@ -44,6 +45,11 @@ export class RegisterComponent implements OnInit {
   user = User.empty();
   cep?: string;
   address: Address = Address.empty();
+
+  cpfFormControl = new FormControl<string>('', [Validators.required, Validators.minLength(11)]);
+  nameFormControl = new FormControl<string>('', [Validators.required, Validators.minLength(2)]);
+  emailFormControl = new FormControl<string>('', [Validators.required, Validators.email]);
+  phoneFormControl = new FormControl<string>('', Validators.required);
 
   userService = inject(UserService);
 
@@ -85,14 +91,18 @@ export class RegisterComponent implements OnInit {
     return Math.random().toString().slice(2, 6);
   }
 
-  onSubmit(): void {
-
-  }
-
   submit() {
-    this.user.setAddress(this.address)
-    const password = this.generatePassword();
-    this.user.setPassword(password);
+    if (this.cpfFormControl.invalid || this.nameFormControl.invalid || this.emailFormControl.invalid || this.phoneFormControl.invalid) {
+      alert('Preencha todos os campos corretamente.');
+      return;
+    }
+    this.user.email = this.nameFormControl.value!;
+    this.user.name = this.nameFormControl.value!;
+    this.user.cpf = this.cpfFormControl.value!;
+    this.user.phone = this.phoneFormControl.value!;
+    this.user.role = 'USER';
+    this.user.setAddress(this.address);
+    this.user.setPassword(this.generatePassword());
     this.userService.createUser(this.user);
     console.log('Usuário cadastrado:', this.user);
     alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');

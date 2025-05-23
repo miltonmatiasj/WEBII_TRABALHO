@@ -22,6 +22,10 @@ export class UserService {
     });
   }
 
+  isUserValid(user: User) {
+
+  }
+
   createUser(user: User) {
 
   }

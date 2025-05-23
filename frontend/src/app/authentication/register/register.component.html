@@ -1,23 +1,23 @@
 <mat-card class="register-container">
-  <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
+  <form>
+    <mat-form-field appearance="fill" [formControl]="cpfFormControl">
       <mat-label>CPF</mat-label>
-      <input matInput name="cpf" [(ngModel)]="user.cpf" required />
+      <input matInput name="cpf" required />
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" [formControl]="nameFormControl">
       <mat-label>Nome</mat-label>
-      <input matInput name="name" [(ngModel)]="user.name" required />
+      <input matInput name="name" required />
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" [formControl]="emailFormControl">
       <mat-label>E-mail</mat-label>
-      <input matInput type="email" name="email" [(ngModel)]="user.email" required />
+      <input matInput type="email" name="email" required />
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" [formControl]="phoneFormControl">
       <mat-label>Telefone</mat-label>
-      <input matInput name="phone" [(ngModel)]="user.phone" required />
+      <input matInput name="phone" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
