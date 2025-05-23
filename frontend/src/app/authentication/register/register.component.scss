@@ -1,10 +1,29 @@
+/* Estilo do container do formulário */
 .register-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px; 
+  max-width: 500px;
+  width: 100%;
+  margin: 30px auto; /* margem de 30px em cima e embaixo */
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background-color: #fff;
 }
 
+/* Garante que todos os campos ocupem toda a largura */
 mat-form-field {
   width: 100%;
+}
+
+/* Centraliza o botão */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Estilo geral da página (opcional) */
+body {
+  background-color: #f5f5f5;
+  margin: 0;
+  font-family: Roboto, sans-serif;
 }
