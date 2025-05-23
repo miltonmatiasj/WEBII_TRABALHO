@@ -1,6 +1,9 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {User} from "./User";
-import {AuthService} from "../authentication/auth.service";
+import {AuthService, LoginResponse} from "../authentication/auth.service";
+import {lastValueFrom} from "rxjs";
+import {environment} from "../../environments/environment";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +29,14 @@ export class UserService {
 
   }
 
-  createUser(user: User) {
+  http = inject(HttpClient)
 
+  async createUser(user: User) {
+    const loginResult = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/auth/login', {
+      "email": user.email,
+      "name": user.name,
+      "password": user.password,
+      "roles": ["FUNCIONARIO"]
+    }))
   }
 }
