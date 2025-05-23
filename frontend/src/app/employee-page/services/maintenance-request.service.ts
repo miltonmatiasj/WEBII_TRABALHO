@@ -1,48 +1,57 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 import { ServiceRequest } from './request.service';
 import { UserService } from './user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MaintenanceRequestService {
   private readonly STORAGE_KEY = 'MaintenanceRequest';
+  private readonly apiUrl = '/api/maintenance-requests';
 
-  constructor(private userService: UserService) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
-  getRequests(): ServiceRequest[] {
-    const storedRequests = localStorage.getItem(this.STORAGE_KEY);
-    const requests: ServiceRequest[] = storedRequests ? JSON.parse(storedRequests) : [];
-    return requests.map(request => ({
-      ...request,
-      userName: this.userService.getUserNameById(request.userId)
-    }));
+  // GET all
+  getRequests(): Observable<ServiceRequest[]> {
+    return this.http.get<ServiceRequest[]>(this.apiUrl).pipe(
+      map((requests) =>
+        requests.map((r) => ({
+          ...r,
+          userName: this.userService.getUserNameById(r.userId),
+        }))
+      )
+    );
   }
 
-  saveRequests(requests: ServiceRequest[]): void {
-    const requestsToSave = requests.map(({ userName, ...request }) => request);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(requestsToSave));
+  // GET by ID
+  getRequestById(id: string): Observable<ServiceRequest> {
+    return this.http.get<ServiceRequest>(`${this.apiUrl}/${id}`).pipe(
+      map((r) => ({
+        ...r,
+        userName: this.userService.getUserNameById(r.userId),
+      }))
+    );
   }
 
-  getRequestById(id: string): ServiceRequest | undefined {
-    console.log('Buscando requisição com ID:', id);
-    const requests = this.getRequests();
-    console.log('Lista de requisições disponíveis:', requests);
-    const foundRequest = requests.find(request => {
-      console.log('Comparando com requisição:', request);
-      return request.id === id;
-    });
-    console.log('Requisição encontrada:', foundRequest);
-    return foundRequest;
+  // CREATE
+  createRequest(request: ServiceRequest): Observable<ServiceRequest> {
+    return this.http.post<ServiceRequest>(this.apiUrl, request);
   }
 
-  updateRequest(updatedRequest: ServiceRequest): void {
-    const requests = this.getRequests();
-    const index = requests.findIndex(request => request.id === updatedRequest.id);
-    
-    if (index !== -1) {
-      requests[index] = updatedRequest;
-      this.saveRequests(requests);
-    }
+  // UPDATE STATUS
+  updateRequest(request: ServiceRequest): Observable<ServiceRequest> {
+    const params = new HttpParams().set('newStatus', request.status);
+    return this.http.patch<ServiceRequest>(
+      `${this.apiUrl}/${request.id}/status`,
+      null,
+      { params }
+    );
   }
-} 
+
+  // DELETE
+  deleteRequest(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+}
