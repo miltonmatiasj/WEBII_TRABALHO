@@ -53,6 +53,8 @@ export class RegisterComponent implements OnInit {
   nameFormControl = new FormControl<string>('', [Validators.required, Validators.minLength(2)]);
   emailFormControl = new FormControl<string>('', [Validators.required, Validators.email]);
   phoneFormControl = new FormControl<string>('', Validators.required);
+  passwordFormControl = new FormControl<string>('', Validators.required);
+  rePasswordFormControl = new FormControl<string>('', Validators.required);
 
   userService = inject(UserService);
 
@@ -90,13 +92,22 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  generatePassword(): string {
-    return Math.random().toString().slice(2, 6);
+  areRequiredFieldsFilled(): boolean {
+    return this.cpfFormControl.valid
+      && this.nameFormControl.valid
+      && this.emailFormControl.valid
+      && this.phoneFormControl.valid
+      && this.passwordFormControl.valid
+      && this.rePasswordFormControl.valid;
   }
 
   submit() {
-    if (this.cpfFormControl.invalid || this.nameFormControl.invalid || this.emailFormControl.invalid || this.phoneFormControl.invalid) {
+    if (!this.areRequiredFieldsFilled()) {
       alert('Preencha todos os campos corretamente.');
+      return;
+    }
+    if (this.passwordFormControl.value !== this.rePasswordFormControl.value) {
+      alert('As senhas não coincidem.');
       return;
     }
     this.user.email = this.nameFormControl.value!;
@@ -105,8 +116,8 @@ export class RegisterComponent implements OnInit {
     this.user.phone = this.phoneFormControl.value!;
     this.user.role = 'USER';
     this.user.setAddress(this.address);
-    this.user.setPassword(this.generatePassword());
-    this.userService.createUser(this.user);
+    this.user.setPassword(this.passwordFormControl.value!);
+    this.userService.createUser(this.user, this.passwordFormControl.value!);
     console.log('Usuário cadastrado:', this.user);
     alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');
     this.router.navigate(['/login']);

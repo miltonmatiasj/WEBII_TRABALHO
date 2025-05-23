@@ -31,11 +31,11 @@ export class UserService {
 
   http = inject(HttpClient)
 
-  async createUser(user: User) {
+  async createUser(user: User, password: string) {
     const loginResult = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/auth/login', {
       "email": user.email,
       "name": user.name,
-      "password": user.password,
+      "password": password,
       "roles": ["FUNCIONARIO"]
     }))
   }
