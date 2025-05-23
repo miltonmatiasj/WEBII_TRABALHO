@@ -1,23 +1,23 @@
 <mat-card class="register-container">
   <form>
-    <mat-form-field appearance="fill" [formControl]="cpfFormControl">
+    <mat-form-field appearance="fill">
       <mat-label>CPF</mat-label>
-      <input matInput name="cpf" required />
+      <input matInput name="cpf" mask="999.999.999-99" [formControl]="cpfFormControl"/>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" [formControl]="nameFormControl">
+    <mat-form-field appearance="fill">
       <mat-label>Nome</mat-label>
-      <input matInput name="name" required />
+      <input matInput name="name" required [formControl]="nameFormControl"/>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" [formControl]="emailFormControl">
+    <mat-form-field appearance="fill">
       <mat-label>E-mail</mat-label>
-      <input matInput type="email" name="email" required />
+      <input matInput type="email" name="email" required [formControl]="emailFormControl"/>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" [formControl]="phoneFormControl">
+    <mat-form-field appearance="fill">
       <mat-label>Telefone</mat-label>
-      <input matInput name="phone" required />
+      <input matInput name="phone" required [formControl]="phoneFormControl"/>
     </mat-form-field>
 
     <mat-form-field appearance="fill">

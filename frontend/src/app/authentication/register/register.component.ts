@@ -11,6 +11,7 @@ import {lastValueFrom} from "rxjs";
 import {UserService} from "../../users/user.service";
 import {Address} from "../../users/address";
 import {User} from "../../users/User";
+import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 
 type ViaCepResponse = {
   cep: string;
@@ -37,9 +38,11 @@ type ViaCepResponse = {
     MatButtonModule,
     MatCardModule,
     ReactiveFormsModule,
+    NgxMaskDirective
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
+  // providers: [provideNgxMask()],
 })
 export class RegisterComponent implements OnInit {
   user = User.empty();
