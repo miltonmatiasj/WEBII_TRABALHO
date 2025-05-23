@@ -18,6 +18,8 @@ import {EmployeesComponent} from "./back-office/employees/employees.component";
 import {AdminGuard} from "./authentication/admin.guard";
 
 export const routes: Routes = [
+  //setup default route
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
   //Open Routes
   {
     path: '',

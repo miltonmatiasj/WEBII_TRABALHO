@@ -86,6 +86,10 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
+
+  }
+
+  submit() {
     this.user.setAddress(this.address)
     const password = this.generatePassword();
     this.user.setPassword(password);
