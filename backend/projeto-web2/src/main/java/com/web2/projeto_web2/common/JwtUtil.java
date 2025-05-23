@@ -1,6 +1,5 @@
 package com.web2.projeto_web2.common;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 
@@ -17,5 +16,25 @@ public class JwtUtil {
                 .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+    }
+
+    // Get email from token (sub)
+    public String getEmailFromToken(String token) {
+        Jws<Claims> jws = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .build()
+                .parseClaimsJws(token);
+
+        return jws.getBody().getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(jwtSecret).build().parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            // log or handle the exception as needed
+        }
+        return false;
     }
 }

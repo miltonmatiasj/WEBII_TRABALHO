@@ -5,7 +5,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
 import {MatDialogRef} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {provideNativeDateAdapter} from "@angular/material/core";
-import {User} from "../../../User";
+import {User} from "../../../users/User";
 
 @Component({
   selector: 'app-new-employee',

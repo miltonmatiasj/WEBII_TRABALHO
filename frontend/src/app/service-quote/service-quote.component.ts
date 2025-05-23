@@ -38,7 +38,6 @@ export class ServiceQuoteComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private serviceRequest: RequestService,
-    private serviceServiceQuote: ServiceQuoteService,
     private authService: AuthService
   ) {}
 

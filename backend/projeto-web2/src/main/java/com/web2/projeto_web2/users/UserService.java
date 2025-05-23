@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -20,8 +21,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getAllEmployees() {
+        return userRepository.findByRoles(Set.of(Role.FUNCIONARIO));
+    }
+
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public User updateUser(Long id, User userDetails) {
