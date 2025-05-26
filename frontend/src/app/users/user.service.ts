@@ -36,7 +36,8 @@ export class UserService {
       "email": user.email,
       "name": user.name,
       "password": password,
-      "roles": ["FUNCIONARIO"]
+      "roles": ["FUNCIONARIO"],
+      address: user.address?.toJson()
     }));
     if (loginResult == null) {
       return;

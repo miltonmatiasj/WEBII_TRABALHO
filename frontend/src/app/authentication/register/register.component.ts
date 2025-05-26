@@ -13,7 +13,7 @@ import {Address} from "../../users/address";
 import {User} from "../../users/User";
 import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 
-type ViaCepResponse = {
+export type ViaCepResponse = {
   cep: string;
   logradouro: string;
   complemento: string;
@@ -77,14 +77,7 @@ export class RegisterComponent implements OnInit {
           return null;
         })
       if (data) {
-        this.address = {
-          zipCode: data.cep,
-          number: '0',
-          street: data.logradouro,
-          neighborhood: data.bairro,
-          city: data.localidade,
-          state: data.uf,
-        }
+        this.address = Address.fromViaCepResponse(data);
         this.user.setAddress(this.address);
       } else {
         alert('CEP não encontrado.');
@@ -101,7 +94,7 @@ export class RegisterComponent implements OnInit {
       && this.rePasswordFormControl.valid;
   }
 
-  submit() {
+  async submit() {
     if (!this.areRequiredFieldsFilled()) {
       alert('Preencha todos os campos corretamente.');
       return;
@@ -117,7 +110,7 @@ export class RegisterComponent implements OnInit {
     this.user.role = 'USER';
     this.user.setAddress(this.address);
     this.user.setPassword(this.passwordFormControl.value!);
-    this.userService.createUser(this.user, this.passwordFormControl.value!);
+    await this.userService.createUser(this.user, this.passwordFormControl.value!);
     console.log('Usuário cadastrado:', this.user);
     alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');
     this.router.navigate(['/login']);

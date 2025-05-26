@@ -1,3 +1,5 @@
+import {ViaCepResponse} from "../authentication/register/register.component";
+
 export class Address {
   zipCode: string;
   street: string;
@@ -39,5 +41,29 @@ export class Address {
 
   static empty(): Address {
     return new Address('', '', '', '', '', '', '');
+  }
+
+  toJson(): { [key: string]: any } {
+    return {
+      zipCode: this.zipCode,
+      street: this.street,
+      neighborhood: this.neighborhood,
+      city: this.city,
+      state: this.state,
+      number: this.number,
+      complement: this.complement
+    };
+  }
+
+  static fromViaCepResponse(data: ViaCepResponse): Address {
+    return new Address(
+      data.cep,
+      data.logradouro,
+      data.bairro,
+      data.localidade,
+      data.uf,
+      '0',
+      ''
+    );
   }
 }
