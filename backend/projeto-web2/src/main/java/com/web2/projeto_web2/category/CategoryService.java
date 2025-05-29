@@ -41,4 +41,8 @@ public class CategoryService {
         category.setIsActivated(isActivated);
         return categoryRepository.save(category);
     }
+
+    public List<Category> findByIsActivated(Boolean isActivated){
+        return categoryRepository.findByIsActivated(isActivated);
+    }
 }

@@ -1,63 +1,147 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import {catchError, map, Observable, of, throwError} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 export interface Category {
-  id: number;
-  name: string;
+  id: string;
+  categoryName: string;
+  isActivated: boolean;
+
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private storageKey = 'EquipmentCategory';
-
-  constructor() {
-    if (!localStorage.getItem(this.storageKey)) {
-      const defaultCategories: Category[] = [
-        { id: 1, name: 'Notebook' },
-        { id: 2, name: 'Desktop' },
-        { id: 3, name: 'Impressora' },
-        { id: 4, name: 'Mouse' },
-        { id: 5, name: 'Teclado' },
-      ];
-      localStorage.setItem(this.storageKey, JSON.stringify(defaultCategories));
-    }
+  constructor(private http: HttpClient) {
   }
 
-  getCategories(): Observable<Category[]> {
-    const data = localStorage.getItem(this.storageKey);
-    const categories = data ? JSON.parse(data) : [];
-    return of(categories);
+  httpOptions = {
+    observe: "response" as "response",
+    headers: new HttpHeaders({
+      'role': 'FUNCIONARIO'
+    })
+  };
+
+  getCategories(): Observable<Category[] | null> {
+    return this.http.get<Category[]>(environment.baseUrl + '/categories', this.httpOptions).pipe(
+      map((resp: HttpResponse<Category[]>) => {
+        if(resp.status == 200){
+          return resp.body;
+        }
+        else{
+          return [];
+        }
+      }),
+      catchError((err, caught) => {
+        if (err.status == 404){
+          return of([]);
+        }
+        else{
+          return throwError(() => err);
+        }
+      })
+    )
   }
 
-  addNewCategory(name: string): void {
-    const data = localStorage.getItem(this.storageKey);
-    const categories: Category[] = data ? JSON.parse(data) : [];
-    const newCategory: Category = {
-      id: categories.length > 0 ? categories[categories.length - 1].id + 1 : 1, // Gera um novo ID
-      name,
-    };
-    categories.push(newCategory);
-    localStorage.setItem(this.storageKey, JSON.stringify(categories));
-  }
-
-  updateCategory(id: number, name: string): void {
-    const data = localStorage.getItem(this.storageKey);
-    const categories: Category[] = data ? JSON.parse(data) : [];
-    const index = categories.findIndex((category) => category.id === id);
-    if (index !== -1) {
-      categories[index].name = name;
-      localStorage.setItem(this.storageKey, JSON.stringify(categories));
-    }
-  }
-
-  deleteCategory(id: number): void {
-    const data = localStorage.getItem(this.storageKey);
-    const categories: Category[] = data ? JSON.parse(data) : [];
-    const updatedCategories = categories.filter(
-      (category) => category.id !== id
+  createCategory(category: Category): Observable<Category | null> {
+    return this.http.post<Category>(environment.baseUrl + '/categories', category, this.httpOptions).pipe(
+      map((resp : HttpResponse<Category>) => {
+        if(resp.status === 201) {
+          return resp.body;
+        }
+        else{
+          return null;
+        }
+      }),
+      catchError((err, caught) => {
+        if (err.status == 403){
+          return of(null);
+        }
+        else {
+          return throwError(() => err);
+        }
+      })
     );
-    localStorage.setItem(this.storageKey, JSON.stringify(updatedCategories));
+  }
+
+  updateCategory(id: string, category: Category): Observable<Category | null> {
+    return this.http.put<Category>(`${environment.baseUrl}/categories/${id}`, category, this.httpOptions).pipe(
+      map((resp: HttpResponse<Category>)=> {
+        if(resp.status == 200){
+          return resp.body;
+        }
+        else{
+          return null;
+        }
+      }),
+      catchError((err, caught) => {
+        if (err.status == 403){
+          return of(null);
+        }
+        else {
+        return throwError(() => err);
+        }
+      })
+    );
+  }
+
+  setCategoryStatus(id: string, category: Category): Observable<Category | null> {
+    return this.http.patch<Category>(`${environment.baseUrl}/categories/${id}`, category, this.httpOptions).pipe(
+      map((resp: HttpResponse<Category>)=> {
+        if(resp.status == 200){
+          return resp.body;
+        }
+        else{
+          return null;
+        }
+      }),
+      catchError((err, caught) => {
+        if (err.status == 403){
+          return of(null);
+        }
+        else {
+          return throwError(() => err);
+        }
+      })
+    );
+  }
+
+  getCategoryById(id: string): Observable<Category | null> {
+    return this.http.get<Category>(`${environment.baseUrl}/categories/${id}`, this.httpOptions).pipe(
+      map((resp: HttpResponse<Category>) => {
+        if(resp.status == 200){
+          return resp.body;
+        }
+        else{
+          return null;
+        }
+      }),
+      catchError((err, caught) => {
+        if(err.status == 404){
+          return of(null);
+        }
+        else{
+          return throwError(() => err);
+        }
+      })
+    );
+  }
+
+  getCategoryByStatus(status: boolean): Observable<Category[] | null> {
+    return this.http.get<Category[]>(`${environment.baseUrl}/categories?isActivated=${status}`, this.httpOptions).pipe(
+      map((resp: HttpResponse<Category[]>) => {
+        if(resp.status == 200){
+          return resp.body;
+        }
+        else{
+          return [];
+        }
+      }),
+      catchError((err, caught) => {
+          return throwError(() => err);
+      })
+    );
   }
 }

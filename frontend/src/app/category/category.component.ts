@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryService, Category } from '../category/category.service';
-import { ModalComponent } from '../category/modal/modal.component';
+import { CategoryService, Category } from './category.service';
+import { ModalComponent } from './modal/modal.component';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-category',
@@ -25,11 +26,12 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatTooltipModule
   ],
 })
 export class CategoryComponent implements OnInit {
   categories = new MatTableDataSource<Category>();
-  displayedColumns: string[] = ['id', 'name', 'actions'];
+  displayedColumns: string[] = ['categoryName', 'actions'];
 
   constructor(
     private categoryService: CategoryService,
@@ -41,10 +43,16 @@ export class CategoryComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getCategories().subscribe((data) => {
-      this.categories.data = data;
+    this.categoryService.getCategories().subscribe({
+      next: (data: Category[] | null) => {
+        this.categories.data = data ?? [];
+      },
+      error: (err) => {
+        console.warn(err);
+      }
     });
   }
+
 
   openDialog(
     category?: Category,
@@ -55,25 +63,72 @@ export class CategoryComponent implements OnInit {
       height: '300px',
       data: category
         ? { ...category, action }
-        : { id: null, name: '', action: 'create' },
+        : { id: null, categoryName: '', action: 'create' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result?.action === 'delete' && result?.id) {
-        this.categoryService.deleteCategory(result.id); // Exclui a categoria
-        this.loadCategories(); // Recarrega as categorias
-      } else if (result?.action === 'edit' && result?.id && result?.name) {
-        this.categoryService.updateCategory(result.id, result.name); // Atualiza a categoria
-        this.loadCategories(); // Recarrega as categorias
-      } else if (result?.action === 'create' && result?.name) {
-        this.categoryService.addNewCategory(result.name); // Adiciona uma nova categoria
-        this.loadCategories(); // Recarrega as categorias
+      if(result.action === 'create' && result.categoryName) {
+        const newCategory: Category = {
+          id: '',
+          categoryName: result.categoryName,
+          isActivated: true,
+        };
+        this.categoryService.createCategory(newCategory).subscribe(() => {
+          this.loadCategories()
+        });
+      }
+
+      if (result.action === 'edit' && result?.categoryName && result?.id) {
+        const updatedCategory: Category = {
+          id: result.id,
+          categoryName: result.categoryName,
+          isActivated: result.isActivated ?? true,
+        };
+        this.categoryService.updateCategory(result.id, updatedCategory).subscribe(() => {
+          this.loadCategories();
+        });
+      }
+
+      if(result.action === 'delete' && result?.id) {
+        this.updateCategoryStatus(result.id, false);
       }
     });
   }
 
-  deleteCategory(id: number): void {
-    this.categoryService.deleteCategory(id);
-    this.loadCategories();
+  getCategoriesByStatus(status: boolean) {
+    this.categoryService.getCategoryByStatus(status).subscribe({
+      next: (data) => {
+        this.categories.data = data ?? [];
+        console.log('Categorias:', data);
+      },
+      error: (err) => {
+          console.error('Erro ao buscar categorias:', err);
+      }
+    });
   }
+
+  updateCategoryStatus(id: string, isActivated: boolean): void {
+    this.categoryService.getCategoryById(id).subscribe({
+      next: (category) => {
+        if (category) {
+          const updatedCategory: Category = {
+            id: category.id,
+            categoryName: category.categoryName,
+            isActivated: isActivated,
+          };
+
+          this.categoryService.setCategoryStatus(id, updatedCategory).subscribe(() => {
+            this.loadCategories();
+          });
+        } else {
+          console.error("Categoria não encontrada para o ID:", id);
+        }
+      },
+      error: (err) => {
+        console.error("Erro ao buscar categoria:", err);
+      }
+    });
+  }
+
+
 }
