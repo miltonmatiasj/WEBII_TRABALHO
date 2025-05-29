@@ -6,6 +6,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {CommonModule} from '@angular/common';
+import { NgxMaskDirective } from 'ngx-mask';
 import {AuthMockedService} from '../auth-mocked.service';
 import {Router} from '@angular/router';
 import {Address, User} from "../../User";
@@ -37,6 +38,7 @@ type ViaCepResponse = {
     MatButtonModule,
     MatCardModule,
     NumericDirective,
+    NgxMaskDirective,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
@@ -93,7 +95,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.user.setAddress(this.address)
+    this.user.setAddress(this.address);
     const password = this.generatePassword();
     this.user.setPassword(password);
     this.authService.addUser(this.user);

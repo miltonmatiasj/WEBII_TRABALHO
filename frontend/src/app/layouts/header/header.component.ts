@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { User } from '../../User';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class HeaderComponent {
   constructor(private router: Router) {}
+
+loadHome(): void{
+    this.router.navigate(['/customer-home']);
+}
 
   logout(): void {
     localStorage.removeItem('CurrentUser');

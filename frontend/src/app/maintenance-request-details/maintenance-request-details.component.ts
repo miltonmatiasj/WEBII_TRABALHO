@@ -10,6 +10,7 @@ import { MaintenanceRequestService } from './services/maintenance-request-detail
 import { MaintenanceRequestBudgetModalComponent } from './components/maintenance-request-budget-modal/maintenance-request-budget-modal.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { AuthService } from '../authentication/auth.service';
+import { NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   selector: 'app-maintenance-request-details',
@@ -22,6 +23,7 @@ import { AuthService } from '../authentication/auth.service';
     MatTableModule,
     MatButtonModule,
     MatListModule,
+    NgxMaskPipe,
   ],
 })
 export class MaintenanceRequestDetailsComponent implements OnInit {

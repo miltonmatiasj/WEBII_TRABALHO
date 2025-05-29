@@ -5,6 +5,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { CustomerHomeService } from './services/customer-home.service';
@@ -22,6 +23,7 @@ import { AuthService } from '../authentication/auth.service';
     MatInputModule,
     MatButtonModule,
     RouterModule,
+    MatChipsModule
   ],
   templateUrl: './customer-home.component.html',
   styleUrls: ['./customer-home.component.scss'],

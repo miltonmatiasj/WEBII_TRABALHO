@@ -2,7 +2,7 @@
   <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>CPF</mat-label>
-      <input matInput name="cpf" [(ngModel)]="user.cpf" maxlength="11" numeric required />
+      <input matInput name="cpf" [(ngModel)]="user.cpf" mask="000.000.000-00" maxlength="15" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -17,12 +17,12 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Telefone</mat-label>
-      <input matInput name="phone" [(ngModel)]="user.phone" maxlength="11" required />
+      <input matInput name="phone" [(ngModel)]="user.phone" mask="(00)00000-0000" maxlength="14" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>CEP</mat-label>
-      <input matInput name="cep" [(ngModel)]="cep" (blur)="fetchAddress()" maxlength="8" required />
+      <input matInput name="cep" [(ngModel)]="cep" (blur)="fetchAddress()" mask="00.000-000" maxlength="10" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
