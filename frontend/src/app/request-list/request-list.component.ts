@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { ServiceRequest, RequestService } from '../employee-page/services/request.service';
-import { FinalizeRequestModalComponent } from './compnents/finalize-request-modal/finalize-request-modal.component';
+import { FinalizeRequestModalComponent } from './components/finalize-request-modal/finalize-request-modal.component';
 
 @Component({
   selector: 'app-request-list',
