@@ -148,4 +148,24 @@ export class RequestListComponent implements OnInit {
       }
     })
   }
+
+        //TESTE
+      updateStatus(request: ServiceRequest, newStatus: string): void {
+      request.status = newStatus;
+      this.requestService.updateRequest(request);
+      this.allRequests = this.requestService.getRequests();
+      this.aplicarFiltro();
+      //TESTE
+    }
+      possibleStatuses: string[] = [
+      'ABERTA',
+      'ORCADA',
+      'REJEITADA',
+      'APROVADA',
+      'REDIRECIONADA',
+      'ARRUMADA',
+      'PAGA',
+      'FINALIZADA'
+    ];
+
 }
