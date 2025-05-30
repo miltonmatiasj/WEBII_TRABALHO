@@ -1,5 +1,4 @@
-package com.web2.projeto_web2.maintenancerequesthistory;
-
+package com.web2.projeto_web2.maintenance_request_history;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
