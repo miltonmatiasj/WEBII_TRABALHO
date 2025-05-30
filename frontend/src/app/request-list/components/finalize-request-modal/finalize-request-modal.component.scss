@@ -1,0 +1,44 @@
+::ng-deep .mat-dialog-container {
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+}
+
+h2[mat-dialog-title] {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1a237e;
+}
+
+mat-dialog-content {
+  font-size: 16px;
+  line-height: 1.5;
+
+  p {
+    margin: 8px 0;
+
+    strong {
+      color: #0d47a1;
+    }
+  }
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+
+  button {
+    margin-left: 8px;
+    text-transform: uppercase;
+
+    &.mat-button {
+      color: #616161;
+    }
+
+    &.mat-raised-button {
+      font-weight: 600;
+    }
+  }
+}
