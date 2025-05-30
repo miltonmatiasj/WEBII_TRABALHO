@@ -41,23 +41,28 @@ public class CategoryController {
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    //Set category status(only accessible by FUNCIONARIO)
+    @GetMapping("/status")
+    public List<Category> getCategoriesByStatus(@RequestParam Boolean isActivated){
+        return categoryService.findByIsActivated(isActivated);
+    }
+
+    //Update a category (only accessible by FUNCIONARIO)
     @PutMapping("/{id}")
     public ResponseEntity<Category> setCategoryStatus(@PathVariable UUID id, @RequestBody Category category, @RequestHeader("role") String role){
         if(!"FUNCIONARIO".equalsIgnoreCase(role)){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Category updatedCategory = categoryService.setIsCategoryActivated(id, category.getIsActivated());
+        Category updatedCategory = categoryService.updateCategory(id, category);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
 
-    //Update a category (only accessible by FUNCIONARIO)
-    @PutMapping("/{id}/full")
+    //Set category status(only accessible by FUNCIONARIO)
+    @PatchMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable UUID id, @RequestBody Category categoryDetails, @RequestHeader("role") String role){
         if(!"FUNCIONARIO".equalsIgnoreCase(role)){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Category updatedCategory = categoryService.updateCategory(id, categoryDetails);
+        Category updatedCategory = categoryService.setIsCategoryActivated(id, categoryDetails.getIsActivated());
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
 

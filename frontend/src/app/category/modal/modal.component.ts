@@ -28,8 +28,9 @@ export class ModalComponent {
     public dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      id: number | null;
-      name: string;
+      id: string | null;
+      categoryName: string;
+      isActivated: boolean;
       action: 'create' | 'edit' | 'delete';
     }
   ) {
@@ -39,7 +40,7 @@ export class ModalComponent {
   save(): void {
     const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
 
-    if (!this.data.name || !nameRegex.test(this.data.name.trim())) {
+    if (!this.data.categoryName || !nameRegex.test(this.data.categoryName.trim())) {
       alert('Insira um nome válido (Apenas letras e espaços).');
       return;
     }
@@ -47,7 +48,8 @@ export class ModalComponent {
     this.dialogRef.close({
       action: this.action,
       id: this.data.id,
-      name: this.data.name,
+      categoryName: this.data.categoryName,
+      isActivated: this.data.isActivated ?? true,
     });
   }
 
