@@ -3,7 +3,6 @@ package com.web2.projeto_web2.maintenance_request_history;
 import com.web2.projeto_web2.maintenance_request.MaintenanceRequest;
 import com.web2.projeto_web2.users.User;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

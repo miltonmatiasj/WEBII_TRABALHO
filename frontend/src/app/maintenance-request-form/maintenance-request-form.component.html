@@ -2,13 +2,13 @@
   <form #form="ngForm" (ngSubmit)="onSubmit(form)">
     <mat-form-field appearance="fill">
       <mat-label>Descrição do Equipamento</mat-label>
-      <textarea matInput name="descricao_equipamento" rows="4" required ngModel></textarea>
+      <textarea matInput name="equipmentDescription" rows="4" required ngModel></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Categoria do Equipamento</mat-label>
-      <mat-select name="categoria" required ngModel>
-        <mat-option *ngFor="let category of categories" [value]="category.categoryName">
+      <mat-select name="category" required ngModel>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
           {{ category.categoryName }}
         </mat-option>
       </mat-select>
@@ -16,11 +16,11 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Descrição do Defeito</mat-label>
-      <textarea matInput name="descricao_defeito" rows="4" required ngModel></textarea>
+      <textarea matInput name="defectDescription" rows="4" required ngModel></textarea>
     </mat-form-field>
 
     <div class="Button-Request">
-      <button mat-raised-button color="primary" type="submit">Enviar Solicitação</button>
+      <button mat-raised-button color="primary" type="submit" (click)="onSubmit(form)">Enviar Solicitação</button>
     </div>
   </form>
 </mat-card>

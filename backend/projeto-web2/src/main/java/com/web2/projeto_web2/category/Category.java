@@ -8,6 +8,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "category")
@@ -16,32 +18,17 @@ public class Category {
     @Id
     @UuidGenerator
     @Column(name = "id", updatable = false, nullable = false)
+    @Getter
+    @Setter
     private UUID id;
 
+    @Getter
+    @Setter
     private String categoryName;
+
+    @Getter
+    @Setter
     private Boolean isActivated;
 
-    public UUID getId(){
-        return this.id;
-    }
 
-    public void setId(UUID id){
-        this.id = id;
-    }
-
-    public String getCategoryName(){
-        return this.categoryName;
-    }
-
-    public void setCategoryName(String name){
-        this.categoryName = name;
-    }
-
-    public Boolean getIsActivated(){
-        return this.isActivated;
-    }
-
-    public void setIsActivated(Boolean isActivated){
-        this.isActivated = isActivated;
-    }
 }

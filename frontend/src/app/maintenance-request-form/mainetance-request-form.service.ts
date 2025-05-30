@@ -1,31 +1,47 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface CustomerData {
-  id: string;
-  userId: string;
+  userId?: string;
   equipmentDescription: string;
-  requestDate: string;
   status: string;
   equipmentCategory: string;
   defectDescription: string;
+}
+
+export interface CreateCustomerData {
+  equipmentDescription: string;
+  category: string;
+  defectDescription: string;
+  status: string;
+  customer: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class MaintenanceRequestFormService {
-  private storageKey = 'MaintenanceRequest';
+  private readonly createMaintenanceRequestUrl =
+    'http://localhost:8080/api/maintenance-requests';
 
-  constructor() {}
+  private readonly categoriesUrl = 'http://localhost:8080/api/categories';
 
-  getCustomerData(): CustomerData[] {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+  constructor(private http: HttpClient) {}
+  createMaintenanceRequest(
+    newRequest: CreateCustomerData
+  ): Observable<CreateCustomerData> {
+    return this.http.post<CreateCustomerData>(
+      this.createMaintenanceRequestUrl,
+      newRequest
+    );
   }
 
-  addCustomerData(newRequest: CustomerData): void {
-    const data = this.getCustomerData();
-    data.push(newRequest);
-    localStorage.setItem(this.storageKey, JSON.stringify(data));
+  getCategories(): Observable<
+    { id: string; categoryName: string; isActivated: boolean }[]
+  > {
+    return this.http.get<
+      { id: string; categoryName: string; isActivated: boolean }[]
+    >(this.categoriesUrl);
   }
 }
