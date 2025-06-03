@@ -27,7 +27,10 @@ export class Address {
     this.complement = complement;
   }
 
-  static fromJson(json: { [key: string]: any }): Address {
+  static fromJson(json?: { [key: string]: any }): Address {
+    if (json == null) {
+      return Address.empty();
+    }
     return new Address(
       json['zipCode'],
       json['street'],

@@ -32,7 +32,7 @@ export class UserService {
   http = inject(HttpClient)
 
   async createUser(user: User, password: string) {
-    const loginResult = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/auth/login', {
+    const loginResult = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/auth/signup', {
       "email": user.email,
       "name": user.name,
       "password": password,

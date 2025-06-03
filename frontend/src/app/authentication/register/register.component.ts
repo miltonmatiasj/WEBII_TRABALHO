@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -94,6 +94,8 @@ export class RegisterComponent implements OnInit {
       && this.rePasswordFormControl.valid;
   }
 
+  loading = signal(false);
+
   async submit() {
     if (!this.areRequiredFieldsFilled()) {
       alert('Preencha todos os campos corretamente.');
@@ -103,16 +105,18 @@ export class RegisterComponent implements OnInit {
       alert('As senhas não coincidem.');
       return;
     }
-    this.user.email = this.nameFormControl.value!;
+    this.user.email = this.emailFormControl.value!;
     this.user.name = this.nameFormControl.value!;
     this.user.cpf = this.cpfFormControl.value!;
     this.user.phone = this.phoneFormControl.value!;
     this.user.role = 'USER';
     this.user.setAddress(this.address);
     this.user.setPassword(this.passwordFormControl.value!);
+    this.loading.set(true);
     await this.userService.createUser(this.user, this.passwordFormControl.value!);
+    this.loading.set(false);
     console.log('Usuário cadastrado:', this.user);
     alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');
-    this.router.navigate(['/login']);
+    await this.router.navigate(['/login']);
   }
 }

@@ -11,7 +11,7 @@ import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.componen
 import {EmployeePageComponent} from './employee-page/employee-page.component';
 import {ServiceMaintenanceComponent} from './back-office/service-maintenance/service-maintenance.component';
 import {CustomerTemplateComponent} from './layouts/customer-template/customer-template.component';
-import {MockAuthGuard} from './authentication/auth.guard';
+import {AuthGuard} from './authentication/auth.guard';
 import {RedirectService} from './authentication/redirect.service';
 import {MaintenanceScreenComponent} from "./maintenance-screen/maintenance-screen.component";
 import {EmployeesComponent} from "./back-office/employees/employees.component";
@@ -38,7 +38,7 @@ export const routes: Routes = [
   {
     path: '',
     component: CustomerTemplateComponent,
-    canActivate: [MockAuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'customer-home',

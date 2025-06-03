@@ -36,6 +36,22 @@ export class AuthService {
     }
     localStorage.setItem('token', loginResult.token);
     localStorage.setItem('email', email);
+    await this._getMe();
+    console.log('here');
+    await this.router.navigate(['/customer-home'])
+  }
+
+  async _getMe() {
+    const meResult = await lastValueFrom(this.http.get<any>(environment.baseUrl + '/users/me'))
+      .catch(() => {
+        console.log('Erro ao buscar usuário.');
+        return null;
+      });
+    if (meResult == null) {
+      return;
+    }
+    const user = User.fromJson(meResult);
+    this.currentUser.set(user);
   }
 
   async logout() {
