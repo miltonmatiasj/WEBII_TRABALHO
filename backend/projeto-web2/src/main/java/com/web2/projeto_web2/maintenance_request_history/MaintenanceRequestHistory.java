@@ -1,9 +1,10 @@
-package com.web2.projeto_web2.maintenancerequesthistory;
-
-import com.web2.projeto_web2.maintenancerequest.MaintenanceRequest;
+package com.web2.projeto_web2.maintenance_request_history;
+import com.web2.projeto_web2.maintenance_request.MaintenanceRequest;
 import com.web2.projeto_web2.users.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Table(name = "maintenanceRequestHistory")

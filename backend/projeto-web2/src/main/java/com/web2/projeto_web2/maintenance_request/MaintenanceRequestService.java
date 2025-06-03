@@ -1,5 +1,6 @@
-package com.web2.projeto_web2.maintenanceRequest;
-
+package com.web2.projeto_web2.maintenance_request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.UUID;
 @Service
 public class MaintenanceRequestService {
 
+    private static final Logger logger = LoggerFactory.getLogger(MaintenanceRequestService.class);
+
     private final MaintenanceRequestRepository repository;
 
     public MaintenanceRequestService(MaintenanceRequestRepository repository) {
@@ -15,6 +18,7 @@ public class MaintenanceRequestService {
     }
 
     public MaintenanceRequest createMaintenanceRequest(MaintenanceRequest request) {
+        logger.debug("==================================" + request);
         return repository.save(request);
     }
 
