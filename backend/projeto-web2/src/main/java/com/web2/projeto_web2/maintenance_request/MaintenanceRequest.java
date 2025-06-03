@@ -1,4 +1,4 @@
-package com.web2.projeto_web2.maintenanceRequest;
+package com.web2.projeto_web2.maintenance_request;
 
 import com.web2.projeto_web2.category.Category;
 import com.web2.projeto_web2.users.User;
@@ -42,7 +42,7 @@ public class MaintenanceRequest {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id", nullable = true)
     private User employee;
 
     @NotNull
