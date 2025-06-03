@@ -1,6 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -11,8 +11,9 @@ import {lastValueFrom} from "rxjs";
 import {UserService} from "../../users/user.service";
 import {Address} from "../../users/address";
 import {User} from "../../users/User";
+import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 
-type ViaCepResponse = {
+export type ViaCepResponse = {
   cep: string;
   logradouro: string;
   complemento: string;
@@ -36,14 +37,24 @@ type ViaCepResponse = {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    ReactiveFormsModule,
+    NgxMaskDirective
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
+  // providers: [provideNgxMask()],
 })
 export class RegisterComponent implements OnInit {
   user = User.empty();
   cep?: string;
   address: Address = Address.empty();
+
+  cpfFormControl = new FormControl<string>('', [Validators.required, Validators.minLength(11)]);
+  nameFormControl = new FormControl<string>('', [Validators.required, Validators.minLength(2)]);
+  emailFormControl = new FormControl<string>('', [Validators.required, Validators.email]);
+  phoneFormControl = new FormControl<string>('', Validators.required);
+  passwordFormControl = new FormControl<string>('', Validators.required);
+  rePasswordFormControl = new FormControl<string>('', Validators.required);
 
   userService = inject(UserService);
 
@@ -66,14 +77,7 @@ export class RegisterComponent implements OnInit {
           return null;
         })
       if (data) {
-        this.address = {
-          zipCode: data.cep,
-          number: '0',
-          street: data.logradouro,
-          neighborhood: data.bairro,
-          city: data.localidade,
-          state: data.uf,
-        }
+        this.address = Address.fromViaCepResponse(data);
         this.user.setAddress(this.address);
       } else {
         alert('CEP não encontrado.');
@@ -81,17 +85,38 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  generatePassword(): string {
-    return Math.random().toString().slice(2, 6);
+  areRequiredFieldsFilled(): boolean {
+    return this.cpfFormControl.valid
+      && this.nameFormControl.valid
+      && this.emailFormControl.valid
+      && this.phoneFormControl.valid
+      && this.passwordFormControl.valid
+      && this.rePasswordFormControl.valid;
   }
 
-  onSubmit(): void {
-    this.user.setAddress(this.address)
-    const password = this.generatePassword();
-    this.user.setPassword(password);
-    this.userService.createUser(this.user);
+  loading = signal(false);
+
+  async submit() {
+    if (!this.areRequiredFieldsFilled()) {
+      alert('Preencha todos os campos corretamente.');
+      return;
+    }
+    if (this.passwordFormControl.value !== this.rePasswordFormControl.value) {
+      alert('As senhas não coincidem.');
+      return;
+    }
+    this.user.email = this.emailFormControl.value!;
+    this.user.name = this.nameFormControl.value!;
+    this.user.cpf = this.cpfFormControl.value!;
+    this.user.phone = this.phoneFormControl.value!;
+    this.user.role = 'USER';
+    this.user.setAddress(this.address);
+    this.user.setPassword(this.passwordFormControl.value!);
+    this.loading.set(true);
+    await this.userService.createUser(this.user, this.passwordFormControl.value!);
+    this.loading.set(false);
     console.log('Usuário cadastrado:', this.user);
     alert('Cadastro realizado com sucesso! A senha foi enviada para o e-mail.');
-    this.router.navigate(['/login']);
+    await this.router.navigate(['/login']);
   }
 }

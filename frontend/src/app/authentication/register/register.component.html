@@ -1,28 +1,38 @@
 <mat-card class="register-container">
-  <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+  <form>
     <mat-form-field appearance="fill">
       <mat-label>CPF</mat-label>
-      <input matInput name="cpf" [(ngModel)]="user.cpf" required />
+      <input matInput name="cpf" mask="999.999.999-99" [formControl]="cpfFormControl"/>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Nome</mat-label>
-      <input matInput name="name" [(ngModel)]="user.name" required />
+      <input matInput name="name" required [formControl]="nameFormControl"/>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>E-mail</mat-label>
-      <input matInput type="email" name="email" [(ngModel)]="user.email" required />
+      <input matInput type="email" name="email" required [formControl]="emailFormControl"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" name="password" required [formControl]="passwordFormControl"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Digite a senha novamente</mat-label>
+      <input matInput type="password" name="retype-password" required [formControl]="rePasswordFormControl"/>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Telefone</mat-label>
-      <input matInput name="phone" [(ngModel)]="user.phone" required />
+      <input matInput name="phone" mask="(99)99999-9999" required [formControl]="phoneFormControl"/>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>CEP</mat-label>
-      <input matInput name="cep" [(ngModel)]="cep" (blur)="fetchAddress()" required />
+      <input matInput name="cep" mask="99999-999" [(ngModel)]="cep" (blur)="fetchAddress()" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -56,7 +66,7 @@
     </mat-form-field>
 
     <div class="button-container">
-      <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+      <button mat-raised-button color="primary" [disabled]="loading()" (click)="submit()">Cadastrar</button>
     </div>
   </form>
 </mat-card>
