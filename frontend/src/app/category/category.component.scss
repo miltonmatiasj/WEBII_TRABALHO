@@ -1,9 +1,69 @@
+// Estilo do título
+h2.mat-h2 {
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: #3f51b5; // cor primária do Angular Material (indigo)
+}
+
+// Container do botão
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+
+  button {
+    font-weight: 500;
+  }
+}
+
+// Estilo da tabela
+.category-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+
+  th.mat-header-cell {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+  }
+
+  td.mat-cell,
+  th.mat-header-cell {
+    padding: 12px 16px;
+    text-align: left;
+  }
+
+  td.mat-cell {
+    vertical-align: middle;
+  }
+
+  tr.mat-row:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  tr.mat-row:hover {
+    background-color: #e3f2fd;
+  }
+
+  .mat-icon-button {
+    margin: 0 4px;
+
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+// Status visual
 .status-ativa {
-  color: green;
-  font-weight: bold;
+  color: #388e3c; // verde
+  font-weight: 500;
 }
 
 .status-inativa {
-  color: #b10202;
-  font-weight: bold;
+  color: #d32f2f; // vermelho
+  font-weight: 500;
 }
+
+
