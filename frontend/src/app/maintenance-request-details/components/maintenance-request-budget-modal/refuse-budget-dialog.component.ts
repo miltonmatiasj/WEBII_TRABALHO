@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaintenanceRequestService } from '../../services/maintenance-request-details.service';
+import { maintenancerequesthistoryService } from '../../services/maintenance-request-details.service';
 
 @Component({
   selector: 'app-refuse-budget-dialog',
@@ -71,13 +71,13 @@ export class RefuseBudgetDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<RefuseBudgetDialogComponent>,
-    private maintenanceRequestService: MaintenanceRequestService,
+    private maintenancerequesthistoryService: maintenancerequesthistoryService,
     @Inject(MAT_DIALOG_DATA) public data: { id: string }
   ) {}
 
   submit(): void {
     if (this.reason.trim()) {
-      this.maintenanceRequestService.updateRequestStatus(
+      this.maintenancerequesthistoryService.updateRequestStatus(
         this.data.id,
         'REJEITADA'
       );

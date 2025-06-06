@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { MaintenanceRequestService } from '../../services/maintenance-request-details.service';
+import { maintenancerequesthistoryService } from '../../services/maintenance-request-details.service';
 
 @Component({
   selector: 'app-confirmation-budget-dialog',
@@ -56,11 +56,11 @@ export class ConfirmationBudgetDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmationBudgetDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: string; price: number },
-    private maintenanceRequestService: MaintenanceRequestService
+    private maintenancerequesthistoryService: maintenancerequesthistoryService
   ) {}
 
   confirm(): void {
-    this.maintenanceRequestService.updateRequestStatus(
+    this.maintenancerequesthistoryService.updateRequestStatus(
       this.data.id,
       'APROVADA'
     );

@@ -13,7 +13,7 @@ public interface MaintenanceExecutionRepository extends JpaRepository<Maintenanc
 
     List<MaintenanceExecutionEntity> findByEmployeeId(int employeeId);
 
-    List<MaintenanceExecutionEntity> findByMaintenanceRequestId(int maintenanceRequestId);
+    List<MaintenanceExecutionEntity> findBymaintenancerequesthistoryId(int maintenancerequesthistoryId);
 
     List<MaintenanceExecutionEntity> findByEmployeeIdAndCreatedAtBetween(int employeeId, LocalDateTime start, LocalDateTime end);
 

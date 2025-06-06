@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class MaintenanceRequestService {
-  private storageKey = 'MaintenanceRequest';
+export class maintenancerequesthistoryService {
+  private storageKey = 'maintenancerequesthistory';
 
   getRequestById(id: string): any {
     console.log('Buscando solicitação com ID:', id);

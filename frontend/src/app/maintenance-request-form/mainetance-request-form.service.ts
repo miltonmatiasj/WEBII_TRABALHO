@@ -13,8 +13,8 @@ export interface CustomerData {
 @Injectable({
   providedIn: 'root',
 })
-export class MaintenanceRequestFormService {
-  private storageKey = 'MaintenanceRequest';
+export class maintenancerequesthistoryFormService {
+  private storageKey = 'maintenancerequesthistory';
 
   constructor() {}
 

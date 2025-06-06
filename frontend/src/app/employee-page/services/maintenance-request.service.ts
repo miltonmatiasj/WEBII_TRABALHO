@@ -5,8 +5,8 @@ import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MaintenanceRequestService {
-  private readonly STORAGE_KEY = 'MaintenanceRequest';
+export class maintenancerequesthistoryService {
+  private readonly STORAGE_KEY = 'maintenancerequesthistory';
 
   constructor(private userService: UserService) {}
 

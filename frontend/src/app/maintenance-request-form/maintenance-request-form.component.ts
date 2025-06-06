@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, NgForm } from '@angular/forms';
 import {
   CustomerData,
-  MaintenanceRequestFormService,
+  maintenancerequesthistoryFormService,
 } from './mainetance-request-form.service';
 import { CategoryService, Category } from '../category/category.service';
 import { CommonModule } from '@angular/common';
@@ -29,11 +29,11 @@ import { Router } from '@angular/router';
   templateUrl: './maintenance-request-form.component.html',
   styleUrls: ['./maintenance-request-form.component.scss'],
 })
-export class MaintenanceRequestForm implements OnInit {
+export class maintenancerequesthistoryForm implements OnInit {
   categories: Category[] = [];
 
   constructor(
-    private maintenanceRequestFormService: MaintenanceRequestFormService,
+    private maintenancerequesthistoryFormService: maintenancerequesthistoryFormService,
     private categoryService: CategoryService,
     private authService: AuthService,
     private router: Router
@@ -75,7 +75,7 @@ export class MaintenanceRequestForm implements OnInit {
       defectDescription: form.value.descricao_defeito,
     };
 
-    this.maintenanceRequestFormService.addCustomerData(newRequest);
+    this.maintenancerequesthistoryFormService.addCustomerData(newRequest);
     alert('Solicitação adicionada com sucesso!');
     form.reset();
     this.router.navigate(['/customer-home']);

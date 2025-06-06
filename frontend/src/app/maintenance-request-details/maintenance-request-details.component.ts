@@ -6,8 +6,8 @@ import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MaintenanceRequestService } from './services/maintenance-request-details.service';
-import { MaintenanceRequestBudgetModalComponent } from './components/maintenance-request-budget-modal/maintenance-request-budget-modal.component';
+import { maintenancerequesthistoryService } from './services/maintenance-request-details.service';
+import { maintenancerequesthistoryBudgetModalComponent } from './components/maintenance-request-budget-modal/maintenance-request-budget-modal.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { AuthService } from '../authentication/auth.service';
 import { NgxMaskPipe } from 'ngx-mask';
@@ -26,7 +26,7 @@ import { NgxMaskPipe } from 'ngx-mask';
     NgxMaskPipe,
   ],
 })
-export class MaintenanceRequestDetailsComponent implements OnInit {
+export class maintenancerequesthistoryDetailsComponent implements OnInit {
   request: any;
   history: any[] = [];
   displayedColumns: string[] = ['dateTime', 'employee', 'action'];
@@ -34,7 +34,7 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
   private dialog = inject(MatDialog);
 
   constructor(
-    private maintenanceService: MaintenanceRequestService,
+    private maintenanceService: maintenancerequesthistoryService,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService
@@ -99,7 +99,7 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
   }
 
   private async handleBudgetAction(): Promise<void> {
-    const dialogRef = this.dialog.open(MaintenanceRequestBudgetModalComponent, {
+    const dialogRef = this.dialog.open(maintenancerequesthistoryBudgetModalComponent, {
       width: '600px',
       data: {
         id: this.request.id,

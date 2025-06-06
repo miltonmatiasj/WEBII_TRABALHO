@@ -24,7 +24,7 @@ public class MaintenanceExecutionEntity {
     @Column(name = "employeeId")
     private int employeeId;
 
-    @Column(name = "maintenanceRequestId")
+    @Column(name = "maintenancerequesthistoryId")
     private int maintenance_request_id;
 
     @Column(name = "createdAt")

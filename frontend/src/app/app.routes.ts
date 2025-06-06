@@ -1,8 +1,8 @@
 import {Routes} from '@angular/router';
 import {LoginComponent} from './authentication/login/login.component';
 import {CategoryComponent} from './category/category.component';
-import {MaintenanceRequestDetailsComponent} from './maintenance-request-details/maintenance-request-details.component';
-import {MaintenanceRequestForm} from './maintenance-request-form/maintenance-request-form.component';
+import {maintenancerequesthistoryDetailsComponent} from './maintenance-request-details/maintenance-request-details.component';
+import {maintenancerequesthistoryForm} from './maintenance-request-form/maintenance-request-form.component';
 import {CustomerHomeComponent} from './customer-home/customer-home.component';
 import {RegisterComponent} from './authentication/register/register.component';
 import {ServiceQuoteComponent} from './service-quote/service-quote.component';
@@ -47,11 +47,11 @@ export const routes: Routes = [
       },
       {
         path: 'maintenance-request/create',
-        component: MaintenanceRequestForm,
+        component: maintenancerequesthistoryForm,
       },
       {
         path: 'maintenance-request/:id',
-        component: MaintenanceRequestDetailsComponent,
+        component: maintenancerequesthistoryDetailsComponent,
       },
     ],
   },

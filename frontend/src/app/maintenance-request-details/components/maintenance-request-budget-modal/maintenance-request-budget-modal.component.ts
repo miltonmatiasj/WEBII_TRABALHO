@@ -18,9 +18,9 @@ import { RefuseBudgetDialogComponent } from './refuse-budget-dialog.component';
   templateUrl: './maintenance-request-budget-modal.component.html',
   styleUrls: ['./maintenance-request-budget-modal.component.scss'],
 })
-export class MaintenanceRequestBudgetModalComponent {
+export class maintenancerequesthistoryBudgetModalComponent {
   constructor(
-    public dialogRef: MatDialogRef<MaintenanceRequestBudgetModalComponent>,
+    public dialogRef: MatDialogRef<maintenancerequesthistoryBudgetModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog
   ) {}

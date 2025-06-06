@@ -6,7 +6,7 @@ import { AuthService } from '../../authentication/auth.service';
   providedIn: 'root',
 })
 export class CustomerHomeService {
-  private storageKey = 'MaintenanceRequest';
+  private storageKey = 'maintenancerequesthistory';
 
   constructor(private authService: AuthService) {}
 

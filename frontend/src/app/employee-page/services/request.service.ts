@@ -20,7 +20,7 @@ export interface ServiceRequest {
   providedIn: 'root'
 })
 export class RequestService {
-  private readonly STORAGE_KEY = 'MaintenanceRequest';
+  private readonly STORAGE_KEY = 'maintenancerequesthistory';
 
   constructor() {
     console.log('RequestService inicializado');
