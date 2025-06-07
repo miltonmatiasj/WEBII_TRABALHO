@@ -90,8 +90,7 @@ public class MaintenanceRequestService {
                 }
                 break;
             case PAGA:
-                if (next != MaintenanceRequest.Status.ARRUMADA
-                 && next != MaintenanceRequest.Status.REDIRECIONADA) {
+                if (next != MaintenanceRequest.Status.FINALIZADA) {
                     throw new IllegalArgumentException("Invalid transition: PAGA → " + next);
                 }
                 break;

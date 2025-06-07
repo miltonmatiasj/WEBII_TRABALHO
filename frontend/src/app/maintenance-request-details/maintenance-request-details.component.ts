@@ -138,10 +138,11 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result?.confirmed) {
-        this.maintenanceService.changeStatus(this.request!.id, 'PAGA', result.paymentMethod);
+        await this.maintenanceService.changeStatus(this.request!.id, 'PAGA', result.paymentMethod);
         alert('Pagamento realizado com sucesso!');
+        this.router.navigate(['/customer-home']);
       }
     })
   }
@@ -156,26 +157,23 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
   }
 
   private async handleFinalizeAction(): Promise<void> {
-    // const confirmed = confirm('Deseja finalizar esta solicitação?');
-    // if (confirmed) {
-    //   console.log('Iniciando finalização da solicitação:', this.request);
-    //   this.maintenanceService.updateRequestStatus(this.request.id, 'FINALIZADA');
-    //
-    //   // Aguardar um pequeno intervalo para garantir que o localStorage foi atualizado
-    //   await new Promise(resolve => setTimeout(resolve, 100));
-    //
-    //   // Buscar a solicitação atualizada
-    //   const updatedRequest = this.maintenanceService.getRequestById(this.request.id);
-    //   console.log('Solicitação atualizada:', updatedRequest);
-    //
-    //   if (updatedRequest) {
-    //     this.request = updatedRequest;
-    //     console.log('Solicitação atualizada no componente:', this.request);
-    //     alert('Solicitação finalizada com sucesso!');
-    //   } else {
-    //     console.error('Não foi possível atualizar a solicitação');
-    //     alert('Erro ao finalizar a solicitação. Por favor, tente novamente.');
-    //   }
-    // }
+    if (this.request == null) {
+      return;
+    }
+    const confirmed = confirm('Deseja finalizar esta solicitação?');
+    if (confirmed) {
+      console.log('Iniciando finalização da solicitação:', this.request);
+      await this.maintenanceService.changeStatus(this.request.id, 'FINALIZADA');
+      const updatedRequest = await this.maintenanceService.getRequestById(this.request.id);
+      if (updatedRequest) {
+        this.request = updatedRequest;
+        console.log('Solicitação atualizada no componente:', this.request);
+        alert('Solicitação finalizada com sucesso!');
+      } else {
+        console.error('Não foi possível atualizar a solicitação');
+        alert('Erro ao finalizar a solicitação. Por favor, tente novamente.');
+      }
+      await this.router.navigate(['/customer-home']);
+    }
   }
 }
