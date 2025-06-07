@@ -1,7 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
-import { ServiceRequest, RequestService } from '../employee-page/services/request.service';
+import { RequestService } from '../employee-page/services/request.service';
 import { Customer } from './services/service-quote.service';
-import { ServiceQuoteService } from './services/service-quote.service'
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import {ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from '../authentication/auth.service';
 import {MatButton} from "@angular/material/button";
+import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
 
 @Component({
   selector: 'app-service-quote',
@@ -28,7 +28,7 @@ import {MatButton} from "@angular/material/button";
 })
 export class ServiceQuoteComponent implements OnInit {
   id!: string;
-  request?: ServiceRequest;
+  request?: MaintenanceRequest;
   customer?: Customer;
   orcamento: { valor: number } = { valor: 0 };
   error: string = '';

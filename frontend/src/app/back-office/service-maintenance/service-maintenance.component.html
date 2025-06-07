@@ -2,14 +2,14 @@
   <mat-card-header>
     <mat-card-title>Realizar Manutenção</mat-card-title>
   </mat-card-header>
-  
+
   <mat-card-content *ngIf="request">
     <div class="request-info">
-      <p><strong>Cliente:</strong> {{request.customerName}}</p>
+      <p><strong>Cliente:</strong> {{request.customer.name}}</p>
       <p><strong>Equipamento:</strong> {{request.equipmentDescription}}</p>
-      <p><strong>Categoria:</strong> {{request.categoryName}}</p>
-      <p><strong>Valor do Orçamento:</strong> R$ {{request.quoteValue}}</p>
-      <p><strong>Descrição do Serviço:</strong> {{request.serviceDescription}}</p>
+      <p><strong>Categoria:</strong> {{request.category.categoryName}}</p>
+      <p><strong>Valor do Orçamento:</strong> R$ </p>
+      <p><strong>Descrição do Serviço:</strong> </p>
     </div>
 
     <form class="maintenance-form">
@@ -25,4 +25,4 @@
       Finalizar Manutenção
     </button>
   </mat-card-actions>
-</mat-card> 
+</mat-card>

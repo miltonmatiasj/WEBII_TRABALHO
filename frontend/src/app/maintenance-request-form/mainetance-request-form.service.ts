@@ -2,6 +2,8 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {lastValueFrom} from "rxjs";
+import {User} from "../users/User";
+import {Category} from "../category/category.service";
 
 export type MaintenanceRequest = {
   id: string;
@@ -9,12 +11,8 @@ export type MaintenanceRequest = {
   requestDate: string;
   status: string;
   defectDescription: string;
-  category: {
-    id: string
-  },
-  customer: {
-    id: string
-  },
+  category: Partial<Category>,
+  customer: Partial<User>,
   createdAt?: string;
 };
 
