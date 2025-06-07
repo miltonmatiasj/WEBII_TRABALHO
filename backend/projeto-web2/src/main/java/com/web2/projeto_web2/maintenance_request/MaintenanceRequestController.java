@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/maintenance-requests")
@@ -29,5 +30,11 @@ public class MaintenanceRequestController {
     public ResponseEntity<Iterable<MaintenanceRequest>> getAllMaintenanceRequests() {
         Iterable<MaintenanceRequest> requests = service.getAllMaintenanceRequests();
         return ResponseEntity.ok(requests);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MaintenanceRequest> getMaintenanceRequestById(@PathVariable("id") UUID id) {
+        MaintenanceRequest request = service.getMaintenanceRequestById(id);
+        return ResponseEntity.ok(request);
     }
 }

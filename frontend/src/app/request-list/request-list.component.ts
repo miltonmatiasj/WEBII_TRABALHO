@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { RequestService } from '../employee-page/services/request.service';
 import { FinalizeRequestModalComponent } from './compnents/finalize-request-modal/finalize-request-modal.component';
 import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
+import {AuthService} from "../authentication/auth.service";
 
 @Component({
   selector: 'app-request-list',
@@ -48,6 +49,8 @@ export class RequestListComponent implements OnInit {
   dataInicio: Date | null = null;
   dataFim: Date | null = null;
 
+  authService = inject(AuthService);
+
   constructor(
     private requestService: RequestService,
     private dialog: MatDialog,
@@ -64,17 +67,17 @@ export class RequestListComponent implements OnInit {
 
   aplicarFiltro(): void {
     this.filteredRequests = [...this.allRequests]
-      // .filter(req => {
-      //   const dataReq = new Date(req.requestDate);
-      //
-      //   if (req.status === 'REDIRECIONADA' && req.customer.id !== this.funcionarioNome) return false;
-      //
-      //   if (this.dataInicio && dataReq < this.dataInicio) return false;
-      //   if (this.dataFim && dataReq > this.dataFim) return false;
-      //
-      //   return true;
-      // })
-      // .sort((a, b) => new Date(a.requestDate).getTime() - new Date(b.requestDate).getTime());
+      .filter(req => {
+        const dataReq = new Date(req.requestDate);
+
+        if (req.status === 'REDIRECIONADA') return false;
+
+        if (this.dataInicio && dataReq < this.dataInicio) return false;
+        if (this.dataFim && dataReq > this.dataFim) return false;
+
+        return true;
+      })
+      .sort((a, b) => new Date(a.requestDate).getTime() - new Date(b.requestDate).getTime());
   }
 
   filterToday(): void {
@@ -138,7 +141,7 @@ export class RequestListComponent implements OnInit {
       width: '350px',
     }).afterClosed().subscribe(async (result) => {
       if (result) {
-        const request = this.requestService.getRequestById(id);
+        const request = await this.requestService.getRequestById(id);
         if (request) {
           request.status = 'FINALIZADA';
           this.requestService.updateRequest(request);

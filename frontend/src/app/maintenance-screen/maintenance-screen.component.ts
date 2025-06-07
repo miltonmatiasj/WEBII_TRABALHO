@@ -46,7 +46,10 @@ export class MaintenanceScreenComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
     if (id) {
-      this.solicitacao = this.requestService.getRequestById(id);
+      this.requestService.getRequestById(id).then((response) => {
+        this.solicitacao = response;
+      })
+
     }
     this.cliente = this.serviceServiceQuote.getCustomerByCPF(this.solicitacao?.customer.cpf ?? '');
   }

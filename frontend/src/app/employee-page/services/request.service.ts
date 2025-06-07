@@ -17,21 +17,8 @@ export class RequestService {
     return requests;
   }
 
-  getRequestById(id: string): MaintenanceRequest | undefined {
-    return
-    // console.log('Tentando buscar requisição com ID:', id);
-    // console.log('Tipo do ID:', typeof id);
-    //
-    // const requests = this.requests;
-    // console.log('Lista de requisições disponíveis:', requests);
-    //
-    // const foundRequest = requests.find((request: MaintenanceRequest) => {
-    //   console.log('Comparando com requisição:', request);
-    //   return request.id === id;
-    // });
-    //
-    // console.log('Requisição encontrada:', foundRequest);
-    // return foundRequest;
+  async getRequestById(id: string): Promise<MaintenanceRequest | undefined> {
+    return await lastValueFrom(this.http.get<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}`));
   }
 
   updateRequest(updatedRequest: MaintenanceRequest): void {

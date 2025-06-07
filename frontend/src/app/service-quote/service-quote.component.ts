@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from '../authentication/auth.service';
 import {MatButton} from "@angular/material/button";
 import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-service-quote',
@@ -22,12 +23,13 @@ import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request
     MatFormFieldModule,
     MatInputModule,
     MatButton,
+    NgxMaskDirective,
   ],
   templateUrl: './service-quote.component.html',
   styleUrl: './service-quote.component.scss'
 })
 export class ServiceQuoteComponent implements OnInit {
-  id!: string;
+  id?: string;
   request?: MaintenanceRequest;
   customer?: Customer;
   orcamento: { valor: number } = { valor: 0 };
@@ -48,25 +50,26 @@ export class ServiceQuoteComponent implements OnInit {
         this.error = 'ID da solicitação não encontrado';
         return;
       }
-      this.request = this.serviceRequest.getRequestById(this.id);
-      if (!this.request) {
-        this.error = 'Solicitação não encontrada';
-        return;
-      }
+      this.serviceRequest.getRequestById(this.id).then((request) => {
+        this.request = request;
+        if (!this.request) {
+          this.error = 'Solicitação não encontrada';
+          return;
+        }
 
-      const user = this.authService.currentUser();
-      if (user) {
-        this.customer = {
-          cpf: user.cpf,
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          password: '',
-          addressId: 0
-        };
-      } else {
-        this.error = 'Usuário não encontrado';
-      }
+        const user = this.authService.currentUser();
+        if (user) {
+          this.customer = {
+            cpf: user.cpf,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+          };
+        } else {
+          this.error = 'Usuário não encontrado';
+        }
+      })
+
     } catch (error) {
       this.error = 'Erro ao carregar os dados';
       console.error(error);

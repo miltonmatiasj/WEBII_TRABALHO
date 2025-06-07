@@ -35,7 +35,9 @@ export class ServiceMaintenanceComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.request = this.requestService.getRequestById(id);
+      this.requestService.getRequestById(id).then((request) => {
+        this.request = request;
+      })
     }
   }
 

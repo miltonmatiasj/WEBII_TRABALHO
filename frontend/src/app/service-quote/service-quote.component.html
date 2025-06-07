@@ -4,7 +4,7 @@
       <h3>Dados da Solicitação</h3>
       <p><strong>Equipamento:</strong> {{ request?.equipmentDescription }}</p>
       <p><strong>Defeito:</strong> {{ request?.defectDescription }}</p>
-      <p><strong>Data:</strong> {{ request?.requestDate | date: 'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Data:</strong> {{ request?.createdAt | date }}</p>
 
       <h3>Cliente</h3>
       <p><strong>Nome:</strong> {{ customer?.name }}</p>
