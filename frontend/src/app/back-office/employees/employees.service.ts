@@ -43,11 +43,22 @@ export class EmployeesService {
     }
   }
 
+  async updateEmployee(employee: Employee) {
+    const dialogRef = this.dialog.open(NewEmployeeComponent, {
+      width: '400px',
+      data: employee
+    });
+    const result = await lastValueFrom(dialogRef.afterClosed());
+    if (result) {
+      await lastValueFrom(this.http.put<Employee>(`${environment.baseUrl}/users/${employee.id}`, result.toJson()));
+    }
+  }
+
   dialog = inject(MatDialog)
   openNewEmployeeDialog() {
     const dialogRef = this.dialog.open(NewEmployeeComponent, {
       width: '400px',
-      data: {}
+      data: null
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {

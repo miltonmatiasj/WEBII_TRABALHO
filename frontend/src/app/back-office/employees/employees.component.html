@@ -25,7 +25,10 @@
 
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element" matTooltip="Você não pode deletar você mesmo." [matTooltipDisabled]="element.id !== authService.currentUser()?.id">
+    <td mat-cell *matCellDef="let element" matTooltip="Você não pode editar/deletar você mesmo." [matTooltipDisabled]="element.id !== authService.currentUser()?.id">
+      <button (click)="employeeService.updateEmployee(element)" mat-icon-button [disabled]="element.id === authService.currentUser()?.id">
+        <mat-icon>edit</mat-icon>
+      </button>
       <button (click)="employeeService.deleteEmployee(element)" mat-icon-button [disabled]="element.id === authService.currentUser()?.id">
         <mat-icon >delete</mat-icon>
       </button>
