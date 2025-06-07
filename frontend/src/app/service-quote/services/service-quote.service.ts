@@ -1,54 +1,36 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Data } from '@angular/router';
 import {User} from "../../users/User";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {lastValueFrom} from "rxjs";
+import {MaintenanceRequest} from "../../maintenance-request-form/mainetance-request-form.service";
 
 export type Customer = Partial<User>;
 
-export interface Quote{
+export type MaintenanceRequestBudget = {
   id: number;
   price: number;
   dateTime: Data;
-  employeeId: number;
-  requestId: number;
-
+  employee: Partial<User>;
+  maintenanceRequest: Partial<MaintenanceRequest>;
 }
+
+export type MaintenanceRequestBudgetPost = Omit<MaintenanceRequestBudget, 'id' | 'dateTime'>;
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceQuoteService {
 
- private mockCustomers: Customer[] = [
-    {
-      cpf: '11111111111',
-      name: 'João Silva',
-      email: 'joao.silva@email.com',
-      phone: '(11) 99999-1111',
-    },
-    {
-      cpf: '22222222222',
-      name: 'José Santos',
-      email: 'jose.santos@email.com',
-      phone: '(21) 98888-2222',
-    },
-    {
-      cpf: '33333333333',
-      name: 'Joana Costa',
-      email: 'joana.costa@email.com',
-      phone: '(31) 97777-3333',
-    },
-    {
-      cpf: '44444444444',
-      name: 'Joaquina Souza',
-      email: 'joaquina.souza@email.com',
-      phone: '(41) 96666-4444',
-    }
-  ];
+  http = inject(HttpClient);
 
-  getCustomerByCPF(cpf: string): Customer | undefined {
-    return this.mockCustomers.find(customer => customer.cpf === cpf);
+  addQuote(quote: MaintenanceRequestBudgetPost): Promise<MaintenanceRequestBudget> {
+    return lastValueFrom(this.http.post<MaintenanceRequestBudget>(`${environment.baseUrl}/maintenance-request-budget`, quote));
   }
 
-
-  constructor() { }
+  getCustomerByCPF(cpf: string): Customer | undefined {
+    return ;
+    // return this.mockCustomers.find(customer => customer.cpf === cpf);
+  }
 }

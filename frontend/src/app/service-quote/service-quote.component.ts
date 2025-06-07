@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { RequestService } from '../employee-page/services/request.service';
-import { Customer } from './services/service-quote.service';
+import {Customer, ServiceQuoteService} from './services/service-quote.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +36,7 @@ export class ServiceQuoteComponent implements OnInit {
   error: string = '';
 
   router = inject(Router);
+  serviceQuoteService = inject(ServiceQuoteService);
 
   constructor(
     private route: ActivatedRoute,
@@ -78,8 +79,16 @@ export class ServiceQuoteComponent implements OnInit {
 
   confirmOrcamento() {
     if (this.orcamento.valor && this.orcamento.valor > 0 && this.request != null) {
+      this.serviceQuoteService.addQuote({
+        price: this.orcamento.valor,
+        employee: {
+          id: this.authService.currentUser()?.id
+        },
+        maintenanceRequest: {
+          id: this.request.id
+        }
+      });
       console.log('Orçamento confirmado:', this.orcamento.valor);
-      this.serviceRequest.updateRequest({...this.request, status: 'ORCADA'});
       this.router.navigate(['/back-office/maintenance-request']);
     } else {
       alert('Valor do orçamento inválido!');
