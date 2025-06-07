@@ -12,11 +12,12 @@ export type MaintenanceRequestBudget = {
   id: number;
   price: number;
   dateTime: Data;
+  evaluation?: string;
   employee: Partial<User>;
   maintenanceRequest: Partial<MaintenanceRequest>;
 }
 
-export type MaintenanceRequestBudgetPost = Omit<MaintenanceRequestBudget, 'id' | 'dateTime'>;
+export type MaintenanceRequestBudgetPost = Omit<MaintenanceRequestBudget, 'id' | 'dateTime' | 'evaluation'>;
 
 @Injectable({
   providedIn: 'root'

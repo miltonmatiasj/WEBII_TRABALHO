@@ -104,13 +104,7 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(MaintenanceRequestBudgetModalComponent, {
       width: '600px',
-      data: {
-        id: this.request!.id,
-        equipment: this.request.equipmentDescription,
-        description: this.request.defectDescription,
-        date: this.request.requestDate,
-        price: 0,
-      },
+      data: this.request,
     });
 
     const result = await dialogRef.afterClosed().toPromise();

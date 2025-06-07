@@ -23,6 +23,9 @@ public class MaintenanceRequestBudget {
     @Column(name = "price", nullable = false)
     private Double price;
 
+    @Column(name = "evaluation", nullable = true)
+    private String evaluation;
+
     //employeeId
     @JoinColumn(name = "employee_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
@@ -62,5 +65,11 @@ public class MaintenanceRequestBudget {
     }
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+    public String getEvaluation() {
+        return evaluation;
+    }
+    public void setEvaluation(String evaluation) {
+        this.evaluation = evaluation;
     }
 }

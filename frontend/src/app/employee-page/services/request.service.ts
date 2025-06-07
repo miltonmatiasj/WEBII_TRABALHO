@@ -21,13 +21,11 @@ export class RequestService {
     return await lastValueFrom(this.http.get<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}`));
   }
 
-  updateRequest(updatedRequest: MaintenanceRequest): void {
-    // const requests = this.requests;
-    // const index = requests.findIndex(request => request.id === updatedRequest.id);
-    //
-    // if (index !== -1) {
-    //   requests[index] = updatedRequest;
-    //   localStorage.setItem(this.STORAGE_KEY, JSON.stringify(requests));
-    // }
+  async updateRequest(updatedRequest: MaintenanceRequest) {
+    // await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}`, {}));
+  }
+
+  async changeStatus(id: string, status: string): Promise<MaintenanceRequest> {
+    return await lastValueFrom(this.http.patch<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}/status`, {status}));
   }
 }
