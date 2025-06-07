@@ -59,6 +59,9 @@ public class MaintenanceRequest {
     @Column(name = "created_at", nullable = false)
     private Date createdAt = new Date();
 
+    @Column(name = "payment_method")
+    private String paymentMethod;
+
     public MaintenanceRequest() {}
 
     public UUID getId() {
@@ -122,5 +125,12 @@ public class MaintenanceRequest {
     }
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

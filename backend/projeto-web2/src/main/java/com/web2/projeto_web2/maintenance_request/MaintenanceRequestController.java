@@ -56,6 +56,9 @@ public class MaintenanceRequestController {
             @PathVariable("id") UUID id,
             @RequestBody MaintenanceRequest request) {
         MaintenanceRequest updated = service.updateMaintenanceRequestStatusById(id, request.getStatus());
+        if (request.getPaymentMethod() != null) {
+            service.updatePaymentMethodById(id, request.getPaymentMethod());
+        }
         return ResponseEntity.ok(updated);
     }
 }

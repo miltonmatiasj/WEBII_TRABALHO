@@ -25,7 +25,7 @@ export class RequestService {
     // await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}`, {}));
   }
 
-  async changeStatus(id: string, status: string): Promise<MaintenanceRequest> {
-    return await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}/status`, {status}));
+  async changeStatus(id: string, status: string, paymentMethod?: string): Promise<MaintenanceRequest> {
+    return await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}/status`, {status, paymentMethod}));
   }
 }
