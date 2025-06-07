@@ -1,9 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import {Component, inject, Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MaintenanceRequestService } from '../../services/maintenance-request-details.service';
+import {RequestService} from "../../../employee-page/services/request.service";
 
 @Component({
   selector: 'app-confirmation-budget-dialog',
@@ -53,14 +54,14 @@ import { MaintenanceRequestService } from '../../services/maintenance-request-de
   ],
 })
 export class ConfirmationBudgetDialogComponent {
+  requestService = inject(RequestService);
   constructor(
     public dialogRef: MatDialogRef<ConfirmationBudgetDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: string; price: number },
-    private maintenanceRequestService: MaintenanceRequestService
   ) {}
 
-  confirm(): void {
-    this.maintenanceRequestService.updateRequestStatus(
+  async confirm() {
+    await this.requestService.changeStatus(
       this.data.id,
       'APROVADA'
     );

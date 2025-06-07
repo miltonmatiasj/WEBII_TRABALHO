@@ -45,7 +45,7 @@ export class MaintenanceRequestBudgetModalComponent {
   accept(): void {
     const dialogRef = this.dialog.open(ConfirmationBudgetDialogComponent, {
       width: '400px',
-      data: { price: this.price },
+      data: { price: this.price, id: this.data.id },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

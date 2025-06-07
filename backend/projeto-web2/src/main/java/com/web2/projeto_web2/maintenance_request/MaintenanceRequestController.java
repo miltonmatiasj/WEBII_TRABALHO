@@ -50,4 +50,12 @@ public class MaintenanceRequestController {
         MaintenanceRequestBudget request = maintenanceRequestBudgetService.getMaintenanceRequestBudgetByRequestId(id);
         return ResponseEntity.ok(request);
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<MaintenanceRequest> updateMaintenanceRequestStatus(
+            @PathVariable("id") UUID id,
+            @RequestBody MaintenanceRequest request) {
+        MaintenanceRequest updated = service.updateMaintenanceRequestStatusById(id, request.getStatus());
+        return ResponseEntity.ok(updated);
+    }
 }

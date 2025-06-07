@@ -33,8 +33,6 @@ export class MaintenanceScreenComponent implements OnInit {
   descricaoManutencao = '';
   orientacoesCliente = '';
   funcionarioLogado = 'Funcionário Exemplo';
-  cliente?: Customer;
-
   constructor(
     private route: ActivatedRoute,
     private requestService: RequestService,
@@ -49,9 +47,7 @@ export class MaintenanceScreenComponent implements OnInit {
       this.requestService.getRequestById(id).then((response) => {
         this.solicitacao = response;
       })
-
     }
-    this.cliente = this.serviceServiceQuote.getCustomerByCPF(this.solicitacao?.customer.cpf ?? '');
   }
 
 
@@ -64,11 +60,10 @@ export class MaintenanceScreenComponent implements OnInit {
       data: { solicitacaoId: this.solicitacao?.id }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const updatedRequest = {...this.solicitacao!, status: 'ARRUMADA'};
-        this.requestService.updateRequest(updatedRequest);
-        this.router.navigate(['back-office/maintenance-request']);
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result && this.solicitacao?.id) {
+        await this.requestService.changeStatus(this.solicitacao?.id, 'ARRUMADA')
+        await this.router.navigate(['back-office/maintenance-request']);
       }
     });
   }

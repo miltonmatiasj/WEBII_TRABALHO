@@ -26,6 +26,6 @@ export class RequestService {
   }
 
   async changeStatus(id: string, status: string): Promise<MaintenanceRequest> {
-    return await lastValueFrom(this.http.patch<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}/status`, {status}));
+    return await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}/status`, {status}));
   }
 }
