@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -22,10 +22,10 @@ public class UserService {
     }
 
     public List<User> getAllEmployees() {
-        return userRepository.findByRoles(Set.of(Role.FUNCIONARIO));
+        return userRepository.findAll().stream().filter(user -> user.getRoles().contains(Role.FUNCIONARIO)).toList();
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> getUserById(UUID id) {
         return userRepository.findById(id);
     }
 
@@ -33,7 +33,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User updateUser(Long id, User userDetails) {
+    public User updateUser(UUID id, User userDetails) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
         user.setName(userDetails.getName());
@@ -42,7 +42,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(UUID id) {
         userRepository.deleteById(id);
     }
 }

@@ -20,8 +20,19 @@
   <mat-form-field>
     <mat-label>CPF</mat-label>
     <input
+      mask="999.999.999-99"
       matInput
       formControlName="cpf"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Telefone</mat-label>
+    <input
+      mask="(99)99999-9999"
+      matInput
+      formControlName="phone"
       required
     />
   </mat-form-field>

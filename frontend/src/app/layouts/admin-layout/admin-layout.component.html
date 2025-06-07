@@ -28,6 +28,12 @@
         <mat-icon matListItemIcon>logout</mat-icon>
         <span matListItemTitle>Logout</span>
       </a>
+      @if (authService.currentUser()?.isCliente()) {
+        <a mat-list-item routerLink="/customer-home" routerLinkActive="active">
+          <mat-icon matListItemIcon>add</mat-icon>
+          <span matListItemTitle>Ver como cliente</span>
+        </a>
+      }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

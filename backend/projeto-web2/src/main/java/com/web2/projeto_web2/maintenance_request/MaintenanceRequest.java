@@ -3,6 +3,8 @@ package com.web2.projeto_web2.maintenance_request;
 import com.web2.projeto_web2.category.Category;
 import com.web2.projeto_web2.users.User;
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.UUID;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,14 +37,12 @@ public class MaintenanceRequest {
     @Column(name = "defect_description", nullable = false)
     private String defectDescription;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = true)
+    @JoinColumn(name = "employee_id")
     private User employee;
 
     @NotNull
@@ -52,9 +52,11 @@ public class MaintenanceRequest {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = 
-    false) 
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt = new Date();
 
     public MaintenanceRequest() {}
 
@@ -112,5 +114,12 @@ public class MaintenanceRequest {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

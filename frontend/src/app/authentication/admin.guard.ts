@@ -10,11 +10,12 @@ export class AdminGuard implements CanActivate {
 
   authService = inject(AuthService);
 
-  canActivate(): boolean {
+  async canActivate(): Promise<boolean> {
+    await this.authService.canNavigate;
     const currentUser = this.authService.currentUser();
-    console.log(currentUser);
+    console.log(111, currentUser);
     if (currentUser != null) {
-      if (currentUser.isAdmin()) {
+      if (currentUser.isFuncionario()) {
         return true;
       }
     }

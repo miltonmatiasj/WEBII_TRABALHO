@@ -23,4 +23,11 @@ public class MaintenanceRequestController {
         return ResponseEntity
                 .created(URI.create("/api/maintenance-requests/" + saved.getId()))
                 .body(saved);
-    }}
+    }
+
+    @GetMapping()
+    public ResponseEntity<Iterable<MaintenanceRequest>> getAllMaintenanceRequests() {
+        Iterable<MaintenanceRequest> requests = service.getAllMaintenanceRequests();
+        return ResponseEntity.ok(requests);
+    }
+}

@@ -1,3 +1,9 @@
-<div class="app-container">
+@if (authService.loading()) {
+  <div class="app-container">
+    <mat-progress-spinner [diameter]="30"></mat-progress-spinner>
+  </div>
+} @else {
+  <div class="app-container">
     <router-outlet></router-outlet>
   </div>
+}

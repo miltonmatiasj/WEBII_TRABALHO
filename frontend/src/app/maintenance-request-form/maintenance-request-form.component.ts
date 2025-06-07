@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, NgForm } from '@angular/forms';
 import {
-  CustomerData,
+  MaintenanceRequestPOST,
   MaintenanceRequestFormService,
 } from './mainetance-request-form.service';
 import { CategoryService, Category } from '../category/category.service';
@@ -47,37 +47,27 @@ export class MaintenanceRequestForm implements OnInit {
     console.log(this.categories);
   }
 
-  generateRandomString(length: number = 30): string {
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-    return result;
-  }
-
-  onSubmit(form: NgForm): void {
+  async onSubmit(form: NgForm): Promise<void> {
     const currentUser = this.authService.currentUser();
     if (!currentUser) {
       alert('Usuário não está logado');
       return;
     }
 
-    const newRequest: CustomerData = {
-      id: this.generateRandomString(),
-      userId: currentUser.id,
+    const newRequest: MaintenanceRequestPOST = {
       equipmentDescription: form.value.descricao_equipamento,
-      status: 'ABERTA',
-      requestDate: new Date().toISOString().split('T')[0],
-      equipmentCategory: form.value.categoria,
+      category: {
+        id: form.value.categoria
+      },
+      customer: {
+        id: currentUser.id
+      },
       defectDescription: form.value.descricao_defeito,
     };
 
-    this.maintenanceRequestFormService.addCustomerData(newRequest);
+    await this.maintenanceRequestFormService.addCustomerData(newRequest);
     alert('Solicitação adicionada com sucesso!');
     form.reset();
-    this.router.navigate(['/customer-home']);
+    await this.router.navigate(['/customer-home']);
   }
 }

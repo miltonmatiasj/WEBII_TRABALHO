@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {NewEmployeeComponent} from "./new-employee/new-employee.component";
 import {HttpClient} from "@angular/common/http";
 import {lastValueFrom} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,25 +19,27 @@ export class EmployeesService {
   }
 
   async requestAllEmployees() {
-    const response = await lastValueFrom(this.http.get<Employee[]>('http://localhost:3000/users'))
+    const response = await lastValueFrom(this.http.get<Employee[]>(`${environment.baseUrl}/employees`))
     this.allEmployees.set([...response])
     this.filteredEmployees.set([...response]);
   }
 
-  newEmployee(employee: Employee) {
+  async newEmployee(employee: Employee) {
     const employees = this.allEmployees();
     employees.push(employee)
     this.allEmployees.set([...employees])
     this.filteredEmployees.set([...employees])
+    await lastValueFrom(this.http.post<Employee[]>(`${environment.baseUrl}/users`, employee.toJson()));
   }
 
-  deleteEmployee(employee: Employee) {
+  async deleteEmployee(employee: Employee) {
     const employees = this.allEmployees();
     const index = employees.findIndex(emp => emp.cpf === employee.cpf);
     if (index !== -1) {
       employees.splice(index, 1);
       this.allEmployees.set([...employees])
       this.filteredEmployees.set([...employees])
+      await lastValueFrom(this.http.delete<void>(`${environment.baseUrl}/users/${employee.id}`));
     }
   }
 
@@ -44,13 +47,12 @@ export class EmployeesService {
   openNewEmployeeDialog() {
     const dialogRef = this.dialog.open(NewEmployeeComponent, {
       width: '400px',
-      height: '600px',
       data: {}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        this.newEmployee(result);
+        await this.newEmployee(result);
       }
     });
   }

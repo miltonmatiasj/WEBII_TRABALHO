@@ -8,7 +8,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Categoria do Equipamento</mat-label>
       <mat-select name="categoria" required ngModel>
-        <mat-option *ngFor="let category of categories" [value]="category.categoryName">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
           {{ category.categoryName }}
         </mat-option>
       </mat-select>
