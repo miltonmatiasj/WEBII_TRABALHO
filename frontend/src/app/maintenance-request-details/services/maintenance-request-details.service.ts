@@ -4,19 +4,6 @@ import { Injectable } from '@angular/core';
 export class MaintenanceRequestService {
   private storageKey = 'MaintenanceRequest';
 
-  getRequestById(id: string): any {
-    console.log('Buscando solicitação com ID:', id);
-    const data = localStorage.getItem(this.storageKey);
-    if (data) {
-      const requests = JSON.parse(data);
-      console.log('Todas as solicitações:', requests);
-      const request = requests.find((request: any) => request.id === id) || null;
-      console.log('Solicitação encontrada:', request);
-      return request;
-    }
-    return null;
-  }
-
   updateRequestStatus(id: string, newStatus: string): void {
     console.log('Atualizando status da solicitação:', { id, newStatus });
     const data = localStorage.getItem(this.storageKey);
@@ -32,7 +19,7 @@ export class MaintenanceRequestService {
         console.log('Solicitação após atualização:', requests[requestIndex]);
         localStorage.setItem(this.storageKey, JSON.stringify(requests));
         console.log('Status atualizado com sucesso');
-        
+
         // Verificar se a atualização foi persistida
         const updatedData = localStorage.getItem(this.storageKey);
         console.log('Dados após persistência:', updatedData);
