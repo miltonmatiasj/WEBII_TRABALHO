@@ -1,5 +1,4 @@
 import {inject, Injectable} from '@angular/core';
-import { Data } from '@angular/router';
 import {User} from "../../users/User";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
@@ -9,9 +8,9 @@ import {MaintenanceRequest} from "../../maintenance-request-form/mainetance-requ
 export type Customer = Partial<User>;
 
 export type MaintenanceRequestBudget = {
-  id: number;
+  id: string;
   price: number;
-  dateTime: Data;
+  dateTime: Date;
   evaluation?: string;
   employee: Partial<User>;
   maintenanceRequest: Partial<MaintenanceRequest>;
@@ -28,10 +27,5 @@ export class ServiceQuoteService {
 
   addQuote(quote: MaintenanceRequestBudgetPost): Promise<MaintenanceRequestBudget> {
     return lastValueFrom(this.http.post<MaintenanceRequestBudget>(`${environment.baseUrl}/maintenance-request-budget`, quote));
-  }
-
-  getCustomerByCPF(cpf: string): Customer | undefined {
-    return ;
-    // return this.mockCustomers.find(customer => customer.cpf === cpf);
   }
 }

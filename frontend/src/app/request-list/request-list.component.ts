@@ -143,8 +143,7 @@ export class RequestListComponent implements OnInit {
       if (result) {
         const request = await this.requestService.getRequestById(id);
         if (request) {
-          request.status = 'FINALIZADA';
-          this.requestService.updateRequest(request);
+          await this.requestService.changeStatus(request.id,'FINALIZADA');
           this.allRequests = await this.requestService.getRequests();
           this.aplicarFiltro();
         } else {

@@ -12,6 +12,10 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { AuthService } from '../authentication/auth.service';
 import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
 import {RequestService} from "../employee-page/services/request.service";
+import {MaintenanceRequestBudget, ServiceQuoteService} from "../service-quote/services/service-quote.service";
+import {lastValueFrom} from "rxjs";
+import {environment} from "../../environments/environment";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-maintenance-request-details',
@@ -32,6 +36,7 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
   displayedColumns: string[] = ['dateTime', 'employee', 'action'];
 
   private dialog = inject(MatDialog);
+  private serviceBudgetService = inject(ServiceQuoteService);
 
   constructor(
     private maintenanceService: RequestService,
@@ -119,21 +124,27 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     }
   }
 
+  http = inject(HttpClient)
   private async handlePaymentAction(): Promise<void> {
-    // const dialogRef = this.dialog.open(PaymentComponent, {
-    //   width: '500px',
-    //   data: {
-    //     id: this.request.id,
-    //     totalValue: this.request.price || 0,
-    //   },
-    // });
-    //
-    // const result = await dialogRef.afterClosed().toPromise();
-    // if (result?.confirmed) {
-    //   this.maintenanceService.updateRequestStatus(this.request.id, 'PAGA');
-    //   this.request = this.maintenanceService.getRequestById(this.request.id);
-    //   alert('Pagamento realizado com sucesso!');
-    // }
+    if (this.request == null) {
+      return;
+    }
+    const budget = await lastValueFrom(this.http.get<MaintenanceRequestBudget>(`${environment.baseUrl}/maintenance-requests/${this.request.id}/budget`))
+    const dialogRef = this.dialog.open(PaymentComponent, {
+      width: '500px',
+      data: {
+        id: this.request.id,
+        totalValue: budget.price || 0,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result?.confirmed) {
+        await this.maintenanceService.changeStatus(this.request!.id, 'PAGA', result.paymentMethod);
+        alert('Pagamento realizado com sucesso!');
+        this.router.navigate(['/customer-home']);
+      }
+    })
   }
 
   private async handleRescueAction(): Promise<void> {
@@ -146,26 +157,23 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
   }
 
   private async handleFinalizeAction(): Promise<void> {
-    // const confirmed = confirm('Deseja finalizar esta solicitação?');
-    // if (confirmed) {
-    //   console.log('Iniciando finalização da solicitação:', this.request);
-    //   this.maintenanceService.updateRequestStatus(this.request.id, 'FINALIZADA');
-    //
-    //   // Aguardar um pequeno intervalo para garantir que o localStorage foi atualizado
-    //   await new Promise(resolve => setTimeout(resolve, 100));
-    //
-    //   // Buscar a solicitação atualizada
-    //   const updatedRequest = this.maintenanceService.getRequestById(this.request.id);
-    //   console.log('Solicitação atualizada:', updatedRequest);
-    //
-    //   if (updatedRequest) {
-    //     this.request = updatedRequest;
-    //     console.log('Solicitação atualizada no componente:', this.request);
-    //     alert('Solicitação finalizada com sucesso!');
-    //   } else {
-    //     console.error('Não foi possível atualizar a solicitação');
-    //     alert('Erro ao finalizar a solicitação. Por favor, tente novamente.');
-    //   }
-    // }
+    if (this.request == null) {
+      return;
+    }
+    const confirmed = confirm('Deseja finalizar esta solicitação?');
+    if (confirmed) {
+      console.log('Iniciando finalização da solicitação:', this.request);
+      await this.maintenanceService.changeStatus(this.request.id, 'FINALIZADA');
+      const updatedRequest = await this.maintenanceService.getRequestById(this.request.id);
+      if (updatedRequest) {
+        this.request = updatedRequest;
+        console.log('Solicitação atualizada no componente:', this.request);
+        alert('Solicitação finalizada com sucesso!');
+      } else {
+        console.error('Não foi possível atualizar a solicitação');
+        alert('Erro ao finalizar a solicitação. Por favor, tente novamente.');
+      }
+      await this.router.navigate(['/customer-home']);
+    }
   }
 }

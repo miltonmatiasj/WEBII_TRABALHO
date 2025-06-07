@@ -56,7 +56,7 @@ export class PaymentComponent {
 
   confirmPayment() {
     this.paymentConfirmed = true;
-    this.dialogRef.close({ confirmed: true });
+    this.dialogRef.close({ confirmed: true, paymentMethod: this.paymentMethod});
   }
 
   closePopup() {

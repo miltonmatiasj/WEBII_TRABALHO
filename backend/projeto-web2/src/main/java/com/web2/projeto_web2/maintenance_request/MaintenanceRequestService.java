@@ -31,6 +31,12 @@ public class MaintenanceRequestService {
         return repository.save(request);
     }
 
+    public MaintenanceRequest updatePaymentMethodById(UUID id, String paymentMethod) {
+        MaintenanceRequest request = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("MaintenanceRequest not found: " + id));
+        request.setPaymentMethod(paymentMethod);
+        return repository.save(request);
+    }
+
     // Employee only method
       public List<MaintenanceRequest> getAllMaintenanceRequests() {
         return repository.findAll();
@@ -79,18 +85,17 @@ public class MaintenanceRequestService {
                 }
                 break;
             case APROVADA:
-                if (next != MaintenanceRequest.Status.PAGA) {
+                if (next != MaintenanceRequest.Status.ARRUMADA) {
                     throw new IllegalArgumentException("Invalid transition: APROVADA → " + next);
                 }
                 break;
             case PAGA:
-                if (next != MaintenanceRequest.Status.ARRUMADA
-                 && next != MaintenanceRequest.Status.REDIRECIONADA) {
+                if (next != MaintenanceRequest.Status.FINALIZADA) {
                     throw new IllegalArgumentException("Invalid transition: PAGA → " + next);
                 }
                 break;
             case ARRUMADA:
-                if (next != MaintenanceRequest.Status.FINALIZADA) {
+                if (next != MaintenanceRequest.Status.PAGA) {
                     throw new IllegalArgumentException("Invalid transition: ARRUMADA → " + next);
                 }
                 break;
