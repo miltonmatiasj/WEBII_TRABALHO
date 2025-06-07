@@ -1,68 +1,37 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Data } from '@angular/router';
+import {User} from "../../users/User";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {lastValueFrom} from "rxjs";
+import {MaintenanceRequest} from "../../maintenance-request-form/mainetance-request-form.service";
 
-export interface Customer{
-  cpf: string;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  addressId: number;
-}
+export type Customer = Partial<User>;
 
-export interface Quote{
+export type MaintenanceRequestBudget = {
   id: number;
   price: number;
   dateTime: Data;
-  employeeId: number;
-  requestId: number;
-
+  evaluation?: string;
+  employee: Partial<User>;
+  maintenanceRequest: Partial<MaintenanceRequest>;
 }
+
+export type MaintenanceRequestBudgetPost = Omit<MaintenanceRequestBudget, 'id' | 'dateTime' | 'evaluation'>;
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceQuoteService {
 
- private mockCustomers: Customer[] = [
-    {
-      cpf: '11111111111',
-      name: 'João Silva',
-      email: 'joao.silva@email.com',
-      phone: '(11) 99999-1111',
-      password: 'senha123',
-      addressId: 1
-    },
-    {
-      cpf: '22222222222',
-      name: 'José Santos',
-      email: 'jose.santos@email.com',
-      phone: '(21) 98888-2222',
-      password: 'senha123',
-      addressId: 2
-    },
-    {
-      cpf: '33333333333',
-      name: 'Joana Costa',
-      email: 'joana.costa@email.com',
-      phone: '(31) 97777-3333',
-      password: 'senha123',
-      addressId: 3
-    },
-    {
-      cpf: '44444444444',
-      name: 'Joaquina Souza',
-      email: 'joaquina.souza@email.com',
-      phone: '(41) 96666-4444',
-      password: 'senha123',
-      addressId: 4
-    }
-  ];
+  http = inject(HttpClient);
+
+  addQuote(quote: MaintenanceRequestBudgetPost): Promise<MaintenanceRequestBudget> {
+    return lastValueFrom(this.http.post<MaintenanceRequestBudget>(`${environment.baseUrl}/maintenance-request-budget`, quote));
+  }
 
   getCustomerByCPF(cpf: string): Customer | undefined {
-    return this.mockCustomers.find(customer => customer.cpf === cpf);
+    return ;
+    // return this.mockCustomers.find(customer => customer.cpf === cpf);
   }
-  
-
-  constructor() { }
 }

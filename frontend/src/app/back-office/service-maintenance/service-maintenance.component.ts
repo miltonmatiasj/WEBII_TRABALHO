@@ -6,7 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { ServiceRequest, RequestService } from '../../employee-page/services/request.service';
+import { RequestService } from '../../employee-page/services/request.service';
+import {MaintenanceRequest} from "../../maintenance-request-form/mainetance-request-form.service";
 
 @Component({
   selector: 'app-service-maintenance',
@@ -23,7 +24,7 @@ import { ServiceRequest, RequestService } from '../../employee-page/services/req
   styleUrls: ['./service-maintenance.component.scss']
 })
 export class ServiceMaintenanceComponent implements OnInit {
-  request: ServiceRequest | undefined;
+  request: MaintenanceRequest | undefined;
   descricaoManutencao: string = '';
 
   constructor(
@@ -34,15 +35,17 @@ export class ServiceMaintenanceComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.request = this.requestService.getRequestById(id);
+      this.requestService.getRequestById(id).then((request) => {
+        this.request = request;
+      })
     }
   }
 
   finalizarManutencao(): void {
     if (this.request) {
       this.request.status = 'ARRUMADA';
-      this.request.maintenanceDescription = this.descricaoManutencao;
+      // this.request.maintenanceDescription = this.descricaoManutencao;
       this.requestService.updateRequest(this.request);
     }
   }
-} 
+}

@@ -9,7 +9,8 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
   authService = inject(AuthService);
 
-  canActivate(): boolean {
+  async canActivate(): Promise<boolean> {
+    await this.authService.canNavigate;
     const currentUser = this.authService.currentUser()
     if (currentUser != null) {
       return true;

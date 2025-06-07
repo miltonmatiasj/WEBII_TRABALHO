@@ -1,7 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
-import { ServiceRequest, RequestService } from '../employee-page/services/request.service';
-import { Customer } from './services/service-quote.service';
-import { ServiceQuoteService } from './services/service-quote.service'
+import { RequestService } from '../employee-page/services/request.service';
+import {Customer, ServiceQuoteService} from './services/service-quote.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import {ActivatedRoute, Router} from '@angular/router';
 import { AuthService } from '../authentication/auth.service';
 import {MatButton} from "@angular/material/button";
+import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-service-quote',
@@ -22,18 +23,20 @@ import {MatButton} from "@angular/material/button";
     MatFormFieldModule,
     MatInputModule,
     MatButton,
+    NgxMaskDirective,
   ],
   templateUrl: './service-quote.component.html',
   styleUrl: './service-quote.component.scss'
 })
 export class ServiceQuoteComponent implements OnInit {
-  id!: string;
-  request?: ServiceRequest;
+  id?: string;
+  request?: MaintenanceRequest;
   customer?: Customer;
   orcamento: { valor: number } = { valor: 0 };
   error: string = '';
 
   router = inject(Router);
+  serviceQuoteService = inject(ServiceQuoteService);
 
   constructor(
     private route: ActivatedRoute,
@@ -48,25 +51,26 @@ export class ServiceQuoteComponent implements OnInit {
         this.error = 'ID da solicitação não encontrado';
         return;
       }
-      this.request = this.serviceRequest.getRequestById(this.id);
-      if (!this.request) {
-        this.error = 'Solicitação não encontrada';
-        return;
-      }
+      this.serviceRequest.getRequestById(this.id).then((request) => {
+        this.request = request;
+        if (!this.request) {
+          this.error = 'Solicitação não encontrada';
+          return;
+        }
 
-      const user = this.authService.currentUser();
-      if (user) {
-        this.customer = {
-          cpf: user.cpf,
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          password: '',
-          addressId: 0
-        };
-      } else {
-        this.error = 'Usuário não encontrado';
-      }
+        const user = this.authService.currentUser();
+        if (user) {
+          this.customer = {
+            cpf: user.cpf,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+          };
+        } else {
+          this.error = 'Usuário não encontrado';
+        }
+      })
+
     } catch (error) {
       this.error = 'Erro ao carregar os dados';
       console.error(error);
@@ -75,8 +79,16 @@ export class ServiceQuoteComponent implements OnInit {
 
   confirmOrcamento() {
     if (this.orcamento.valor && this.orcamento.valor > 0 && this.request != null) {
+      this.serviceQuoteService.addQuote({
+        price: this.orcamento.valor,
+        employee: {
+          id: this.authService.currentUser()?.id
+        },
+        maintenanceRequest: {
+          id: this.request.id
+        }
+      });
       console.log('Orçamento confirmado:', this.orcamento.valor);
-      this.serviceRequest.updateRequest({...this.request, status: 'ORCADA'});
       this.router.navigate(['/back-office/maintenance-request']);
     } else {
       alert('Valor do orçamento inválido!');

@@ -18,14 +18,14 @@ export class User {
   phone: string;
   address?: Address;
   email: string;
-  role: 'ADMIN' | 'USER';
+  roles: ('CLIENTE' | 'FUNCIONARIO')[];
   private password?: string;
 
   constructor(
     id: string,
     name: string,
     email: string,
-    role: 'ADMIN' | 'USER',
+    roles: ('CLIENTE' | 'FUNCIONARIO')[],
     cpf: string,
     phone: string,
     address?: Address,
@@ -34,15 +34,19 @@ export class User {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.role = role;
+    this.roles = roles;
     this.cpf = cpf;
     this.phone = phone;
     this.address = address;
     this.password = password;
   }
 
-  isAdmin(): boolean {
-    return this.role === 'ADMIN';
+  isFuncionario(): boolean {
+    return this.roles.includes('FUNCIONARIO');
+  }
+
+  isCliente(): boolean {
+    return this.roles.includes('CLIENTE');
   }
 
   static fromLocalStorage(): User | null {
@@ -55,7 +59,7 @@ export class User {
       json['id'],
       json['name'],
       json['email'],
-      json['role'],
+      json['roles'],
       json['cpf'],
       json['phone'],
       Address.fromJson(json['address']),
@@ -75,12 +79,26 @@ export class User {
     this.address = address;
   }
 
+  toJson(): { [key: string]: any } {
+    return {
+      // id: this.id,
+      name: this.name,
+      email: this.email,
+      roles: this.roles,
+      cpf: this.cpf,
+      phone: this.phone,
+      address: this.address ? this.address.toJson() : undefined,
+      password: this.password
+    };
+
+  }
+
   static empty(): User {
     return new User(
       generateRandomString(),
       '',
       '',
-      'USER',
+      ['FUNCIONARIO'],
       '',
       '',
       undefined,

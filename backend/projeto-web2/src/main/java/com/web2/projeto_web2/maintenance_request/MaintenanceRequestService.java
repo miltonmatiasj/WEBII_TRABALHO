@@ -19,6 +19,7 @@ public class MaintenanceRequestService {
 
     public MaintenanceRequest createMaintenanceRequest(MaintenanceRequest request) {
         logger.debug("==================================" + request);
+        request.setStatus(MaintenanceRequest.Status.ABERTA);
         return repository.save(request);
     }
 

@@ -1,9 +1,14 @@
 <header class="header">
   <div class="header-content">
+    @if (authService.currentUser()?.isFuncionario()) {
+      <a mat-list-item routerLink="/back-office">
+        <span matListItemTitle>Ver como funcionário</span>
+      </a>
+    }
     <div class="spacer"></div>
     <button class="logout-button" (click)="logout()">
       <mat-icon>logout</mat-icon>
       <span>Sair</span>
     </button>
   </div>
-</header> 
+</header>

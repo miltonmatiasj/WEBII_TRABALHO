@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,10 +21,10 @@ public class UserController {
 
     // Create a new user (only accessible by FUNCIONARIO)
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user, @RequestHeader("role") String role) {
-        if (!"FUNCIONARIO".equalsIgnoreCase(role)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+//        if (!"FUNCIONARIO".equalsIgnoreCase(role)) {
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
@@ -36,7 +37,7 @@ public class UserController {
 
     // Get a user by id (accessible by anyone)
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
         Optional<User> user = userService.getUserById(id);
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -57,7 +58,7 @@ public class UserController {
 
     // Update a user (only accessible by FUNCIONARIO)
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails, @RequestHeader("role") String role) {
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User userDetails, @RequestHeader("role") String role) {
         if (!"FUNCIONARIO".equalsIgnoreCase(role)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -67,10 +68,10 @@ public class UserController {
 
     // Delete a user (only accessible by FUNCIONARIO)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @RequestHeader("role") String role) {
-        if (!"FUNCIONARIO".equalsIgnoreCase(role)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+//        if (!"FUNCIONARIO".equalsIgnoreCase(role)) {
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

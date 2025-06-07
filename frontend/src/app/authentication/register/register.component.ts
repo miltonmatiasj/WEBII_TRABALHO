@@ -11,7 +11,7 @@ import {lastValueFrom} from "rxjs";
 import {UserService} from "../../users/user.service";
 import {Address} from "../../users/address";
 import {User} from "../../users/User";
-import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
+import {NgxMaskDirective} from "ngx-mask";
 
 export type ViaCepResponse = {
   cep: string;
@@ -109,7 +109,7 @@ export class RegisterComponent implements OnInit {
     this.user.name = this.nameFormControl.value!;
     this.user.cpf = this.cpfFormControl.value!;
     this.user.phone = this.phoneFormControl.value!;
-    this.user.role = 'USER';
+    this.user.roles = ['CLIENTE'];
     this.user.setAddress(this.address);
     this.user.setPassword(this.passwordFormControl.value!);
     this.loading.set(true);

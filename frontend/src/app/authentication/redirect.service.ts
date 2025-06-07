@@ -12,7 +12,7 @@ export class RedirectService {
   redirectBasedOnRole(): void {
     const currentUser = this.authService.currentUser();
     if (currentUser != null) {
-      if (currentUser.isAdmin()) {
+      if (currentUser.isFuncionario()) {
         this.router.navigate(['/back-office/home']);
       } else {
         this.router.navigate(['/customer-home']);

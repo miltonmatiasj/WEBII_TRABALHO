@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -11,8 +11,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
-import { ServiceRequest, RequestService } from '../employee-page/services/request.service';
+import { RequestService } from '../employee-page/services/request.service';
 import { FinalizeRequestModalComponent } from './compnents/finalize-request-modal/finalize-request-modal.component';
+import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
+import {AuthService} from "../authentication/auth.service";
 
 @Component({
   selector: 'app-request-list',
@@ -41,13 +43,13 @@ export class RequestListComponent implements OnInit {
     'action'
   ];
 
-  allRequests: ServiceRequest[] = [];
-  filteredRequests: ServiceRequest[] = [];
+  allRequests: MaintenanceRequest[] = [];
+  filteredRequests: MaintenanceRequest[] = [];
 
   dataInicio: Date | null = null;
   dataFim: Date | null = null;
 
-  funcionarioNome = 'Joana';
+  authService = inject(AuthService);
 
   constructor(
     private requestService: RequestService,
@@ -56,16 +58,19 @@ export class RequestListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.allRequests = this.requestService.getRequests();
-    this.aplicarFiltro();
+    this.requestService.getRequests().then((r) => {
+      this.allRequests = r;
+      this.aplicarFiltro();
+      console.log(r);
+    });
   }
 
   aplicarFiltro(): void {
-    this.filteredRequests = this.allRequests
+    this.filteredRequests = [...this.allRequests]
       .filter(req => {
         const dataReq = new Date(req.requestDate);
 
-        if (req.status === 'REDIRECIONADA' && req.customerCPF !== this.funcionarioNome) return false;
+        if (req.status === 'REDIRECIONADA') return false;
 
         if (this.dataInicio && dataReq < this.dataInicio) return false;
         if (this.dataFim && dataReq > this.dataFim) return false;
@@ -134,13 +139,13 @@ export class RequestListComponent implements OnInit {
   openFinalizationModal(id: string): void {
     this.dialog.open(FinalizeRequestModalComponent, {
       width: '350px',
-    }).afterClosed().subscribe(result => {
+    }).afterClosed().subscribe(async (result) => {
       if (result) {
-        const request = this.requestService.getRequestById(id);
+        const request = await this.requestService.getRequestById(id);
         if (request) {
           request.status = 'FINALIZADA';
           this.requestService.updateRequest(request);
-          this.allRequests = this.requestService.getRequests();
+          this.allRequests = await this.requestService.getRequests();
           this.aplicarFiltro();
         } else {
           console.log('Nenhuma requisição encontrada com o ID:', result);

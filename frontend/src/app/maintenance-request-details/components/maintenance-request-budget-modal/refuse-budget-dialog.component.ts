@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import {Component, inject, Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaintenanceRequestService } from '../../services/maintenance-request-details.service';
+import {RequestService} from "../../../employee-page/services/request.service";
 
 @Component({
   selector: 'app-refuse-budget-dialog',
@@ -68,16 +69,16 @@ import { MaintenanceRequestService } from '../../services/maintenance-request-de
 })
 export class RefuseBudgetDialogComponent {
   reason: string = '';
+  requestService = inject(RequestService);
 
   constructor(
     public dialogRef: MatDialogRef<RefuseBudgetDialogComponent>,
-    private maintenanceRequestService: MaintenanceRequestService,
     @Inject(MAT_DIALOG_DATA) public data: { id: string }
   ) {}
 
-  submit(): void {
+  async submit() {
     if (this.reason.trim()) {
-      this.maintenanceRequestService.updateRequestStatus(
+      await this.requestService.changeStatus(
         this.data.id,
         'REJEITADA'
       );
