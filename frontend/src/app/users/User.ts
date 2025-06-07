@@ -18,6 +18,7 @@ export class User {
   phone: string;
   address?: Address;
   email: string;
+  birthdate?: string;
   roles: ('CLIENTE' | 'FUNCIONARIO')[];
   private password?: string;
 
@@ -29,6 +30,7 @@ export class User {
     cpf: string,
     phone: string,
     address?: Address,
+    birthdate?: string,
     password?: string
   ) {
     this.id = id;
@@ -39,6 +41,7 @@ export class User {
     this.phone = phone;
     this.address = address;
     this.password = password;
+    this.birthdate = birthdate;
   }
 
   isFuncionario(): boolean {

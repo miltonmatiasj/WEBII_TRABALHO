@@ -1,12 +1,13 @@
-import {Component, inject} from '@angular/core';
+import {Component, Inject, inject} from '@angular/core';
 import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
-import {MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {provideNativeDateAdapter} from "@angular/material/core";
 import {User} from "../../../users/User";
 import {NgxMaskDirective} from "ngx-mask";
+import {Employee} from "../Employee";
 
 @Component({
   selector: 'app-new-employee',
@@ -26,6 +27,15 @@ import {NgxMaskDirective} from "ngx-mask";
   providers: [provideNativeDateAdapter()],
 })
 export class NewEmployeeComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Employee | null) {
+    if (data) {
+      this.formGroup.get('name')?.setValue(data.name);
+      this.formGroup.get('email')?.setValue(data.email);
+      this.formGroup.get('cpf')?.setValue(data.cpf);
+      this.formGroup.get('phone')?.setValue(data.phone);
+      this.formGroup.get('birthdate')?.setValue(data.birthdate ?? null);
+    }
+  }
   dialog = inject(MatDialogRef)
 
    formGroup = new FormGroup({
