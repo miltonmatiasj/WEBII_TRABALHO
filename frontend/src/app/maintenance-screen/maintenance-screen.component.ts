@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MaintenanceDescriptionModalComponent } from './components/maintenance-description-modal/maintenance-description-modal.component';
 import { RedirectModalComponent } from './components/redirect-modal/redirect-modal.component';
 import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
+import {MaintenanceExecutionService} from "../maintenance-execution/maintenance-execution.service";
+import {AuthService} from "../authentication/auth.service";
 
 @Component({
   selector: 'app-maintenance-screen',
@@ -33,10 +35,13 @@ export class MaintenanceScreenComponent implements OnInit {
   descricaoManutencao = '';
   orientacoesCliente = '';
   funcionarioLogado = 'Funcionário Exemplo';
+
+  maintenanceExecutionService = inject(MaintenanceExecutionService);
+  authService = inject(AuthService);
+
   constructor(
     private route: ActivatedRoute,
     private requestService: RequestService,
-    private serviceServiceQuote: ServiceQuoteService,
     private dialog: MatDialog,
     private router: Router
   ) {}
@@ -62,7 +67,13 @@ export class MaintenanceScreenComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result && this.solicitacao?.id) {
-        await this.requestService.changeStatus(this.solicitacao?.id, 'ARRUMADA')
+        const employeeId = this.authService.currentUser()?.id;
+        await this.maintenanceExecutionService.execute({
+          maintenanceRequest: {id: this.solicitacao.id},
+          description: result.descricao,
+          orientations: result.orientacoes,
+          employee: {id: employeeId}
+        });
         await this.router.navigate(['back-office/maintenance-request']);
       }
     });

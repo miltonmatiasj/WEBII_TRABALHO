@@ -79,7 +79,7 @@ public class MaintenanceRequestService {
                 }
                 break;
             case APROVADA:
-                if (next != MaintenanceRequest.Status.PAGA) {
+                if (next != MaintenanceRequest.Status.ARRUMADA) {
                     throw new IllegalArgumentException("Invalid transition: APROVADA → " + next);
                 }
                 break;
