@@ -10,12 +10,15 @@ import { MaintenanceRequestService } from './services/maintenance-request-detail
 import { MaintenanceRequestBudgetModalComponent } from './components/maintenance-request-budget-modal/maintenance-request-budget-modal.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { AuthService } from '../authentication/auth.service';
-import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
-import {RequestService} from "../employee-page/services/request.service";
-import {MaintenanceRequestBudget, ServiceQuoteService} from "../service-quote/services/service-quote.service";
-import {lastValueFrom} from "rxjs";
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import { MaintenanceRequest } from '../maintenance-request-form/mainetance-request-form.service';
+import { RequestService } from '../employee-page/services/request.service';
+import {
+  MaintenanceRequestBudget,
+  ServiceQuoteService,
+} from '../service-quote/services/service-quote.service';
+import { lastValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-maintenance-request-details',
@@ -124,12 +127,16 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     }
   }
 
-  http = inject(HttpClient)
+  http = inject(HttpClient);
   private async handlePaymentAction(): Promise<void> {
     if (this.request == null) {
       return;
     }
-    const budget = await lastValueFrom(this.http.get<MaintenanceRequestBudget>(`${environment.baseUrl}/maintenance-requests/${this.request.id}/budget`))
+    const budget = await lastValueFrom(
+      this.http.get<MaintenanceRequestBudget>(
+        `${environment.baseUrl}/maintenance-requests/${this.request.id}/budget`
+      )
+    );
     const dialogRef = this.dialog.open(PaymentComponent, {
       width: '500px',
       data: {
@@ -140,20 +147,34 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result?.confirmed) {
-        await this.maintenanceService.changeStatus(this.request!.id, 'PAGA', result.paymentMethod);
+        await this.maintenanceService.changeStatus(
+          this.request!.id,
+          'PAGA',
+          result.paymentMethod
+        );
         alert('Pagamento realizado com sucesso!');
         this.router.navigate(['/customer-home']);
       }
-    })
+    });
   }
 
   private async handleRescueAction(): Promise<void> {
-    // const confirmed = confirm('Deseja resgatar esta solicitação?');
-    // if (confirmed) {
-    //   this.maintenanceService.updateRequestStatus(this.request.id, 'APROVADA');
-    //   this.request = this.maintenanceService.getRequestById(this.request.id);
-    //   alert('Solicitação aprovada com sucesso!');
-    // }
+    if (this.request == null) {
+      return;
+    }
+    const confirmed = confirm('Deseja resgatar esta solicitação?');
+    if (confirmed) {
+      await this.maintenanceService.changeStatus(this.request.id, 'APROVADA');
+      const updatedRequest = await this.maintenanceService.getRequestById(
+        this.request.id
+      );
+      if (updatedRequest) {
+        this.request = updatedRequest;
+        alert('Solicitação resgatada com sucesso!');
+      } else {
+        alert('Erro ao resgatar a solicitação. Por favor, tente novamente.');
+      }
+    }
   }
 
   private async handleFinalizeAction(): Promise<void> {
@@ -164,7 +185,9 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     if (confirmed) {
       console.log('Iniciando finalização da solicitação:', this.request);
       await this.maintenanceService.changeStatus(this.request.id, 'FINALIZADA');
-      const updatedRequest = await this.maintenanceService.getRequestById(this.request.id);
+      const updatedRequest = await this.maintenanceService.getRequestById(
+        this.request.id
+      );
       if (updatedRequest) {
         this.request = updatedRequest;
         console.log('Solicitação atualizada no componente:', this.request);
