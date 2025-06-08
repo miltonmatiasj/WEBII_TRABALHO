@@ -43,7 +43,7 @@ public class MaintenanceRequest {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", nullable = true)
     private User employee;
 
     @NotNull
