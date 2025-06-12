@@ -85,11 +85,10 @@ export class MaintenanceScreenComponent implements OnInit {
       height:'250px',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const updatedRequest = {...this.solicitacao!, status: 'REDIRECIONADA', };
-        this.requestService.updateRequest(updatedRequest);
-        this.router.navigate(['back-office/maintenance-request']);
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result && this.solicitacao?.id) {
+        await this.requestService.changeStatus(this.solicitacao.id, 'REDIRECIONADA', undefined, result.para);
+        await this.router.navigate(['back-office/maintenance-request']);
       }
     })
   }

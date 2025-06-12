@@ -1,9 +1,11 @@
 package com.web2.projeto_web2.maintenance_request;
+import com.web2.projeto_web2.users.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,6 +36,12 @@ public class MaintenanceRequestService {
     public MaintenanceRequest updatePaymentMethodById(UUID id, String paymentMethod) {
         MaintenanceRequest request = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("MaintenanceRequest not found: " + id));
         request.setPaymentMethod(paymentMethod);
+        return repository.save(request);
+    }
+
+    public MaintenanceRequest updateRequestUserId(UUID id, User user) {
+        MaintenanceRequest request = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("MaintenanceRequest not found: " + id));
+        request.setEmployee(user);
         return repository.save(request);
     }
 
@@ -85,7 +93,7 @@ public class MaintenanceRequestService {
                 }
                 break;
             case APROVADA:
-                if (next != MaintenanceRequest.Status.ARRUMADA) {
+                if (next != MaintenanceRequest.Status.ARRUMADA && next != MaintenanceRequest.Status.REDIRECIONADA) {
                     throw new IllegalArgumentException("Invalid transition: APROVADA → " + next);
                 }
                 break;

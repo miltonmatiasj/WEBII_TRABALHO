@@ -25,8 +25,8 @@ public class UserService {
         return userRepository.findAll().stream().filter(user -> user.getRoles().contains(Role.FUNCIONARIO)).toList();
     }
 
-    public Optional<User> getUserById(UUID id) {
-        return userRepository.findById(id);
+    public User getUserById(UUID id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public User getUserByEmail(String email) {

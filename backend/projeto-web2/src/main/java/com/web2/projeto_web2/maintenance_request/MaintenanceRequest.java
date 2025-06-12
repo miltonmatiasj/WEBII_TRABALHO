@@ -1,7 +1,6 @@
 package com.web2.projeto_web2.maintenance_request;
 
 import com.web2.projeto_web2.category.Category;
-import com.web2.projeto_web2.maintenante_request_budget.MaintenanceRequestBudget;
 import com.web2.projeto_web2.users.User;
 import jakarta.persistence.*;
 

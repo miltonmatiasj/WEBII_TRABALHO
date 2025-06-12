@@ -27,7 +27,10 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getEmployeeById(@PathVariable UUID id) {
-        Optional<User> user = userService.getUserById(id);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+        User user = userService.getUserById(id);
+        if (user == null || !user.getRoles().contains(Role.FUNCIONARIO)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

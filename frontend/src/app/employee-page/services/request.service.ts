@@ -21,11 +21,7 @@ export class RequestService {
     return await lastValueFrom(this.http.get<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}`));
   }
 
-  async updateRequest(updatedRequest: MaintenanceRequest) {
-    // await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}`, {}));
-  }
-
-  async changeStatus(id: string, status: string, paymentMethod?: string): Promise<MaintenanceRequest> {
-    return await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}/status`, {status, paymentMethod}));
+  async changeStatus(id: string, status: string, paymentMethod?: string, redirectTo?: string): Promise<MaintenanceRequest> {
+    return await lastValueFrom(this.http.put<MaintenanceRequest>(`${environment.baseUrl}/maintenance-requests/${id}/status`, {status, paymentMethod, employee: redirectTo ? redirectTo : undefined}));
   }
 }

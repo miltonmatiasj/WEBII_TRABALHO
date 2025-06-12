@@ -44,8 +44,7 @@ export class ServiceMaintenanceComponent implements OnInit {
   finalizarManutencao(): void {
     if (this.request) {
       this.request.status = 'ARRUMADA';
-      // this.request.maintenanceDescription = this.descricaoManutencao;
-      this.requestService.updateRequest(this.request);
+      this.requestService.changeStatus(this.request.id, this.request.status)
     }
   }
 }

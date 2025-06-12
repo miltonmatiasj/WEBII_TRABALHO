@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import {EmployeesService} from "../../../back-office/employees/employees.service";
+import {AuthService} from "../../../authentication/auth.service";
 
 @Component({
   selector: 'app-redirect-modal',
@@ -23,27 +25,27 @@ import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '
   styleUrls: ['./redirect-modal.component.scss']
 })
 export class RedirectModalComponent {
-  funcionarios: string[] = ['Mario', 'Maria'];
-  funcionarioAtual: string = 'Mario'; // hardcoded funcionário logado
-  funcionarioSelecionado: string | null = null;
+  selectedEmployeeId: string | null = null;
   erro: string = '';
+
+  employeeService = inject(EmployeesService);
+  authService = inject(AuthService);
 
   constructor(public dialogRef: MatDialogRef<RedirectModalComponent>) {}
 
+  filterEmployees() {
+    return this.employeeService.allEmployees().filter(employee => employee.id !== this.authService.currentUser()?.id);
+  }
+
   redirecionar(): void {
-    if (!this.funcionarioSelecionado) {
+    if (!this.selectedEmployeeId) {
       this.erro = 'Selecione um funcionário.';
       return;
     }
 
-    if (this.funcionarioSelecionado === this.funcionarioAtual) {
-      this.erro = 'Não é possível redirecionar para si mesmo.';
-      return;
-    }
-
     const redirecionamento = {
-      de: this.funcionarioAtual,
-      para: this.funcionarioSelecionado,
+      de: this.authService.currentUser()?.id,
+      para: this.selectedEmployeeId,
       dataHora: new Date().toISOString()
     };
 

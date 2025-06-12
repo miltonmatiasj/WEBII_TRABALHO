@@ -2,11 +2,14 @@ package com.web2.projeto_web2.maintenance_request;
 
 import com.web2.projeto_web2.maintenante_request_budget.MaintenanceRequestBudget;
 import com.web2.projeto_web2.maintenante_request_budget.MaintenanceRequestBudgetService;
+import com.web2.projeto_web2.users.User;
+import com.web2.projeto_web2.users.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -14,13 +17,16 @@ import java.util.UUID;
 public class MaintenanceRequestController {
 
     private final MaintenanceRequestService service;
+    private final UserService userService;
     private final MaintenanceRequestBudgetService maintenanceRequestBudgetService;
 
     public MaintenanceRequestController(
             MaintenanceRequestService service,
-            MaintenanceRequestBudgetService maintenanceRequestBudgetService
+            MaintenanceRequestBudgetService maintenanceRequestBudgetService,
+            UserService userService
     ) {
         this.service = service;
+        this.userService = userService;
         this.maintenanceRequestBudgetService = maintenanceRequestBudgetService;
     }
 
@@ -58,6 +64,12 @@ public class MaintenanceRequestController {
         MaintenanceRequest updated = service.updateMaintenanceRequestStatusById(id, request.getStatus());
         if (request.getPaymentMethod() != null) {
             service.updatePaymentMethodById(id, request.getPaymentMethod());
+        }
+        if (request.getStatus() == MaintenanceRequest.Status.REDIRECIONADA && request.getEmployee().getId() != null) {
+            User user = userService.getUserById(request.getEmployee().getId());
+            if (user != null) {
+                service.updateRequestUserId(id, user);
+            }
         }
         return ResponseEntity.ok(updated);
     }
