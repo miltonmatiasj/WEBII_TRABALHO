@@ -73,6 +73,12 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.resend</groupId>
+			<artifactId>resend-java</artifactId>
+			<version>3.1.0</version> 
+		</dependency>
+
 		<!-- JJWT for JWT token creation -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -97,7 +103,6 @@
 			<version>3.0.2</version>
 		</dependency>
 	</dependencies>
-	
 
 	<build>
 		<plugins>
