@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+
 @Configuration
-public class web_client_config {
+public class WebClientConfig {
     // Injeta o valor da propriedade 'resend.api.key' do application.properties
     // ou de uma variável de ambiente (se configurada)
     @Value("${resend.api.key}")

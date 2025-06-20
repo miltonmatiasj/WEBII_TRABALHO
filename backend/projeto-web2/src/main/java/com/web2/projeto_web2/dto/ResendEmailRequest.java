@@ -4,22 +4,22 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import java.util.List;
 
 
-public class resent_email_request {
+public class ResendEmailRequest {
     private String id;        // ID único do email no Resend
     private String from;      // Email do remetente (como no request)
-    private String to;        // Email do destinatário (como string, mesmo que no request seja lista)
+    private List<String> to;        // Email do destinatário (como string, mesmo que no request seja lista)
     private String createdAt; // Timestamp de criação
     private String lastEvent; // Último evento do email (ex: "delivered", "bounced")
 
     // Construtor padrão
-    public resent_email_request() {
+    public ResendEmailRequest() {
     }
 
     // Construtor com todos os campos
-    public resent_email_request(String id, String from, String to, String createdAt, String lastEvent) {
-        this.id = id;
+    public ResendEmailRequest(String from, List<String> to, String createdAt, String lastEvent) {
         this.from = from;
         this.to = to;
         this.createdAt = createdAt;
@@ -35,7 +35,7 @@ public class resent_email_request {
         return from;
     }
 
-    public String getTo() {
+    public List<String> getTo() {
         return to;
     }
 
@@ -56,7 +56,7 @@ public class resent_email_request {
         this.from = from;
     }
 
-    public void setTo(String to) {
+    public void setTo(List<String> to) {
         this.to = to;
     }
 

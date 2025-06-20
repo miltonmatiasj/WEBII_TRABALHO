@@ -1,6 +1,6 @@
 package com.web2.projeto_web2.dto;
 
-public class resend_email_response {
+public class ResendEmailResponse {
     private String id;        // ID único do email no Resend
     private String from;      // Email do remetente (como no request)
     private String to;        // Email do destinatário (como string, mesmo que no request seja lista)
@@ -8,11 +8,11 @@ public class resend_email_response {
     private String lastEvent; // Último evento do email (ex: "delivered", "bounced")
 
     // Construtor padrão
-    public resend_email_response() {
+    public ResendEmailResponse() {
     }
 
     // Construtor com todos os campos
-    public resend_email_response(String id, String from, String to, String createdAt, String lastEvent) {
+    public ResendEmailResponse(String id, String from, String to, String createdAt, String lastEvent) {
         this.id = id;
         this.from = from;
         this.to = to;

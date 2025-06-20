@@ -1,15 +1,15 @@
 package com.web2.projeto_web2.dto;
 
-public class email_request {
+public class EmailRequest {
     private String to;       // Email do destinatário
     private String password; // Senha gerada pelo frontend
 
     // Construtor padrão (necessário para deserialização JSON)
-    public email_request() {
+    public EmailRequest() {
     }
 
     // Construtor com todos os campos (opcional, útil para testes)
-    public email_request(String to, String password) {
+    public EmailRequest(String to, String password) {
         this.to = to;
         this.password = password;
     }

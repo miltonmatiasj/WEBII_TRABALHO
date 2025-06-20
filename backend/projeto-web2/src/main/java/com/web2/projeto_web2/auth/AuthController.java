@@ -3,6 +3,7 @@ import com.web2.projeto_web2.common.JwtUtil;
 import com.web2.projeto_web2.users.Role;
 import com.web2.projeto_web2.users.User;
 import com.web2.projeto_web2.users.UserRepository;
+import com.web2.projeto_web2.service.ResendEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,9 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private ResendEmailService resendEmailService;
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -43,6 +47,17 @@ public class AuthController {
             roles.add(Role.CLIENTE);
         }
         user.setRoles(roles);
+
+        // Call mailsender service
+        try{
+            resendEmailService.sendPasswordEmail(signUpRequest.getEmail(), signUpRequest.getPassword())
+            .subscribe(
+                response -> System.out.println("E-mail de cadastro enviado com sucesso para: " + signUpRequest.getEmail()),
+                error -> System.err.println("Erro ao enviar e-mail de cadastro para " + signUpRequest.getEmail() + ": " + error.getMessage())
+            );
+        } catch(Exception e){
+            System.err.println("Exceção ao tentar enviar e-mail: " + e.getMessage());
+        }
 
         userRepository.save(user);
         return ResponseEntity.ok(null);
