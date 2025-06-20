@@ -23,7 +23,7 @@ public class MaintenanceRequestHistoryService {
         return repository.findAll();
     }
 
-    public List<MaintenanceRequestHistory> buscarPorSolicitacao(UUID maintenanceRequestId) {
+    public List<MaintenanceRequestHistory> getHistoryByMaintenanceRequestId(UUID maintenanceRequestId) {
         return repository.findByMaintenanceRequestId(maintenanceRequestId);
     }
 

@@ -1,4 +1,5 @@
 package com.web2.projeto_web2.maintenance_request;
+import com.web2.projeto_web2.maintenance_request_history.MaintenanceRequestHistoryService;
 import com.web2.projeto_web2.users.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +15,19 @@ public class MaintenanceRequestService {
     private static final Logger logger = LoggerFactory.getLogger(MaintenanceRequestService.class);
 
     private final MaintenanceRequestRepository repository;
+    private final MaintenanceRequestHistoryService historyService;
 
-    public MaintenanceRequestService(MaintenanceRequestRepository repository) {
+    public MaintenanceRequestService(MaintenanceRequestRepository repository, MaintenanceRequestHistoryService historyService) {
         this.repository = repository;
+        this.historyService = historyService;
     }
 
     public MaintenanceRequest createMaintenanceRequest(MaintenanceRequest request) {
         logger.debug("==================================" + request);
         request.setStatus(MaintenanceRequest.Status.ABERTA);
-        return repository.save(request);
+        MaintenanceRequest result = repository.save(request);
+        historyService.registrarHistorico("CRIAR SOLICITAÇÃO", request, null);
+        return result;
     }
 
     public MaintenanceRequest updateMaintenanceRequestStatusById(UUID id, MaintenanceRequest.Status newStatus) {
