@@ -1,29 +1,56 @@
-/* Estilo do container do formulário */
-.register-container {
-  max-width: 500px;
-  width: 100%;
-  margin: 30px auto; /* margem de 30px em cima e embaixo */
-  padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  background-color: #fff;
+/* Estilo geral da página */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
 }
 
-/* Garante que todos os campos ocupem toda a largura */
+/* Container do formulário */
+.register-container {
+  max-width: 480px;
+  width: 90%;
+  margin: 40px auto;
+  padding: 32px 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.register-container:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Campos do formulário */
 mat-form-field {
   width: 100%;
+  margin-bottom: 20px;
 }
 
-/* Centraliza o botão */
+/* Container do botão */
 .button-container {
   display: flex;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
-/* Estilo geral da página (opcional) */
-body {
-  background-color: #f5f5f5;
-  margin: 0;
-  font-family: Roboto, sans-serif;
+/* Estilo opcional para botão Angular Material */
+.button-container button {
+  min-width: 120px;
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+/* Responsividade extra (para telas muito pequenas) */
+@media (max-width: 360px) {
+  .register-container {
+    padding: 24px 16px;
+  }
+
+  .button-container button {
+    width: 100%;
+  }
 }
