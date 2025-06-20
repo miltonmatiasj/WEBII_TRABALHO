@@ -1,12 +1,51 @@
-.full-width {
-  margin-top: 5px;
-    width: 100%;
-    margin-bottom: 10px;
+:host {
+  display: block;
+  min-width: 320px;
+  max-width: 480px;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: Roboto, Arial, sans-serif;
+
+
+  h2[mat-dialog-title] {
+    margin: 0 0 16px 0;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #222;
   }
 
-  .erro {
-    color: #d32f2f;
-    font-size: 13px;
-    margin-top: -8px;
-    margin-bottom: 10px;
+
+  div[mat-dialog-content] {
+    margin-bottom: 24px;
+
+    .full-width {
+      width: 100%;
+    }
+
+
+    .erro {
+
+      color: #d32f2f; 
+      margin-top: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      
+    }
   }
+
+
+  div[mat-dialog-actions] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+
+    button {
+
+      min-width: 96px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+
+    }
+  }
+}
