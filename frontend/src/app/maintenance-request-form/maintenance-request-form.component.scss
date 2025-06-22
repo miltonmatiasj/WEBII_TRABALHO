@@ -26,12 +26,90 @@
 form {
   display: flex;
   flex-direction: column;
-  width: 100%; 
+  width: 100%;
 }
 
 mat-form-field {
   width: 100%;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
+}
+
+.Description-Equipment {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding-bottom: 5px;
+}
+
+.Salvar-Button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.Defect-Description {
+  display: flex;
+  flex-direction: column;
+}
+
+.Button-Request {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.Request {
+  padding: 15px 20px;
+  background-color: #669FD6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+.Save {
+  padding: 5px 10px;
+  background-color: #669FD6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+.Container-Repair {
+  width: 400px;
+  max-width: 800px;
+  min-height: 500px;
+  padding: 30px;
+  border: 2px solid #669FD6;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 2rem auto;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: #f5f5f5;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
 }
 
 .Description-Equipment {
