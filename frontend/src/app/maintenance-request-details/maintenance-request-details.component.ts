@@ -59,11 +59,10 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
     if (id) {
       this.maintenanceService.getRequestById(id).then((r) => {
         this.request = r;
-        // if (!this.request || this.request.userId !== currentUser.id) {
-        //   this.router.navigate(['/customer-home']);
-        //   return;
-        // }
-        // this.history = this.maintenanceService.getMockHistory();
+      });
+
+      this.maintenanceService.getRequestHistoryById(id).then((h) => {
+        this.history = h;
       });
     }
   }

@@ -1,8 +1,10 @@
 package com.web2.projeto_web2.maintenance_request_history;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.web2.projeto_web2.maintenance_request.MaintenanceRequest;
 import com.web2.projeto_web2.users.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -18,11 +20,12 @@ public class MaintenanceRequestHistory {
     private String actionName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employeeId", nullable = false)
+    @JoinColumn(name = "employeeId", nullable = true)
     private User employee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maintenanceRequestId", nullable = false)
+    @JsonIgnore
     private MaintenanceRequest maintenanceRequest;
 
     private LocalDateTime createdAt;
@@ -42,7 +45,6 @@ public class MaintenanceRequestHistory {
 
     public LocalDateTime getCreatedAt() {return createdAt;}
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
-
 }
 
 
