@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-content>
+    <h2>Gerar Relatórios</h2>
+
+    <div class="date-range-section">
+      <h3>Relatório por Período</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Data Inicial</mat-label>
+        <input matInput [matDatepicker]="dpStart" [formControl]="startDate">
+        <mat-datepicker-toggle matSuffix [for]="dpStart"></mat-datepicker-toggle>
+        <mat-datepicker #dpStart></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Data Final</mat-label>
+        <input matInput [matDatepicker]="dpEnd" [formControl]="endDate">
+        <mat-datepicker-toggle matSuffix [for]="dpEnd"></mat-datepicker-toggle>
+        <mat-datepicker #dpEnd></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="downloadByPeriod()"
+        [disabled]="!startDate.value || !endDate.value">
+        <mat-icon>download</mat-icon>
+        Baixar por Período
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="full-report-section">
+      <h3>Relatório Completo</h3>
+      <button mat-raised-button color="accent" (click)="downloadRevenueByCategory()">
+        <mat-icon>download</mat-icon>
+        Baixar Relatório Completo
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

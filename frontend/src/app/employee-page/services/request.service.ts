@@ -24,6 +24,20 @@ export class RequestService {
     return requests;
   }
 
+  async getRequestsByStatus(status: string): Promise<MaintenanceRequest[]> {
+    const requests = await lastValueFrom(
+      this.http.get<MaintenanceRequest[]>(
+        `${environment.baseUrl}/maintenance-requests?status=${status}`
+      )
+    );
+    const sortedRequests = [...requests];
+    sortedRequests.sort(
+      (a, b) =>
+        new Date(a.requestDate).getTime() - new Date(b.requestDate).getTime()
+    );
+    return requests;
+  }
+
   async getRequestById(id: string): Promise<MaintenanceRequest | undefined> {
     return await lastValueFrom(
       this.http.get<MaintenanceRequest>(
