@@ -3,12 +3,15 @@ package com.web2.projeto_web2.maintenance_request_history;
 import com.web2.projeto_web2.maintenance_request.MaintenanceRequest;
 import com.web2.projeto_web2.users.User;
 import jakarta.persistence.EntityNotFoundException;
+
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class MaintenanceRequestHistoryService {
@@ -24,7 +27,7 @@ public class MaintenanceRequestHistoryService {
     }
 
     public List<MaintenanceRequestHistory> getHistoryByMaintenanceRequestId(UUID maintenanceRequestId) {
-        return repository.findByMaintenanceRequestId(maintenanceRequestId);
+        return repository.findByMaintenanceRequestId(maintenanceRequestId, Sort.by("createdAt").ascending());
     }
 
     public Optional<MaintenanceRequestHistory> buscarPorId(UUID id) {

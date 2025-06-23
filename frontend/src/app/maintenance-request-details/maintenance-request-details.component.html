@@ -22,7 +22,7 @@
 
                 <ng-container matColumnDef="employee">
                   <th mat-header-cell *matHeaderCellDef> Funcionário </th>
-                  <td mat-cell *matCellDef="let step"> {{ step?.employee?.name || ''}} </td>
+                  <td mat-cell *matCellDef="let step"> {{ step?.employee?.name || 'Ação Realizada Pelo Cliente'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
