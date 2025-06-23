@@ -7,8 +7,7 @@ import { RequestService } from './services/request.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
-import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
-
+import { MaintenanceRequest } from '../maintenance-request-form/mainetance-request-form.service';
 
 @Component({
   selector: 'app-employee-page',
@@ -20,19 +19,21 @@ import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './employee-page.component.html',
-  styleUrls: ['./employee-page.component.scss']
+  styleUrls: ['./employee-page.component.scss'],
 })
 export class EmployeePageComponent implements OnInit {
-  openRequest: MaintenanceRequest[] = [];
   columns = ['dataHora', 'clienteCPF', 'descricaoEquipamento', 'acoes'];
+  allRequests: MaintenanceRequest[] = [];
 
   constructor(private requestService: RequestService, private router: Router) {}
 
   ngOnInit(): void {
-    // this.openRequest = this.requestService.getRequests().filter((s) => s.status === 'ABERTA');
+    this.requestService.getRequestsByStatus('ABERTA').then((r) => {
+      this.allRequests = r;
+      console.log(r);
+    });
   }
-
 }

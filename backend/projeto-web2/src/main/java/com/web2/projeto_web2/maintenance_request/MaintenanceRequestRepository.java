@@ -15,6 +15,8 @@ public interface MaintenanceRequestRepository extends JpaRepository<MaintenanceR
 
     List<MaintenanceRequest> findByCategoryId(UUID categoryId);
 
+    List<MaintenanceRequest> findByStatus(MaintenanceRequest.Status status);
+
     MaintenanceRequest getById(UUID id);
 
 }

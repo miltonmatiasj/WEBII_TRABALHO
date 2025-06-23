@@ -61,6 +61,15 @@ public class MaintenanceRequestService {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("MaintenanceRequest not found: " + id));
     }
 
+    public List<MaintenanceRequest> getMaintenanceRequestByStatus(MaintenanceRequest.Status status) {
+        List<MaintenanceRequest> requests = repository.findByStatus(status);
+        if (requests == null || requests.isEmpty()) {
+            throw new EntityNotFoundException("MaintenanceRequest with status " + status + " not found");
+        }
+        return requests;
+    }
+
+
     // Employee only method
     public List<MaintenanceRequest> getAllEmployeeMaintenanceRequests(UUID employeeId) {
         return repository.findByEmployeeId(employeeId);

@@ -48,9 +48,13 @@ public class MaintenanceRequestController {
                 .body(saved);
     }
 
-    @GetMapping()
-    public ResponseEntity<Iterable<MaintenanceRequest>> getAllMaintenanceRequests() {
-        Iterable<MaintenanceRequest> requests = service.getAllMaintenanceRequests();
+ @GetMapping
+    public ResponseEntity<Iterable<MaintenanceRequest>> getMaintenanceRequests(
+        @RequestParam(value = "status", required = false) MaintenanceRequest.Status status
+    ) {
+        Iterable<MaintenanceRequest> requests = (status != null)
+            ? service.getMaintenanceRequestByStatus(status)
+            : service.getAllMaintenanceRequests();
         return ResponseEntity.ok(requests);
     }
 
