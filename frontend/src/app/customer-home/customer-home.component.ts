@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatSortModule, MatSort } from '@angular/material/sort';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,28 +25,29 @@ import { CustomerHomeService } from './services/customer-home.service';
   templateUrl: './customer-home.component.html',
   styleUrls: ['./customer-home.component.scss'],
 })
-export class CustomerHomeComponent implements OnInit {
-  displayedColumns: string[] = ['description', 'status', 'data', 'action'];
-  dataSource: any[] = [];
+export class CustomerHomeComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = [
+    'equipmentDescription',
+    'status',
+    'createdAt',
+    'action',
+  ];
+  dataSource = new MatTableDataSource<any>([]);
 
-  constructor(
-    private customerHomeService: CustomerHomeService,
-  ) {}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private customerHomeService: CustomerHomeService) {}
 
   ngOnInit(): void {
-    this.customerHomeService.getCustomerData().then((m) => {
-      console.log(m);
-      this.dataSource = m;
-    })
+    this.customerHomeService.getCustomerData().then((data) => {
+      console.log(data);
+      this.dataSource.data = data;
+    });
   }
 
-  async applyFilter(event: Event): Promise<void> {
-    // const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
-    // this.dataSource = this.customerHomeService.getCustomerData().filter((item) => {
-    //   return (
-    //     item.equipmentDescription.toLowerCase().includes(filterValue) ||
-    //     item.status.toLowerCase().includes(filterValue)
-    //   );
-    // });
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }
