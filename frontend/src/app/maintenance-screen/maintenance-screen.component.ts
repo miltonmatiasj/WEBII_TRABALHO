@@ -79,6 +79,7 @@ export class MaintenanceScreenComponent implements OnInit {
     });
   }
 
+
   openRedirectDialog(): void {
     const dialogRef = this.dialog.open(RedirectModalComponent, {
       width: '1500px',
@@ -96,4 +97,22 @@ export class MaintenanceScreenComponent implements OnInit {
   voltar(): void {
     this.router.navigate(['/request-list']);
 }
+
+  voltar(): void {
+    this.router.navigate(['/request-list']);
+  }
+
+  back(): void {
+    this.router.navigate(['/request-list']);
+  }
+  anterior(): void {
+    this.router.navigate(['/request-list']);
+  }
+  voltar(): void {
+    this.router.navigate(['/request-list']);
+  }
+  voltar(): void {
+    this.router.navigate(['/request-list']);
+  }
+
 }
