@@ -14,6 +14,7 @@ import {EmployeesService} from "./employees.service";
 import {MatIcon} from "@angular/material/icon";
 import {AuthService} from "../../authentication/auth.service";
 import {MatTooltip} from "@angular/material/tooltip";
+import {NgxMaskPipe} from "ngx-mask";
 
 @Component({
   selector: 'app-employees',
@@ -34,6 +35,7 @@ import {MatTooltip} from "@angular/material/tooltip";
     MatIcon,
     MatIconButton,
     MatTooltip,
+    NgxMaskPipe,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
@@ -41,5 +43,5 @@ import {MatTooltip} from "@angular/material/tooltip";
 export class EmployeesComponent {
   authService = inject(AuthService)
   employeeService = inject(EmployeesService)
-  displayedColumns = ['name', 'cpf', 'phone', 'birthdate', 'action'];
+  displayedColumns = ['name', 'cpf', 'email', 'phone', 'action'];
 }

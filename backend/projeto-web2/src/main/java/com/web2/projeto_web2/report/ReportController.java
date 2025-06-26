@@ -12,11 +12,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.ByteArrayOutputStream;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/reports")
@@ -101,10 +102,11 @@ public class ReportController {
 
             List<DailyRevenueReport> revenues = budgetService.getDailyRevenue(startDate, endDate);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
             for (DailyRevenueReport revenue : revenues) {
                 table.addCell(sdf.format(revenue.getDate()));
-                table.addCell(String.format("R$ %.2f", revenue.getTotalRevenue()));
+                table.addCell(formatter.format(revenue.getTotalRevenue()));
             }
 
             document.add(table);
@@ -145,10 +147,11 @@ public class ReportController {
             }
 
             List<CategoryRevenueReport> revenues = budgetService.getRevenueByCategory();
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
             for (CategoryRevenueReport revenue : revenues) {
                 table.addCell(revenue.getCategoryName());
-                table.addCell(String.format("R$ %.2f", revenue.getTotalRevenue()));
+                table.addCell(formatter.format(revenue.getTotalRevenue()));
             }
 
             document.add(table);

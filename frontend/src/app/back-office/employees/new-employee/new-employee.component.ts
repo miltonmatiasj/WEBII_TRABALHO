@@ -33,7 +33,6 @@ export class NewEmployeeComponent {
       this.formGroup.get('email')?.setValue(data.email);
       this.formGroup.get('cpf')?.setValue(data.cpf);
       this.formGroup.get('phone')?.setValue(data.phone);
-      this.formGroup.get('birthdate')?.setValue(data.birthdate ?? null);
     }
   }
   dialog = inject(MatDialogRef)
@@ -43,7 +42,6 @@ export class NewEmployeeComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     cpf: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
-    birthdate: new FormControl('', [Validators.required])
    })
 
   save() {
