@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 
 import { RequestService } from '../employee-page/services/request.service';
 import { FinalizeRequestModalComponent } from './compnents/finalize-request-modal/finalize-request-modal.component';
-import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
-import {AuthService} from "../authentication/auth.service";
+import { MaintenanceRequest } from '../maintenance-request-form/mainetance-request-form.service';
+import { AuthService } from '../authentication/auth.service';
 
 @Component({
   selector: 'app-request-list',
@@ -28,10 +28,10 @@ import {AuthService} from "../authentication/auth.service";
     MatFormFieldModule,
     MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   templateUrl: './request-list.component.html',
-  styleUrls: ['./request-list.component.scss']
+  styleUrls: ['./request-list.component.scss'],
 })
 export class RequestListComponent implements OnInit {
   displayedColumns: string[] = [
@@ -40,7 +40,7 @@ export class RequestListComponent implements OnInit {
     'categoryName',
     'status',
     'dateTime',
-    'action'
+    'action',
   ];
 
   allRequests: MaintenanceRequest[] = [];
@@ -66,18 +66,35 @@ export class RequestListComponent implements OnInit {
   }
 
   aplicarFiltro(): void {
+    const inicio = this.dataInicio ? new Date(this.dataInicio) : null;
+    const fim = this.dataFim ? new Date(this.dataFim) : null;
+
+    if (inicio) {
+      inicio.setHours(0, 0, 0, 0);
+    }
+
+    if (fim) {
+      fim.setHours(23, 59, 59, 999);
+    }
+
     this.filteredRequests = [...this.allRequests]
-      .filter(req => {
-        const dataReq = new Date(req.requestDate);
+      .filter((req) => {
+        if (!req.createdAt) return false;
+
+        const dataReq = new Date(req.createdAt);
 
         if (req.status === 'REDIRECIONADA') return false;
-
-        if (this.dataInicio && dataReq < this.dataInicio) return false;
-        if (this.dataFim && dataReq > this.dataFim) return false;
+        if (inicio && dataReq < inicio) return false;
+        if (fim && dataReq > fim) return false;
 
         return true;
       })
-      .sort((a, b) => new Date(a.requestDate).getTime() - new Date(b.requestDate).getTime());
+      .sort((a, b) => {
+        if (!a.createdAt || !b.createdAt) return 0;
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      });
   }
 
   filterToday(): void {
@@ -100,15 +117,24 @@ export class RequestListComponent implements OnInit {
 
   getColor(status: string): string {
     switch (status) {
-      case 'ABERTA': return 'gray';
-      case 'ORCADA': return 'brown';
-      case 'REJEITADA': return 'red';
-      case 'APROVADA': return 'gold';
-      case 'REDIRECIONADA': return 'purple';
-      case 'ARRUMADA': return 'blue';
-      case 'PAGA': return 'orange';
-      case 'FINALIZADA': return 'green';
-      default: return 'black';
+      case 'ABERTA':
+        return 'gray';
+      case 'ORCADA':
+        return 'brown';
+      case 'REJEITADA':
+        return 'red';
+      case 'APROVADA':
+        return 'gold';
+      case 'REDIRECIONADA':
+        return 'purple';
+      case 'ARRUMADA':
+        return 'blue';
+      case 'PAGA':
+        return 'orange';
+      case 'FINALIZADA':
+        return 'green';
+      default:
+        return 'black';
     }
   }
 
@@ -131,25 +157,28 @@ export class RequestListComponent implements OnInit {
       this.openFinalizationModal(id);
     } else if (status === 'ABERTA') {
       this.router.navigate(['/back-office/service-quote', id]);
-    }  else if (status === 'APROVADA' || status === 'REDIRECIONADA') {
+    } else if (status === 'APROVADA' || status === 'REDIRECIONADA') {
       this.router.navigate([`/back-office/request/${id}/maintenance`]);
     }
   }
 
   openFinalizationModal(id: string): void {
-    this.dialog.open(FinalizeRequestModalComponent, {
-      width: '350px',
-    }).afterClosed().subscribe(async (result) => {
-      if (result) {
-        const request = await this.requestService.getRequestById(id);
-        if (request) {
-          await this.requestService.changeStatus(request.id,'FINALIZADA');
-          this.allRequests = await this.requestService.getRequests();
-          this.aplicarFiltro();
-        } else {
-          console.log('Nenhuma requisição encontrada com o ID:', result);
+    this.dialog
+      .open(FinalizeRequestModalComponent, {
+        width: '350px',
+      })
+      .afterClosed()
+      .subscribe(async (result) => {
+        if (result) {
+          const request = await this.requestService.getRequestById(id);
+          if (request) {
+            await this.requestService.changeStatus(request.id, 'FINALIZADA');
+            this.allRequests = await this.requestService.getRequests();
+            this.aplicarFiltro();
+          } else {
+            console.log('Nenhuma requisição encontrada com o ID:', result);
+          }
         }
-      }
-    })
+      });
   }
 }
