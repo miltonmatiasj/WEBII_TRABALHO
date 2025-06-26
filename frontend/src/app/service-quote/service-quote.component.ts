@@ -103,6 +103,7 @@ export class ServiceQuoteComponent implements OnInit {
       });
 
       console.log('Orçamento confirmado:', this.orcamento.valor);
+      alert(`Orçamento Confirmado: R$ ${this.orcamento.valor.toFixed(2)}`);
       this.router.navigate([this.fromUrl]);
     } else {
       alert('Valor do orçamento inválido!');
