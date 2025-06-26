@@ -156,7 +156,9 @@ export class RequestListComponent implements OnInit {
     if (status === 'PAGA') {
       this.openFinalizationModal(id);
     } else if (status === 'ABERTA') {
-      this.router.navigate(['/back-office/service-quote', id]);
+      this.router.navigate(['/back-office/service-quote', id], {
+        queryParams: { from: '/back-office/maintenance-request' },
+      });
     } else if (status === 'APROVADA' || status === 'REDIRECIONADA') {
       this.router.navigate([`/back-office/request/${id}/maintenance`]);
     }
