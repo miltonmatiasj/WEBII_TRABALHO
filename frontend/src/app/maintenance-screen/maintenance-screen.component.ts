@@ -102,6 +102,14 @@ export class MaintenanceScreenComponent implements OnInit {
     this.router.navigate(['/request-list']);
   }
 
+
+
+
+
+
+
+
+
   back(): void {
     this.router.navigate(['/request-list']);
   }
@@ -111,6 +119,11 @@ export class MaintenanceScreenComponent implements OnInit {
   voltar(): void {
     this.router.navigate(['/request-list']);
   }
+
+
+
+
+
   voltar(): void {
     this.router.navigate(['/request-list']);
   }
