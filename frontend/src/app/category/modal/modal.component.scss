@@ -1,23 +1,34 @@
+// Estilização principal do container do diálogo
 ::ng-deep .mat-dialog-container {
-  padding: 24px;
-  border-radius: 12px;
+  padding: 32px 24px;
+  border-radius: 16px;
   max-width: 500px;
   width: 100%;
-  background-color: #fafafa;
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
+
+
+// Título do diálogo
 h2[mat-dialog-title] {
   text-align: center;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
-  margin-bottom: 16px;
-  color: #333;
+  margin-bottom: 20px;
+  color: #2c2c2c;
 }
 
+
+
+// Conteúdo principal do diálogo
 mat-dialog-content {
   font-size: 16px;
   color: #444;
 
+
+
+  // Classes de largura total
   .full-width {
     width: 100%;
     margin-bottom: 24px;
@@ -26,37 +37,52 @@ mat-dialog-content {
       width: 100%;
     }
 
+
+
+    // Remove padding extra da estrutura do campo de formulário
     ::ng-deep .mat-form-field-wrapper {
-      padding-bottom: 0px !important;
+      padding-bottom: 0 !important;
     }
+
   }
 
+
+
+  // Parágrafos internos do diálogo
   p {
     text-align: center;
     font-size: 16px;
     margin: 16px 0;
+    color: #555;
   }
+
 }
 
+
+
+// Área de ações (botões)
 mat-dialog-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  padding-top: 16px;
+  gap: 12px;
+  padding-top: 24px;
 
   button {
     min-width: 100px;
     font-weight: 500;
-  }
-  .mat-button-base[color='warn'] {
-    color: #b00020;
+    text-transform: uppercase;
   }
 
+
+  // Cor personalizada para botão com atributo color="warn"
+  .mat-button-base[color='warn'] {
+    color: #d32f2f;
+  }
+
+
+
+  // Cor personalizada para botão com atributo color="primary"
   .mat-button-base[color='primary'] {
-    color: #1976d2;
+    color: #1565c0;
   }
 }
-
-
-
-

@@ -56,12 +56,7 @@ export class CategoryService {
         }
       }),
       catchError((err, caught) => {
-        if (err.status == 403){
-          return of(null);
-        }
-        else {
           return throwError(() => err);
-        }
       })
     );
   }
@@ -77,12 +72,7 @@ export class CategoryService {
         }
       }),
       catchError((err, caught) => {
-        if (err.status == 403){
-          return of(null);
-        }
-        else {
         return throwError(() => err);
-        }
       })
     );
   }
@@ -98,12 +88,7 @@ export class CategoryService {
         }
       }),
       catchError((err, caught) => {
-        if (err.status == 403){
-          return of(null);
-        }
-        else {
           return throwError(() => err);
-        }
       })
     );
   }
