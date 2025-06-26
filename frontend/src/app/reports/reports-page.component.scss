@@ -1,0 +1,31 @@
+mat-card {
+  max-width: 600px;
+  margin: 32px auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+h2 {
+  margin-bottom: 16px;
+}
+
+.date-range-section,
+.full-report-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  align-self: flex-start;
+}
+
+mat-divider {
+  margin: 16px 0;
+}
