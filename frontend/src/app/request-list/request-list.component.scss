@@ -1,18 +1,309 @@
+// Espaçamento e layout para o componente de filtros e tabela
+
+.page-container {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .filter-card {
-    margin: 20px;
+  margin-bottom: 24px;
+  
+  mat-card-header {
+    padding-bottom: 8px;
   }
   
   .filter-content {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    align-items: center;
+    padding: 16px;
+    
+    .filter-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+      flex-wrap: wrap;
+      
+      .quick-filter {
+        display: flex;
+        align-items: center;
+        
+        button {
+          margin-bottom: 1.34375em;
+        }
+      }
+      
+      .date-filters {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        
+        mat-form-field {
+          min-width: 160px;
+          flex: 0 0 auto;
+        }
+      }
+      
+      .action-buttons {
+        display: flex;
+        gap: 12px;
+        margin-left: auto;
+        
+        button {
+          margin-bottom: 1.34375em;
+          min-width: 80px;
+        }
+      }
+    }
+  }
+}
+
+.table-card {
+  mat-card-header {
+    padding-bottom: 8px;
+  }
+  
+  .table-content {
+    padding: 0;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    border-radius: 4px;
+    
+    table {
+      width: 100%;
+      min-width: 800px;
+      
+      // Cabeçalhos
+      th {
+        padding: 16px 12px;
+        font-weight: 500;
+        white-space: nowrap;
+        
+        &:first-child {
+          padding-left: 24px;
+        }
+        
+        &:last-child {
+          padding-right: 24px;
+        }
+      }
+      
+      // Linhas
+      tr {
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.02);
+        }
+      }
+      
+      // Células
+      td {
+        padding: 0;
+        
+        &:first-child .cell-content {
+          padding-left: 24px;
+        }
+        
+        &:last-child .cell-content {
+          padding-right: 24px;
+        }
+        
+        .cell-content {
+          padding: 16px 12px;
+          min-height: 48px;
+          display: flex;
+          align-items: center;
+          
+          &.action-cell {
+            justify-content: center;
+          }
+        }
+      }
+      
+      // Colunas específicas
+      .mat-column-client {
+        width: 25%;
+        min-width: 150px;
+      }
+      
+      .mat-column-equipmentDescription {
+        width: 25%;
+        min-width: 180px;
+      }
+      
+      .mat-column-categoryName {
+        width: 15%;
+        min-width: 120px;
+      }
+      
+      .mat-column-status {
+        width: 12%;
+        min-width: 100px;
+        
+        .status-badge {
+          font-weight: 500;
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+      
+      .mat-column-dateTime {
+        width: 13%;
+        min-width: 120px;
+      }
+      
+      .mat-column-action {
+        width: 10%;
+        min-width: 100px;
+        
+        button {
+          min-width: 80px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .page-container {
+    padding: 12px;
+  }
+  
+  .filter-card {
+    margin-bottom: 16px;
+    
+    .filter-content {
+      .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        
+        .quick-filter,
+        .action-buttons {
+          button {
+            margin-bottom: 0;
+          }
+        }
+        
+        .action-buttons {
+          margin-left: 0;
+          justify-content: stretch;
+          
+          button {
+            flex: 1;
+          }
+        }
+        
+        .date-filters {
+          mat-form-field {
+            min-width: unset;
+            flex: 1;
+          }
+        }
+      }
+    }
   }
   
   .table-card {
-    margin: 20px;
+    .table-container {
+      table {
+        min-width: 600px;
+        
+        th, .cell-content {
+          &:first-child {
+            padding-left: 16px;
+          }
+          
+          &:last-child {
+            padding-right: 16px;
+          }
+        }
+        
+        th {
+          padding: 12px 8px;
+          font-size: 14px;
+        }
+        
+        .cell-content {
+          padding: 12px 8px;
+          min-height: 40px;
+          font-size: 14px;
+        }
+        
+        .mat-column-action button {
+          min-width: 70px;
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}
+
+// Para telas muito pequenas
+@media (max-width: 480px) {
+  .page-container {
+    padding: 8px;
   }
   
-  .full-width {
-    width: 100%;
+  .filter-card {
+    margin-bottom: 12px;
+    
+    .filter-content {
+      .filter-row {
+        gap: 12px;
+        
+        .date-filters {
+          flex-direction: column;
+          gap: 12px;
+        }
+        
+        .action-buttons {
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+    }
   }
+  
+  .table-card {
+    .table-container {
+      table {
+        min-width: 500px;
+        
+        th {
+          padding: 8px 4px;
+          font-size: 12px;
+        }
+        
+        .cell-content {
+          padding: 8px 4px;
+          min-height: 36px;
+          font-size: 13px;
+          
+          &:first-child {
+            padding-left: 12px;
+          }
+          
+          &:last-child {
+            padding-right: 12px;
+          }
+        }
+        
+        .mat-column-action button {
+          min-width: 60px;
+          font-size: 10px;
+          padding: 4px 8px;
+        }
+        
+        .status-badge {
+          font-size: 10px !important;
+          padding: 2px 6px !important;
+        }
+      }
+    }
+  }
+}
