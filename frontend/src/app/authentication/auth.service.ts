@@ -56,6 +56,7 @@ export class AuthService {
     const loginResult = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/auth/login', {email, password}))
       .catch(() => {
         this._snackBar.open('Erro com suas credenciais', 'Ok', {
+          duration: 2000,
           horizontalPosition: 'end',
           verticalPosition: 'top',
         });

@@ -1,9 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
+  AbstractControl,
   FormControl,
   FormsModule,
-  ReactiveFormsModule,
+  ReactiveFormsModule, ValidationErrors, ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -46,7 +47,6 @@ export type ViaCepResponse = {
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  // providers: [provideNgxMask()],
 })
 export class RegisterComponent implements OnInit {
   user = User.empty();
@@ -56,6 +56,7 @@ export class RegisterComponent implements OnInit {
   cpfFormControl = new FormControl<string>('', [
     Validators.required,
     Validators.minLength(11),
+    cpfFormValidator()
   ]);
   nameFormControl = new FormControl<string>('', [
     Validators.required,
@@ -130,4 +131,54 @@ export class RegisterComponent implements OnInit {
       this.loading.set(false);
     }
   }
+  cpfErrorMessage(errors: ValidationErrors | null): string {
+    if (!errors) {
+      return 'Campo CPF inválido.';
+    }
+    if (errors['required']) {
+      return 'CPF é obrigatório.';
+    }
+    if (errors['minlength']) {
+      return 'CPF deve ter pelo menos 11 caracteres.';
+    }
+    if (errors['invalidCPF']) {
+      return 'CPF inválido.';
+    }
+    return '';
+  }
+}
+
+export function cpfFormValidator(): ValidatorFn {
+  return (control: AbstractControl) : ValidationErrors | null => {
+    const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+    console.log(value);
+    return !validateCPF(value) ? { invalidCPF: true } : null;
+  }
+}
+
+
+export function validateCPF(cpf: string): boolean {
+  const numbers = cpf.replace(/\D/g, '');
+  if (numbers.length !== 11) return false;
+  if (/^(\d)\1{10}$/.test(numbers)) return false;
+
+  const calcDigito = (size: number): number => {
+    let sum = 0;
+    let weight = size + 1;
+    for (let i = 0; i < size; i++) {
+      sum += parseInt(numbers.charAt(i), 10) * weight--;
+    }
+    const left = (sum * 10) % 11;
+    return left === 10 ? 0 : left;
+  };
+
+  const numbers1 = calcDigito(9);
+  if (numbers1 !== parseInt(numbers.charAt(9), 10)) return false;
+
+  const numbers2 = calcDigito(10);
+  return numbers2 === parseInt(numbers.charAt(10), 10);
 }

@@ -3,6 +3,7 @@
     <mat-form-field appearance="fill">
       <mat-label>CPF</mat-label>
       <input matInput name="cpf" mask="999.999.999-99" [formControl]="cpfFormControl"/>
+      <mat-error>{{cpfErrorMessage(cpfFormControl.errors)}}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
