@@ -41,7 +41,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Specify allowed origins, methods and headers.
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));//FIXME: add frontend URL
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://eq-manager:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "Role"));
         configuration.setAllowCredentials(true);

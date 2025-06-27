@@ -60,7 +60,10 @@
 				},
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
-					"configurations": {
+          "options": {
+            "allowedHosts": ["eq-manager"]
+          },
+          "configurations": {
 						"production": {
 							"buildTarget": "frontend:build:production"
 						},

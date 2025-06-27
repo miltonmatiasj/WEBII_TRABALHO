@@ -77,7 +77,7 @@ export class AuthService {
     this.email.set(email);
     await this._getMe();
     if (this.currentUser() && this.currentUser()?.isFuncionario()) {
-      await this.router.navigate(['/back-office'])
+      await this.router.navigate(['/back-office/home'])
     } else if (this.currentUser() && this.currentUser()?.isCliente()) {
       await this.router.navigate(['/customer-home'])
     }

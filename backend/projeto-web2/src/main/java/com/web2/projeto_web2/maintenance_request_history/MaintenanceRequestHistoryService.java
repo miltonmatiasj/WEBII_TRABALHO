@@ -34,13 +34,13 @@ public class MaintenanceRequestHistoryService {
         return repository.findById(id);
     }
 
-    public MaintenanceRequestHistory registrarHistorico(String actionName, MaintenanceRequest maintenanceRequest, User employee) {
+    public void registrarHistorico(String actionName, MaintenanceRequest maintenanceRequest, User employee) {
         MaintenanceRequestHistory historico = new MaintenanceRequestHistory();
         historico.setActionName(actionName);
         historico.setMaintenanceRequest(maintenanceRequest);
         historico.setEmployee(employee);
         historico.setCreatedAt(LocalDateTime.now());
-        return repository.save(historico);
+        repository.save(historico);
     }
 
     public MaintenanceRequestHistory atualizarHistorico(UUID id, String actionName) {
