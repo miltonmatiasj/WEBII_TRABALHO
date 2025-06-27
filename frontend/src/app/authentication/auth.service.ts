@@ -37,7 +37,13 @@ export class AuthService {
       const currentToken = this.token();
       console.log('current email', currentEmail, currentToken);
       if (currentEmail && currentToken) {
-        this._getMe().then(() => {
+        this._getMe().then((success) => {
+          if (!success) {
+            this.currentUser.set(undefined);
+            this.loading.set(false);
+            resolvable!(false);
+            return;
+          }
           console.log('saved email', savedEmail, savedToken);
           this.loading.set(false);
           resolvable!(true);
@@ -70,7 +76,11 @@ export class AuthService {
     this.token.set(loginResult.token);
     this.email.set(email);
     await this._getMe();
-    await this.router.navigate(['/customer-home'])
+    if (this.currentUser() && this.currentUser()?.isFuncionario()) {
+      await this.router.navigate(['/back-office'])
+    } else if (this.currentUser() && this.currentUser()?.isCliente()) {
+      await this.router.navigate(['/customer-home'])
+    }
   }
 
   async _getMe() {
@@ -80,10 +90,11 @@ export class AuthService {
         return null;
       });
     if (meResult == null) {
-      return;
+      return false;
     }
     const user = User.fromJson(meResult);
     this.currentUser.set(user);
+    return true;
   }
 
   async logout() {

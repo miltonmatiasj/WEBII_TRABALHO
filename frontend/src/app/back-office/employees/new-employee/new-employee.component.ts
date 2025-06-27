@@ -2,7 +2,7 @@ import { Component, Inject, inject } from '@angular/core';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import {
   FormControl,
-  FormGroup,
+  FormGroup, FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -22,6 +22,7 @@ import { Employee } from '../Employee';
     MatLabel,
     MatButton,
     NgxMaskDirective,
+    FormsModule,
   ],
   templateUrl: './new-employee.component.html',
   styleUrl: './new-employee.component.scss',
@@ -37,7 +38,7 @@ export class NewEmployeeComponent {
     }
   }
   dialog = inject(MatDialogRef);
-
+  password: string = '';
   formGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -55,7 +56,13 @@ export class NewEmployeeComponent {
     user.email = this.formGroup.get('email')?.value ?? '';
     user.cpf = this.formGroup.get('cpf')?.value ?? '';
     user.phone = this.formGroup.get('phone')?.value ?? '';
-    console.log(user);
+    if (!this.data) {
+      if (!this.password || this.password.length < 2) {
+        console.log('here')
+        return;
+      }
+      user.setPassword(this.password);
+    }
     this.dialog.close(user);
   }
 

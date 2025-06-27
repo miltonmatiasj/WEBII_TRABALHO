@@ -45,11 +45,7 @@ public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) 
     user.setPhone(signUpRequest.getPhone());
 
     Set<Role> roles = new HashSet<>();
-    if (signUpRequest.getRoles() != null && !signUpRequest.getRoles().isEmpty()) {
-        roles.addAll(signUpRequest.getRoles());
-    } else {
-        roles.add(Role.CLIENTE);
-    }
+    roles.add(Role.CLIENTE);
     user.setRoles(roles);
 
     userRepository.save(user);

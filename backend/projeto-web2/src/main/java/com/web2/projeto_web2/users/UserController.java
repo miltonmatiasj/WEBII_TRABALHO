@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -22,9 +21,6 @@ public class UserController {
     // Create a new user (only accessible by FUNCIONARIO)
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-//        if (!"FUNCIONARIO".equalsIgnoreCase(role)) {
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }

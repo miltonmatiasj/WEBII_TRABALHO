@@ -36,8 +36,13 @@
       required
     />
   </mat-form-field>
-
 </form>
+@if (!data) {
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Senha</mat-label>
+    <input matInput type="password" [(ngModel)]="password" name="password" required [minlength]="1" />
+  </mat-form-field>
+}
 
 <div class="buttons">
   <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
