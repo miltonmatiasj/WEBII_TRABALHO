@@ -38,6 +38,8 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
         user.setName(userDetails.getName());
         user.setEmail(userDetails.getEmail());
+        user.setPhone(userDetails.getPhone());
+        user.setCpf(userDetails.getCpf());
         user.setRoles(userDetails.getRoles());
         return userRepository.save(user);
     }

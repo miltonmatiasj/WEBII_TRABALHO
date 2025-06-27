@@ -41,8 +41,8 @@ export class NewEmployeeComponent {
   formGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    cpf: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required]),
+    cpf: new FormControl('', [Validators.required, Validators.minLength(11),]),
+    phone: new FormControl('', [Validators.required, Validators.minLength(11)]),
   });
 
   save() {
@@ -55,6 +55,7 @@ export class NewEmployeeComponent {
     user.email = this.formGroup.get('email')?.value ?? '';
     user.cpf = this.formGroup.get('cpf')?.value ?? '';
     user.phone = this.formGroup.get('phone')?.value ?? '';
+    console.log(user);
     this.dialog.close(user);
   }
 

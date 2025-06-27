@@ -51,6 +51,7 @@ export class EmployeesService {
     const result = await lastValueFrom(dialogRef.afterClosed());
     if (result) {
       await lastValueFrom(this.http.put<Employee>(`${environment.baseUrl}/users/${employee.id}`, result.toJson()));
+      await this.requestAllEmployees();
     }
   }
 

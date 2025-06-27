@@ -60,10 +60,7 @@ public class UserController {
 
     // Update a user (only accessible by FUNCIONARIO)
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User userDetails, @RequestHeader("role") String role) {
-        if (!"FUNCIONARIO".equalsIgnoreCase(role)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User userDetails) {
         User updatedUser = userService.updateUser(id, userDetails);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
