@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class User {
     private String cpf;
     private String phone;
 
-    // Store the hashed password
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
