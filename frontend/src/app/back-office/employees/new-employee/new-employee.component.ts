@@ -1,13 +1,17 @@
-import {Component, Inject, inject} from '@angular/core';
-import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {MatButton} from "@angular/material/button";
-import {provideNativeDateAdapter} from "@angular/material/core";
-import {User} from "../../../users/User";
-import {NgxMaskDirective} from "ngx-mask";
-import {Employee} from "../Employee";
+import { Component, Inject, inject } from '@angular/core';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { User } from '../../../users/User';
+import { NgxMaskDirective } from 'ngx-mask';
+import { Employee } from '../Employee';
 
 @Component({
   selector: 'app-new-employee',
@@ -15,12 +19,9 @@ import {Employee} from "../Employee";
     MatFormField,
     MatInput,
     ReactiveFormsModule,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatDatepicker,
     MatLabel,
     MatButton,
-    NgxMaskDirective
+    NgxMaskDirective,
   ],
   templateUrl: './new-employee.component.html',
   styleUrl: './new-employee.component.scss',
@@ -35,14 +36,14 @@ export class NewEmployeeComponent {
       this.formGroup.get('phone')?.setValue(data.phone);
     }
   }
-  dialog = inject(MatDialogRef)
+  dialog = inject(MatDialogRef);
 
-   formGroup = new FormGroup({
+  formGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     cpf: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
-   })
+  });
 
   save() {
     if (this.formGroup.invalid) {
@@ -58,6 +59,6 @@ export class NewEmployeeComponent {
   }
 
   cancel() {
-     this.dialog.close();
+    this.dialog.close();
   }
 }
