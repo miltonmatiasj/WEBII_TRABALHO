@@ -1,16 +1,20 @@
-import {Component, inject, OnInit} from '@angular/core';
-import { RequestService } from '../employee-page/services/request.service';
-import {Customer, ServiceQuoteService} from './services/service-quote.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {ActivatedRoute, Router} from '@angular/router';
+import { MatButton } from '@angular/material/button';
+import { NgxMaskDirective } from 'ngx-mask';
+
+import { RequestService } from '../employee-page/services/request.service';
+import {
+  Customer,
+  ServiceQuoteService,
+} from './services/service-quote.service';
 import { AuthService } from '../authentication/auth.service';
-import {MatButton} from "@angular/material/button";
-import {MaintenanceRequest} from "../maintenance-request-form/mainetance-request-form.service";
-import {NgxMaskDirective} from "ngx-mask";
+import { MaintenanceRequest } from '../maintenance-request-form/mainetance-request-form.service';
 
 @Component({
   selector: 'app-service-quote',
@@ -26,7 +30,7 @@ import {NgxMaskDirective} from "ngx-mask";
     NgxMaskDirective,
   ],
   templateUrl: './service-quote.component.html',
-  styleUrl: './service-quote.component.scss'
+  styleUrl: './service-quote.component.scss',
 })
 export class ServiceQuoteComponent implements OnInit {
   id?: string;
@@ -34,23 +38,29 @@ export class ServiceQuoteComponent implements OnInit {
   customer?: Customer;
   orcamento: { valor: number } = { valor: 0 };
   error: string = '';
-
-  router = inject(Router);
-  serviceQuoteService = inject(ServiceQuoteService);
+  fromUrl: string = '/back-office/maintenance-request';
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private serviceRequest: RequestService,
+    private serviceQuoteService: ServiceQuoteService,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
     try {
       this.id = this.route.snapshot.paramMap.get('id') || '';
+      const from = this.route.snapshot.queryParamMap.get('from');
+      if (from) {
+        this.fromUrl = from;
+      }
+
       if (!this.id) {
         this.error = 'ID da solicitação não encontrado';
         return;
       }
+
       this.serviceRequest.getRequestById(this.id).then((request) => {
         this.request = request;
         if (!this.request) {
@@ -69,8 +79,7 @@ export class ServiceQuoteComponent implements OnInit {
         } else {
           this.error = 'Usuário não encontrado';
         }
-      })
-
+      });
     } catch (error) {
       this.error = 'Erro ao carregar os dados';
       console.error(error);
@@ -78,18 +87,24 @@ export class ServiceQuoteComponent implements OnInit {
   }
 
   confirmOrcamento() {
-    if (this.orcamento.valor && this.orcamento.valor > 0 && this.request != null) {
+    if (
+      this.orcamento.valor &&
+      this.orcamento.valor > 0 &&
+      this.request != null
+    ) {
       this.serviceQuoteService.addQuote({
         price: this.orcamento.valor,
         employee: {
-          id: this.authService.currentUser()?.id
+          id: this.authService.currentUser()?.id,
         },
         maintenanceRequest: {
-          id: this.request.id
-        }
+          id: this.request.id,
+        },
       });
+
       console.log('Orçamento confirmado:', this.orcamento.valor);
-      this.router.navigate(['/back-office/maintenance-request']);
+      alert(`Orçamento Confirmado: R$ ${this.orcamento.valor.toFixed(2)}`);
+      this.router.navigate([this.fromUrl]);
     } else {
       alert('Valor do orçamento inválido!');
       console.warn('Valor do orçamento não informado!');

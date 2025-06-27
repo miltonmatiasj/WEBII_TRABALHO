@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {lastValueFrom} from "rxjs";
 import {environment} from "../../environments/environment";
 import {User} from "../users/User";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 export type LoginResponse = {
   token: string;
@@ -49,10 +50,16 @@ export class AuthService {
     })
   }
 
+  private _snackBar = inject(MatSnackBar);
+
   async login(email: string, password: string) {
     const loginResult = await lastValueFrom(this.http.post<LoginResponse>(environment.baseUrl + '/auth/login', {email, password}))
       .catch(() => {
-        console.log('Erro ao fazer login.');
+        this._snackBar.open('Erro com suas credenciais', 'Ok', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+        });
         return null;
       });
     if (loginResult == null) {

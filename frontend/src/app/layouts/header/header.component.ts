@@ -1,13 +1,13 @@
-import {Component, inject} from '@angular/core';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import {AuthService} from "../../authentication/auth.service";
-import {MatListItem, MatListItemIcon, MatListItemTitle} from "@angular/material/list";
+import { AuthService } from '../../authentication/auth.service';
+import { MatListItem, MatListItemTitle } from '@angular/material/list';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatIconModule, MatListItem, MatListItemIcon, MatListItemTitle, RouterLink, RouterLinkActive],
+  imports: [MatIconModule, MatListItem, MatListItemTitle, RouterLink],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

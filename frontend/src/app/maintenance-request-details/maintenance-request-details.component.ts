@@ -75,11 +75,6 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
         return 'Resgatar Serviço';
       case 'ARRUMADA':
         return 'Pagar Serviço';
-      case 'REDIRECIONADA':
-      case 'PAGA':
-        return 'Finalizar Serviço';
-      case 'APROVADA':
-        return null;
       default:
         return null;
     }
@@ -116,13 +111,11 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
 
     const result = await dialogRef.afterClosed().toPromise();
     if (result?.action === 'accept') {
-      // this.maintenanceService.updateRequestStatus(this.request.id, 'APROVADA');
-      // this.request = this.maintenanceService.getRequestById(this.request.id);
       alert('Manutenção aprovada!');
+      this.router.navigate(['/customer-home']);
     } else if (result?.action === 'refuse') {
-      // this.maintenanceService.updateRequestStatus(this.request.id, 'REJEITADA');
-      // this.request = this.maintenanceService.getRequestById(this.request.id);
       alert('Manutenção recusada!');
+      this.router.navigate(['/customer-home']);
     }
   }
 
@@ -170,6 +163,7 @@ export class MaintenanceRequestDetailsComponent implements OnInit {
       if (updatedRequest) {
         this.request = updatedRequest;
         alert('Solicitação resgatada com sucesso!');
+        this.router.navigate(['/customer-home']);
       } else {
         alert('Erro ao resgatar a solicitação. Por favor, tente novamente.');
       }
