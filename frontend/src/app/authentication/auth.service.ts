@@ -67,6 +67,8 @@ export class AuthService {
     }
     localStorage.setItem('token', loginResult.token);
     localStorage.setItem('email', email);
+    this.token.set(loginResult.token);
+    this.email.set(email);
     await this._getMe();
     await this.router.navigate(['/customer-home'])
   }
